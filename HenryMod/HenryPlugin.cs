@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Security;
 using System.Security.Permissions;
 using static R2API.RecalculateStatsAPI;
+using R2API;
 
 [module: UnverifiableCode]
 #pragma warning disable CS0618 // Type or member is obsolete
@@ -23,6 +24,7 @@ namespace HenryMod
         "LanguageAPI",
         "SoundAPI",
     })]
+    [R2APISubmoduleDependency(nameof(LanguageAPI))]
 
     public class HenryPlugin : BaseUnityPlugin
     {

@@ -47,13 +47,13 @@ namespace HenryMod.Modules.Survivors
             if (characterEnabled.Value)
             {
                 InitializeUnlockables();
-
-                bodyPrefab = Modules.Prefabs.CreatePrefab(bodyName + "Body", "mdl" + bodyName, bodyInfo);
+                //bodyPrefab = Modules.Prefabs.CreatePrefab(bodyName + "Body", "mdl" + bodyName, bodyInfo);
+                bodyPrefab = Modules.Prefabs.CreatePrefab("HenryBody", "mdlHenry", bodyInfo);
                 bodyPrefab.GetComponent<EntityStateMachine>().mainStateType = new EntityStates.SerializableEntityStateType(characterMainState);
 
                 Modules.Prefabs.SetupCharacterModel(bodyPrefab, customRendererInfos, mainRendererIndex);
-
-                displayPrefab = Modules.Prefabs.CreateDisplayPrefab(bodyName + "Display", bodyPrefab, bodyInfo);
+                //displayPrefab = Modules.Prefabs.CreateDisplayPrefab(bodyName + "Display", bodyPrefab, bodyInfo);
+                displayPrefab = Modules.Prefabs.CreateDisplayPrefab("HenryDisplay", bodyPrefab, bodyInfo);
 
                 Modules.Prefabs.RegisterNewSurvivor(bodyPrefab, displayPrefab, Color.grey, bodyName.ToUpper(), characterUnlockableDef, sortPosition);
 
