@@ -16,6 +16,11 @@ namespace HenryMod.Modules
         internal static BuffDef rageBuff;
         internal static BuffDef crouchingBuff;
 
+        internal static BuffDef soldierParachuting;
+        internal static BuffDef soldierBannerCrit;
+        internal static BuffDef soldierBannerHeal;
+        internal static BuffDef soldierBannerTank;
+
         internal static List<BuffDef> buffDefs = new List<BuffDef>();
 
         internal static void RegisterBuffs()
@@ -28,6 +33,12 @@ namespace HenryMod.Modules
             weighdownBuff = AddNewBuff("Weighdown", Resources.Load<Sprite>("Textures/BuffIcons/texBuffGenericShield"), Color.blue, false, false);
             rageBuff = AddNewBuff("Rage", Resources.Load<Sprite>("Textures/BuffIcons/texBuffGenericShield"), Color.blue, false, false);
             crouchingBuff = AddNewBuff("Crouching", Resources.Load<Sprite>("Textures/BuffIcons/texBuffGenericShield"), Color.blue, false, false);
+
+
+            soldierParachuting = AddNewBuff("Parachuting", Resources.Load<Sprite>("Textures/BuffIcons/texBuffGenericShield"), Color.white, false, false);
+            soldierBannerCrit = AddNewBuff("Buff Banner", Resources.Load<Sprite>("Textures/BuffIcons/texBuffGenericShield"), Color.yellow, false, false);
+            soldierBannerHeal = AddNewBuff("Concheror", Resources.Load<Sprite>("Textures/BuffIcons/texBuffGenericShield"), Color.green, false, false);
+            soldierBannerTank = AddNewBuff("Battalion's Backup", Resources.Load<Sprite>("Textures/BuffIcons/texBuffGenericShield"), Color.blue, false, false);
         }
 
         // simple helper method
