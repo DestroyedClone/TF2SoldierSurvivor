@@ -161,20 +161,20 @@ namespace HenryMod.Modules
             LanguageAPI.Add(prefix + "SPECIAL_GARDEN_NAME", "Market Gardener");
             LanguageAPI.Add(prefix + "SPECIAL_GARDEN_DESCRIPTION", $"Swing your shovel for 100% damage. If you are airborne after rocket-jumping, it deals 1500% damage.");
 
-            LanguageAPI.Add(prefix + "SPECIAL_GARDEN_UPG_NAME", "Australium Market Gardener");
-            LanguageAPI.Add(prefix + "SPECIAL_GARDEN_UPG_DESCRIPTION", $"Swing your shovel for 100% damage. If you are airborne after rocket-jumping, it deals 2500% damage.");
+            LanguageAPI.Add(prefix + "SPECIAL_GARDEN_SCEPTER_NAME", "Australium Market Gardener");
+            LanguageAPI.Add(prefix + "SPECIAL_GARDEN_SCEPTER_DESCRIPTION", $"Swing your shovel for 100% damage. If you are airborne after rocket-jumping, it deals 2500% damage.");
 
             LanguageAPI.Add(prefix + "SPECIAL_PICK_NAME", "Equalizer");
             LanguageAPI.Add(prefix + "SPECIAL_PICK_DESCRIPTION", $"Swing your pickaxe for 150% damage. Deals up to +200% increased damage based on missing health.");
 
-            LanguageAPI.Add(prefix + "SPECIAL_PICK_UPG_NAME", "Australium Equalizer");
-            LanguageAPI.Add(prefix + "SPECIAL_PICK_UPG_DESCRIPTION", $"[Heavy]. Swing your pickaxe for 150% damage. Deals up to +300% increased damage based on missing health. Passively move up to +100% faster based on missing health.");
+            LanguageAPI.Add(prefix + "SPECIAL_PICK_SCEPTER_NAME", "Australium Equalizer");
+            LanguageAPI.Add(prefix + "SPECIAL_PICK_SCEPTER_DESCRIPTION", $"[Heavy]. Swing your pickaxe for 150% damage. Deals up to +300% increased damage based on missing health. Passively move up to +100% faster based on missing health.");
             
             LanguageAPI.Add(prefix + "SPECIAL_SWORD_NAME", "The Half-Zatoichi");
             LanguageAPI.Add(prefix + "SPECIAL_SWORD_DESCRIPTION", $"Swing your sword for 100% damage. If it kills, heals for 1% health. Killing bosses restores 50% health.");
 
-            LanguageAPI.Add(prefix + "SPECIAL_SWORD_UPG_NAME", "Australium Half-Zatoichi");
-            LanguageAPI.Add(prefix + "SPECIAL_SWORD_UPG_DESCRIPTION", $"Swing your sword for 100% damage. Heals for 1% health on hit. If it kills, heals for 2% health. Killing bosses restores 75% health and 100% barrier.");
+            LanguageAPI.Add(prefix + "SPECIAL_SWORD_SCEPTER_NAME", "Australium Half-Zatoichi");
+            LanguageAPI.Add(prefix + "SPECIAL_SWORD_SCEPTER_DESCRIPTION", $"Swing your sword for 100% damage. Heals for 1% health on hit. If it kills, heals for 2% health. Killing bosses restores 75% health and 100% barrier.");
             #endregion
 
             #region Achievements
