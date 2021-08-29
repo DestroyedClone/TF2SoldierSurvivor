@@ -5,6 +5,7 @@ using RoR2;
 using System.Collections.Generic;
 using System.Security;
 using System.Security.Permissions;
+using static R2API.RecalculateStatsAPI;
 
 [module: UnverifiableCode]
 #pragma warning disable CS0618 // Type or member is obsolete
@@ -28,8 +29,8 @@ namespace HenryMod
         // if you don't change these you're giving permission to deprecate the mod-
         //  please change the names to your own stuff, thanks
         //   this shouldn't even have to be said
-        public const string MODUID = "com.DeveloperName.MyCharacterMod";
-        public const string MODNAME = "MyCharacterMod";
+        public const string MODUID = "com.DestroyedClone.SaxtonHale";
+        public const string MODNAME = "SaxtonHale";
         public const string MODVERSION = "1.0.0";
 
         // a prefix for name tokens to prevent conflicts- please capitalize all name tokens for convention
@@ -73,6 +74,20 @@ namespace HenryMod
         {
             // run hooks here, disabling one is as simple as commenting out the line
             On.RoR2.CharacterBody.RecalculateStats += CharacterBody_RecalculateStats;
+            GetStatCoefficients += HenryPlugin_GetStatCoefficients;
+        }
+
+        private void HenryPlugin_GetStatCoefficients(CharacterBody sender, StatHookEventArgs args)
+        {
+            if (sender)
+            {
+                if (sender.HasBuff(Modules.Buffs.scaredDebuff))
+                {
+                }
+                if (sender.HasBuff(Modules.Buffs.scaredBuildingDebuff))
+                {
+                }
+            }
         }
 
         private void CharacterBody_RecalculateStats(On.RoR2.CharacterBody.orig_RecalculateStats orig, CharacterBody self)

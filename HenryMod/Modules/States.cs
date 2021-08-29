@@ -19,6 +19,10 @@ namespace HenryMod.Modules
             entityStates.Add(typeof(Roll));
 
             entityStates.Add(typeof(ThrowBomb));
+
+            entityStates.Add(typeof(NoAttackState));
+            entityStates.Add(typeof(Rage));
+            entityStates.Add(typeof(Weighdown));
         }
     }
 }
