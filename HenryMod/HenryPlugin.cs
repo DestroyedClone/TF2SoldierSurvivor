@@ -31,12 +31,12 @@ namespace HenryMod
         // if you don't change these you're giving permission to deprecate the mod-
         //  please change the names to your own stuff, thanks
         //   this shouldn't even have to be said
-        public const string MODUID = "com.DestroyedClone.SaxtonHale";
-        public const string MODNAME = "SaxtonHale";
+        public const string MODUID = "com.DestroyedClone.Soldier";
+        public const string MODNAME = "Soldier";
         public const string MODVERSION = "1.0.0";
 
         // a prefix for name tokens to prevent conflicts- please capitalize all name tokens for convention
-        public const string developerPrefix = "ROB";
+        public const string developerPrefix = "DESCLO";
 
         internal List<SurvivorBase> Survivors = new List<SurvivorBase>();
 
@@ -74,8 +74,6 @@ namespace HenryMod
 
         private void Hook()
         {
-            // run hooks here, disabling one is as simple as commenting out the line
-            On.RoR2.CharacterBody.RecalculateStats += CharacterBody_RecalculateStats;
             GetStatCoefficients += HenryPlugin_GetStatCoefficients;
         }
 
@@ -83,26 +81,6 @@ namespace HenryMod
         {
             if (sender)
             {
-                if (sender.HasBuff(Modules.Buffs.scaredDebuff))
-                {
-                }
-                if (sender.HasBuff(Modules.Buffs.scaredBuildingDebuff))
-                {
-                }
-            }
-        }
-
-        private void CharacterBody_RecalculateStats(On.RoR2.CharacterBody.orig_RecalculateStats orig, CharacterBody self)
-        {
-            orig(self);
-
-            // a simple stat hook, adds armor after stats are recalculated
-            if (self)
-            {
-                if (self.HasBuff(Modules.Buffs.armorBuff))
-                {
-                    self.armor += 300f;
-                }
             }
         }
     }

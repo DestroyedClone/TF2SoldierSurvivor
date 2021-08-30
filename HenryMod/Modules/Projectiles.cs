@@ -12,10 +12,13 @@ namespace HenryMod.Modules
 {
     internal static class Projectiles
     {
-        internal static GameObject bombPrefab;
         internal static GameObject stockRocketPrefab;
         internal static GameObject fastRocketPrefab;
         internal static GameObject healRocketPrefab;
+
+        internal static GameObject damageBuffWard;
+        internal static GameObject healBuffWard;
+        internal static GameObject tankBuffWard;
 
         internal static void RegisterProjectiles()
         {
@@ -24,7 +27,14 @@ namespace HenryMod.Modules
             CreateFastRocket();
             CreateHealRocket();
 
-            AddProjectile(bombPrefab);
+            CreateDamageBuffWard();
+            CreateDamageHealWard();
+            CreateDamageTankWard();
+
+            foreach (var proj in new GameObject[] { stockRocketPrefab , fastRocketPrefab , healRocketPrefab , damageBuffWard, healBuffWard, tankBuffWard})
+            {
+                AddProjectile(proj);
+            }
         }
 
         internal static void AddProjectile(GameObject projectileToAdd)
@@ -92,6 +102,34 @@ namespace HenryMod.Modules
             projectileHeal.fractionOfDamage = 0.15f;
         }
 
+        private static void CreateDamageBuffWard()
+        {
+            damageBuffWard = CloneProjectilePrefab("WarbannerWard", "SoldierDamageBuffWard");
+            var buffWard = damageBuffWard.GetComponent<BuffWard>();
+            buffWard.buffDef = Buffs.soldierBannerCrit;
+            var timer = damageBuffWard.AddComponent<DestroyOnTimer>();
+            timer.duration = 8f;
+        }
+
+        private static void CreateDamageHealWard()
+        {
+            healBuffWard = CloneProjectilePrefab("WarbannerWard", "SoldierHealBuffWard");
+            var buffWard = damageBuffWard.GetComponent<BuffWard>();
+            buffWard.buffDef = Buffs.soldierBannerHeal;
+            var timer = damageBuffWard.AddComponent<DestroyOnTimer>();
+            timer.duration = 8f;
+        }
+
+        private static void CreateDamageTankWard()
+        {
+            damageBuffWard = CloneProjectilePrefab("WarbannerWard", "SoldierTankBuffWard");
+            var buffWard = damageBuffWard.GetComponent<BuffWard>();
+            buffWard.buffDef = Buffs.soldierBannerTank;
+            var timer = damageBuffWard.AddComponent<DestroyOnTimer>();
+            timer.duration = 8f;
+        }
+
+        #region setup
         private static void InitializeImpactExplosion(ProjectileImpactExplosion projectileImpactExplosion)
         {
             projectileImpactExplosion.blastDamageCoefficient = 1f;
@@ -173,8 +211,9 @@ namespace HenryMod.Modules
             GameObject newPrefab = PrefabAPI.InstantiateClone(Resources.Load<GameObject>("Prefabs/Projectiles/" + prefabName), newPrefabName);
             return newPrefab;
         }
+        #endregion
 
-
+        #region classes
         [RequireComponent(typeof(ProjectileController))]
         private class ProjectileImpactExplosionAirshot : ProjectileImpactExplosion
         {
@@ -386,5 +425,6 @@ namespace HenryMod.Modules
             }
 
         }
+        #endregion
     }
 }

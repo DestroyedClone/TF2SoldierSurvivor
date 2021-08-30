@@ -13,7 +13,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Modules\Survivors\Demoknight\Demoknight.cs" />
+    <Compile Remove="SkillStates\Henry\**" />
+    <Compile Remove="SkillStates\SaxtonHale\**" />
+    <EmbeddedResource Remove="SkillStates\Henry\**" />
+    <EmbeddedResource Remove="SkillStates\SaxtonHale\**" />
+    <None Remove="SkillStates\Henry\**" />
+    <None Remove="SkillStates\SaxtonHale\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="Modules\Survivors\HaleController.cs" />
     <Compile Remove="Modules\Survivors\MyCharacter.cs" />
   </ItemGroup>
@@ -129,10 +137,6 @@
     <Reference Include="Zio">
       <HintPath>..\libs\Zio.dll</HintPath>
     </Reference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Modules\Survivors\Demoknight\" />
   </ItemGroup>
 
 </Project>

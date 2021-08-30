@@ -22,8 +22,8 @@ namespace HenryMod.Modules.Survivors
         {
             armor = 20f,
             armorGrowth = 0f,
-            bodyName = "SaxtonHaleBody",
-            bodyNameToken = HenryPlugin.developerPrefix + "_SAXTONHALE_BODY_NAME",
+            bodyName = "SoldierBody",
+            bodyNameToken = HenryPlugin.developerPrefix + "_SOLDIER_BODY_NAME",
             bodyColor = Color.grey,
             characterPortrait = Modules.Assets.LoadCharacterIcon("Henry"),
             crosshair = Modules.Assets.LoadCrosshair("Standard"),
@@ -32,7 +32,7 @@ namespace HenryMod.Modules.Survivors
             healthRegen = 1.5f,
             jumpCount = 1,
             maxHealth = 110f,
-            subtitleNameToken = HenryPlugin.developerPrefix + "_SAXTONHALE_BODY_SUBTITLE",
+            subtitleNameToken = HenryPlugin.developerPrefix + "_SOLDIER_BODY_SUBTITLE",
             podPrefab = Resources.Load<GameObject>("Prefabs/NetworkedObjects/SurvivorPod")
         };
 
@@ -97,14 +97,44 @@ namespace HenryMod.Modules.Survivors
 
             #region Primary
             Modules.Skills.AddPrimarySkill(bodyPrefab, Modules.Skills.CreatePrimarySkillDef(new EntityStates.SerializableEntityStateType(typeof(SkillStates.SlashCombo)), "Weapon", prefix + "_SAXTONHALE_BODY_PUNCH_SLASH_NAME", prefix + "_HENRY_BODY_PUNCH_SLASH_DESCRIPTION", Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("texPrimaryIcon"), true));
+
+            SkillDef stockRocketSkillDef = Modules.Skills.CreateSkillDef(new SkillDefInfo
+            {
+                skillName = prefix + "_SOLDIER_BODY_SECONDARY_SUPERJUMP_NAME",
+                skillNameToken = prefix + "_SOLDIER_BODY_SECONDARY_SUPERJUMP_NAME",
+                skillDescriptionToken = prefix + "_SOLDIER_BODY_SECONDARY_SUPERJUMP_DESCRIPTION",
+                skillIcon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("texSecondaryIcon"),
+                activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.Shoot)),
+                activationStateMachineName = "Slide",
+                baseMaxStock = 1,
+                baseRechargeInterval = 1f,
+                beginSkillCooldownOnSkillEnd = false,
+                canceledFromSprinting = false,
+                forceSprintDuringState = false,
+                fullRestockOnAssign = true,
+                interruptPriority = EntityStates.InterruptPriority.Skill,
+                resetCooldownTimerOnUse = false,
+                isCombatSkill = true,
+                mustKeyPress = false,
+                cancelSprintingOnActivation = false,
+                rechargeStock = 1,
+                requiredStock = 1,
+                stockToConsume = 1,
+                keywordTokens = new string[] { "KEYWORD_AGILE" }
+            });
+
+            Modules.Skills.AddSecondarySkills(bodyPrefab, shootSkillDef);
+
+
+
             #endregion
 
             #region Secondary
             SkillDef shootSkillDef = Modules.Skills.CreateSkillDef(new SkillDefInfo
             {
-                skillName = prefix + "_HENRY_BODY_SECONDARY_SUPERJUMP_NAME",
-                skillNameToken = prefix + "_HENRY_BODY_SECONDARY_SUPERJUMP_NAME",
-                skillDescriptionToken = prefix + "_HENRY_BODY_SECONDARY_SUPERJUMP_DESCRIPTION",
+                skillName = prefix + "_SOLDIER_BODY_SECONDARY_SUPERJUMP_NAME",
+                skillNameToken = prefix + "_SOLDIER_BODY_SECONDARY_SUPERJUMP_NAME",
+                skillDescriptionToken = prefix + "_SOLDIER_BODY_SECONDARY_SUPERJUMP_DESCRIPTION",
                 skillIcon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("texSecondaryIcon"),
                 activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.Shoot)),
                 activationStateMachineName = "Slide",

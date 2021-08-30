@@ -5,11 +5,11 @@ namespace HenryMod.Modules
 {
     public static class Config
     {
-        public static ConfigEntry<float> Fists_Damage { get; set; }
+        //public static ConfigEntry<float> Fists_Damage { get; set; }
 
         public static void ReadConfig()
         {
-            Fists_Damage = HenryPlugin.instance.Config.Bind("Fists", "Damage", 2.0f, "");
+            //Fists_Damage = HenryPlugin.instance.Config.Bind("Fists", "Damage", 2.0f, "");
         }
 
         // this helper automatically makes config entries for disabling survivors

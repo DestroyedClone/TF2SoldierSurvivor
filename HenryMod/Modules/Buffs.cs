@@ -6,16 +6,6 @@ namespace HenryMod.Modules
 {
     public static class Buffs
     {
-        // armor buff gained during roll
-        internal static BuffDef armorBuff;
-
-        internal static BuffDef scaredDebuff;
-        internal static BuffDef scaredBuildingDebuff;
-
-        internal static BuffDef weighdownBuff;
-        internal static BuffDef rageBuff;
-        internal static BuffDef crouchingBuff;
-
         internal static BuffDef soldierParachuting;
         internal static BuffDef soldierBannerCrit;
         internal static BuffDef soldierBannerHeal;
@@ -25,16 +15,6 @@ namespace HenryMod.Modules
 
         internal static void RegisterBuffs()
         {
-            armorBuff = AddNewBuff("HenryArmorBuff", Resources.Load<Sprite>("Textures/BuffIcons/texBuffGenericShield"), Color.white, false, false);
-
-            scaredDebuff = AddNewBuff("Scared", Resources.Load<Sprite>("textures/itemicons/texMaskIcon"), Color.yellow, false, false);
-            scaredBuildingDebuff = AddNewBuff("Scared (Building)", Resources.Load<Sprite>("textures/itemicons/texMaskIcon"), Color.yellow, false, false);
-
-            weighdownBuff = AddNewBuff("Weighdown", Resources.Load<Sprite>("Textures/BuffIcons/texBuffGenericShield"), Color.blue, false, false);
-            rageBuff = AddNewBuff("Rage", Resources.Load<Sprite>("Textures/BuffIcons/texBuffGenericShield"), Color.blue, false, false);
-            crouchingBuff = AddNewBuff("Crouching", Resources.Load<Sprite>("Textures/BuffIcons/texBuffGenericShield"), Color.blue, false, false);
-
-
             soldierParachuting = AddNewBuff("Parachuting", Resources.Load<Sprite>("Textures/BuffIcons/texBuffGenericShield"), Color.white, false, false);
             soldierBannerCrit = AddNewBuff("Buff Banner", Resources.Load<Sprite>("Textures/BuffIcons/texBuffGenericShield"), Color.yellow, false, false);
             soldierBannerHeal = AddNewBuff("Concheror", Resources.Load<Sprite>("Textures/BuffIcons/texBuffGenericShield"), Color.green, false, false);
