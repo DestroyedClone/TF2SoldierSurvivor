@@ -13,7 +13,7 @@ namespace HenryMod.Modules.SurvivorComponents
         public GameObject buffWardInstance;
         public CharacterBody characterBody;
         public float bannerCharge = 0f;
-        public float stopwatch;
+        public float stopwatch = 0f;
         public float damageRequired = 600f;
         public float damageStored = 0f;
 
@@ -38,7 +38,7 @@ namespace HenryMod.Modules.SurvivorComponents
         public void Update()
         {
             bannerCharge = Mathf.Min(1f, damageStored / damageRequired);
-
+            stopwatch += Time.deltaTime;
 
         }
 

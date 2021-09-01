@@ -13,6 +13,7 @@ namespace HenryMod.SkillStates
         private Animator modelAnimator;
         private float duration;
         private bool hasCastBuff;
+        public float stopwatch = 0;
 
         public BuffDef buffDef;
 
@@ -31,7 +32,7 @@ namespace HenryMod.SkillStates
         public override void FixedUpdate()
         {
             base.FixedUpdate();
-            if (this.modelAnimator && this.modelAnimator.GetFloat("ShootGun.Fire") > 0.5f && !this.hasCastBuff)
+            if (this.modelAnimator && stopwatch > 0.5f && !this.hasCastBuff)
             {
                 ScaleParticleSystemDuration component = UnityEngine.Object.Instantiate<GameObject>(defenseUpPrefab, base.transform.position, Quaternion.identity, base.transform).GetComponent<ScaleParticleSystemDuration>();
                 if (component)
@@ -50,6 +51,12 @@ namespace HenryMod.SkillStates
                 this.outer.SetNextStateToMain();
                 return;
             }
+        }
+
+        public override void Update()
+        {
+            base.Update();
+            stopwatch += Time.deltaTime;
         }
 
         // Token: 0x060046F0 RID: 18160 RVA: 0x0006E4AF File Offset: 0x0006C6AF
