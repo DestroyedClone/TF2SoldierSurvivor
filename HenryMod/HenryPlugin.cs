@@ -81,6 +81,20 @@ namespace HenryMod
         {
             if (sender)
             {
+                if (sender.HasBuff(Modules.Buffs.soldierBannerCrit))
+                {
+                    args.damageMultAdd += Modules.StaticValues.damageBuffDamageCoefficient;
+                }
+
+                if (sender.HasBuff(Modules.Buffs.soldierBannerHeal))
+                {
+                    args.moveSpeedMultAdd += Modules.StaticValues.healBuffSpeedCoefficient;
+                }
+
+                if (sender.HasBuff(Modules.Buffs.soldierBannerTank))
+                {
+                    args.armorAdd += Modules.StaticValues.tankBuffArmorBoost;
+                }
             }
         }
     }
