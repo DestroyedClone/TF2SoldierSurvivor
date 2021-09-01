@@ -15,5 +15,28 @@ namespace HenryMod.Modules
         internal const float gunDamageCoefficient = 4.2f;
 
         internal const float bombDamageCoefficient = 16f;
+
+        // primary
+        internal const float stockRocketDamageCoefficient = 2f;
+
+        internal const float fastRocketDamageCoefficient = 3f;
+
+        internal const float healRocketDamageCoefficient = 1.5f;
+        internal const float healRocketRecoverPercentage = 0.15f;
+
+        // secondary
+        internal const uint shotgunBullets = 6U;
+        internal const float shotgunDamageCoefficient = 0.8f;
+
+        internal const float bisonDamageCoefficient = 0.8f;
+
+        // utility
+        internal const float damageBuffDamageCoefficient = 0.75f;
+
+        internal const float healBuffRecoverCoefficient = 0.35f;
+        internal const float healBuffSpeedCoefficient = 0.35f;
+
+        internal const float tankBuffArmorBoost = 60f;
+
     }
 }

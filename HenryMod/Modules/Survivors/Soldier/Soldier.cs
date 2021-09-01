@@ -135,8 +135,32 @@ namespace HenryMod.Modules.Survivors
             #endregion
 
             #region Secondary
+            SkillDef shotgunSkillDef = Modules.Skills.CreateSkillDef(new SkillDefInfo
+            {
+                skillName = prefix + "SECONDARY_SHOTGUN_NAME",
+                skillNameToken = prefix + "SECONDARY_SHOTGUN_DESCRIPTION",
+                skillDescriptionToken = prefix + "SECONDARY_SHOTGUN_DESCRIPTION",
+                skillIcon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("texSecondaryIcon"),
+                activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.FireShotgun)),
+                activationStateMachineName = "Weapon",
+                baseMaxStock = 6,
+                baseRechargeInterval = 1f,
+                beginSkillCooldownOnSkillEnd = false,
+                canceledFromSprinting = false,
+                forceSprintDuringState = false,
+                fullRestockOnAssign = true,
+                interruptPriority = EntityStates.InterruptPriority.Skill,
+                resetCooldownTimerOnUse = false,
+                isCombatSkill = true,
+                mustKeyPress = false,
+                cancelSprintingOnActivation = false,
+                rechargeStock = 1,
+                requiredStock = 1,
+                stockToConsume = 1,
+                keywordTokens = new string[] { "KEYWORD_AGILE" }
+            });
 
-            //Modules.Skills.AddSecondarySkills(bodyPrefab, shootSkillDef);
+            Modules.Skills.AddSecondarySkills(bodyPrefab, new SkillDef[] { shotgunSkillDef });
             #endregion
 
             #region Utility
@@ -145,7 +169,7 @@ namespace HenryMod.Modules.Survivors
             #endregion
 
             #region Special
-            
+
 
             //Modules.Skills.AddSpecialSkills(bodyPrefab, bombSkillDef);
             #endregion
