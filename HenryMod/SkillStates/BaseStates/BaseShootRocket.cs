@@ -7,7 +7,7 @@ namespace HenryMod.SkillStates
 {
     public class BaseShootRocket : BaseSkillState
     {
-        public static float damageCoefficient = 7f;
+        protected float damageCoefficient = 7f;
         public static float procCoefficient = 1f;
         public static float baseDuration = 0.65f;
         public static float throwForce = 80f;
@@ -49,7 +49,7 @@ namespace HenryMod.SkillStates
                         aimRay.origin, 
                         Util.QuaternionSafeLookRotation(aimRay.direction), 
                         base.gameObject,
-                        BaseShootRocket.damageCoefficient * this.damageStat, 
+                        damageCoefficient * this.damageStat, 
                         4000f, 
                         base.RollCrit(), 
                         DamageColorIndex.Default, 

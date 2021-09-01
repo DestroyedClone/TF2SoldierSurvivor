@@ -5,13 +5,12 @@ using UnityEngine;
 
 namespace HenryMod.SkillStates
 {
-    public class ShootHealRocket : BaseShootRocket
+    public class BlowBannerHeal : BaseBlowBanner
     {
         public override void OnEnter()
         {
             base.OnEnter();
-            this.projectilePrefab = Modules.Projectiles.healRocketPrefab;
-            this.damageCoefficient = Modules.StaticValues.healRocketDamageCoefficient;
+            buffDef = Modules.Buffs.soldierBannerHeal;
         }
     }
 }

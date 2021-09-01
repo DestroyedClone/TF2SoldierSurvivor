@@ -46,17 +46,19 @@ namespace HenryMod.Modules
             #endregion
 
             #region Primary
+            string selfDamage = $"Can rocket jump for {StaticValues.selfDamageCoefficient * 100}% self damage.";
+
             LanguageAPI.Add(prefix + "PRIMARY_STOCK_NAME", "Rocket Launcher");
             LanguageAPI.Add(prefix + "PRIMARY_STOCK_DESCRIPTION", Helpers.agilePrefix + Helpers.selfDamagePrefix + 
-                $"Fire a rocket for <style=cIsDamage>{100 * StaticValues.stockRocketDamageCoefficient}% damage</style>. Can rocket jump for 150% damage.");
+                $"Fire a rocket for <style=cIsDamage>{100 * StaticValues.stockRocketDamageCoefficient}% damage</style>. {selfDamage}");
 
             LanguageAPI.Add(prefix + "PRIMARY_FAST_NAME", "Direct Hit");
             LanguageAPI.Add(prefix + "PRIMARY_FAST_DESCRIPTION", Helpers.agilePrefix + Helpers.selfDamagePrefix + Helpers.airshotPrefix + 
-                $"Fire a fast moving rocket for <style=cIsDamage>{100 * StaticValues.fastRocketDamageCoefficient}% damage</style> with a tight explosion radius. Can rocket jump for 350% damage.");
+                $"Fire a fast moving rocket for <style=cIsDamage>{100 * StaticValues.fastRocketDamageCoefficient}% damage</style> with a tight explosion radius. {selfDamage}");
 
             LanguageAPI.Add(prefix + "PRIMARY_HEAL_NAME", "Black Box");
             LanguageAPI.Add(prefix + "PRIMARY_HEAL_DESCRIPTION", Helpers.agilePrefix + Helpers.selfDamagePrefix + 
-                $"Fire a rocket for <style=cIsDamage>{100 * StaticValues.healRocketDamageCoefficient}% damage</style> and heal for <style=cIsHealing>{100 * StaticValues.healRocketRecoverPercentage}% of the damage dealt</style>. Can rocket jump for 150% damage.");
+                $"Fire a rocket for <style=cIsDamage>{100 * StaticValues.healRocketDamageCoefficient}% damage</style> and heal for <style=cIsHealing>{100 * StaticValues.healRocketRecoverPercentage}% of the damage dealt</style>. {selfDamage}");
             #endregion
 
             #region Secondary
@@ -85,25 +87,36 @@ namespace HenryMod.Modules
             #endregion
 
             #region Special
+
             LanguageAPI.Add(prefix + "SPECIAL_GARDEN_NAME", $"Market Gardener");
-            LanguageAPI.Add(prefix + "SPECIAL_GARDEN_DESCRIPTION", $"Swing your shovel for <style=cIsDamage>100% damage</style>. If you are <style=cIsUtility<airborne after rocket-jumping</style>, it deals  <style=cIsDamage>1500% damage</style>.");
+            LanguageAPI.Add(prefix + "SPECIAL_GARDEN_DESCRIPTION", $"Swing your shovel for <style=cIsDamage>{100 * StaticValues.gardenDamageCoefficient}% damage</style>." +
+                $" If you are <style=cIsUtility>airborne after rocket-jumping</style>, it deals <style=cIsDamage>{100 * StaticValues.gardenJumpDamageCoefficient}% damage</style>.");
 
             LanguageAPI.Add(prefix + "SPECIAL_GARDEN_SCEPTER_NAME", $"Australium Market Gardener");
-            LanguageAPI.Add(prefix + "SPECIAL_GARDEN_SCEPTER_DESCRIPTION", $"Swing your shovel for <style=cIsDamage>100% damage</style>. If you are <style=cIsUtility<airborne after rocket-jumping</style>, it deals  <style=cIsDamage>2500% damage</style>.");
+            LanguageAPI.Add(prefix + "SPECIAL_GARDEN_SCEPTER_DESCRIPTION", $"Swing your shovel for <style=cIsDamage>{100 * StaticValues.gardenScepterDamageCoefficient}% damage</style>." +
+                $" If you are <style=cIsUtility>airborne after rocket-jumping</style>, it deals <style=cIsDamage>{100 * StaticValues.gardenScepterJumpDamageCoefficient}% damage</style>.");
 
             LanguageAPI.Add(prefix + "SPECIAL_PICK_NAME", "Equalizer");
-            LanguageAPI.Add(prefix + "SPECIAL_PICK_DESCRIPTION", $"Swing your pickaxe for <style=cIsDamage>150% damage</style>. Deals up to <style=cIsDamage>+200% increased damage</style> based on missing health.");
+            LanguageAPI.Add(prefix + "SPECIAL_PICK_DESCRIPTION", $"Swing your pickaxe for <style=cIsDamage>{100 * StaticValues.pickDamageCoefficient}% damage</style>." +
+                $" Deals up to <style=cIsDamage>+{100 * StaticValues.pickDamageScaleCoefficient}% increased damage</style> and <style=cIsUtility>move up to {100 * StaticValues.pickSpeedScaleCoefficient}% faster</style> based on missing health.");
 
             LanguageAPI.Add(prefix + "SPECIAL_PICK_SCEPTER_NAME", "Australium Equalizer");
-            LanguageAPI.Add(prefix + "SPECIAL_PICK_SCEPTER_DESCRIPTION", $"[Heavy]. Swing your pickaxe for <style=cIsDamage>150% damage</style>. Deals up to <style=cIsDamage>+400% increased damage</style> and <style=cIsUtility>move up to 100% faster</style> based on missing health.");
-            
+            LanguageAPI.Add(prefix + "SPECIAL_PICK_SCEPTER_DESCRIPTION", $"[Heavy]. Swing your pickaxe for <style=cIsDamage>{100 * StaticValues.pickScepterDamageCoefficient}% damage</style>." +
+                $" Deals up to <style=cIsDamage>+{100 * StaticValues.pickScepterDamageScaleCoefficient} increased damage</style> and <style=cIsUtility>move up to {100 * StaticValues.pickScepterSpeedScaleCoefficient}% faster</style> based on missing health.");
+
+            string swordWarning = $" <style=cDeath>Instantly kills another half-zatoichi wielder and heals for {100 * StaticValues.swordHealDuo}% health</style>.";
+
             LanguageAPI.Add(prefix + "SPECIAL_SWORD_NAME", $"The Half-Zatoichi");
-            LanguageAPI.Add(prefix + "SPECIAL_SWORD_DESCRIPTION", $"Swing your sword for <style=cIsDamage>100% damage</style>. If it kills, heals for <style=cIsHealing>1% health</style>. Killing bosses restores <style=cIsHealing>25% health</style>." +
-                $" <style=cDeath>Instantly kills another half-zatoichi wielder and heals for 100% health</style>.");
+            LanguageAPI.Add(prefix + "SPECIAL_SWORD_DESCRIPTION", $"Swing your sword for <style=cIsDamage>{100 * StaticValues.swordDamageCoefficient}% damage</style>." +
+                $" If it kills, heals for <style=cIsHealing>{100 * StaticValues.swordHealNormal}% health</style>." +
+                $" Killing bosses restores <style=cIsHealing>{100 * StaticValues.swordHealBoss}% health</style>." +
+                swordWarning);
 
             LanguageAPI.Add(prefix + "SPECIAL_SWORD_SCEPTER_NAME", $"Australium Half-Zatoichi");
-            LanguageAPI.Add(prefix + "SPECIAL_SWORD_SCEPTER_DESCRIPTION", $"Swing your sword for <style=cIsDamage>100% damage</style>. Heals for <style=cIsHealing>1% health</style> on hit. If it kills, heals for <style=cIsHealing>5% health</style>. Killing bosses restores <style=cIsHealing>75% health</style>." +
-                $" <style=cDeath>Instantly kills another half-zatoichi wielder and heals for 100% health</style>.");
+            LanguageAPI.Add(prefix + "SPECIAL_SWORD_SCEPTER_DESCRIPTION", $"Swing your sword for <style=cIsDamage>100% damage</style>." +
+                $" Heals for <style=cIsHealing>1% health</style> on hit. If it kills, heals for <style=cIsHealing>5% health</style>." +
+                $" Killing bosses restores <style=cIsHealing>75% health</style>." +
+                swordWarning);
             #endregion
 
             #region Achievements

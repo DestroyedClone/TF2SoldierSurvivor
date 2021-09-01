@@ -11,6 +11,7 @@ namespace HenryMod.SkillStates
         {
             base.OnEnter();
             this.projectilePrefab = Modules.Projectiles.fastRocketPrefab;
+            this.damageCoefficient = Modules.StaticValues.fastRocketDamageCoefficient;
         }
     }
 }

@@ -10,13 +10,11 @@ namespace HenryMod.Modules
              + "< ! > Roll has a lingering armor buff that helps to use it aggressively." + Environment.NewLine + Environment.NewLine
              + "< ! > Bomb can be used to wipe crowds with ease." + Environment.NewLine + Environment.NewLine;
 
-        internal const float swordDamageCoefficient = 2.8f;
-
-        internal const float gunDamageCoefficient = 4.2f;
-
-        internal const float bombDamageCoefficient = 16f;
+        internal const float selfPushForce = 100f;
 
         // primary
+        internal const float selfDamageCoefficient = 0.05f;
+
         internal const float stockRocketDamageCoefficient = 2f;
 
         internal const float fastRocketDamageCoefficient = 3f;
@@ -39,6 +37,23 @@ namespace HenryMod.Modules
         internal const float tankBuffArmorBoost = 60f;
 
         // special
+        internal const float gardenDamageCoefficient = 1f;
+        internal const float gardenJumpDamageCoefficient = 1f;
+
+        internal const float gardenScepterDamageCoefficient = 1f;
+        internal const float gardenScepterJumpDamageCoefficient = 1f;
+
+
+        internal const float pickDamageCoefficient = 1.5f;
+        internal const float pickDamageScaleCoefficient = 3f;
+        internal const float pickSpeedScaleCoefficient = 0.5f;
+
+        internal const float pickScepterDamageCoefficient = 1.5f;
+        internal const float pickScepterDamageScaleCoefficient = 3f;
+        internal const float pickScepterSpeedScaleCoefficient = 1f;
+
+
+        internal const float swordDamageCoefficient = 1f;
         internal const float swordHealNormal = 0.05f;
         internal const float swordHealBoss = 0.15f;
         internal const float swordHealDuo = 1f;

@@ -24,7 +24,7 @@ namespace HenryMod.Modules.Survivors
             armorGrowth = 0f,
             bodyName = "SoldierBody",
             bodyNameToken = HenryPlugin.developerPrefix + "_SOLDIER_BODY_NAME",
-            bodyColor = Color.grey,
+            bodyColor = Color.green,
             characterPortrait = Modules.Assets.LoadCharacterIcon("Henry"),
             crosshair = Modules.Assets.LoadCrosshair("Standard"),
             damage = 12f,
@@ -212,7 +212,7 @@ namespace HenryMod.Modules.Survivors
 
             #region Utility
 
-            SkillDef utilityskillDef = Modules.Skills.CreateSkillDef(new SkillDefInfo
+            SkillDef damageUtilitySkillDef = Modules.Skills.CreateSkillDef(new SkillDefInfo
             {
                 skillName = prefix + "UTILITY_BUFF_NAME",
                 skillNameToken = prefix + "UTILITY_BUFF_NAME",
@@ -221,14 +221,38 @@ namespace HenryMod.Modules.Survivors
                 activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.BlowBannerDamage)),
                 activationStateMachineName = "Weapon",
                 baseMaxStock = 1,
-                baseRechargeInterval = 1f,
+                baseRechargeInterval = 6f,
                 beginSkillCooldownOnSkillEnd = false,
                 canceledFromSprinting = false,
                 forceSprintDuringState = false,
                 fullRestockOnAssign = true,
                 interruptPriority = EntityStates.InterruptPriority.Skill,
                 resetCooldownTimerOnUse = false,
-                isCombatSkill = true,
+                isCombatSkill = false,
+                mustKeyPress = false,
+                cancelSprintingOnActivation = false,
+                rechargeStock = 1,
+                requiredStock = 1,
+                stockToConsume = 1,
+                keywordTokens = new string[] { "KEYWORD_AGILE" }
+            });
+            SkillDef healUtilitySkillDef = Modules.Skills.CreateSkillDef(new SkillDefInfo
+            {
+                skillName = prefix + "UTILITY_HEAL_NAME",
+                skillNameToken = prefix + "UTILITY_HEAL_NAME",
+                skillDescriptionToken = prefix + "UTILITY_HEAL_DESCRIPTION",
+                skillIcon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("texUtilityIcon"),
+                activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.BlowBannerHeal)),
+                activationStateMachineName = "Weapon",
+                baseMaxStock = 1,
+                baseRechargeInterval = 6f,
+                beginSkillCooldownOnSkillEnd = false,
+                canceledFromSprinting = false,
+                forceSprintDuringState = false,
+                fullRestockOnAssign = true,
+                interruptPriority = EntityStates.InterruptPriority.Skill,
+                resetCooldownTimerOnUse = false,
+                isCombatSkill = false,
                 mustKeyPress = false,
                 cancelSprintingOnActivation = false,
                 rechargeStock = 1,
@@ -237,7 +261,7 @@ namespace HenryMod.Modules.Survivors
                 keywordTokens = new string[] { "KEYWORD_AGILE" }
             });
 
-            Modules.Skills.AddUtilitySkills(bodyPrefab, new SkillDef[] { utilityskillDef });
+            Modules.Skills.AddUtilitySkills(bodyPrefab, new SkillDef[] { damageUtilitySkillDef, healUtilitySkillDef });
             #endregion
 
             #region Special

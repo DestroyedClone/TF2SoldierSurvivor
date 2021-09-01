@@ -83,10 +83,20 @@ namespace HenryMod
             GetStatCoefficients += HenryPlugin_GetStatCoefficients;
             GlobalEventManager.onCharacterDeathGlobal += GlobalEventManager_onCharacterDeathGlobal;
             GlobalEventManager.onServerDamageDealt += GlobalEventManager_onServerDamageDealt;
+            GlobalEventManager.onServerDamageDealt += ConchHealOnHit;
             On.RoR2.BlastAttack.Fire += BlastAttack_Fire;
         }
 
-        float pushForce = 250f;
+        private void ConchHealOnHit(DamageReport obj)
+        {
+            if (obj.attackerBody && obj.attackerBody.healthComponent)
+            {
+                if (obj.attackerBody.GetBuffCount(Modules.Buffs.soldierBannerHeal) > 0)
+                {
+                    obj.attackerBody.healthComponent.HealFraction(StaticValues.healBuffRecoverCoefficient, default);
+                }
+            }
+        }
 
         private BlastAttack.Result BlastAttack_Fire(On.RoR2.BlastAttack.orig_Fire orig, BlastAttack self)
         {
@@ -101,7 +111,7 @@ namespace HenryMod
                     if (dist <= self.radius)
                     {
                         var distFraction = 1 / (self.radius - dist / self.radius);
-                        var power = distFraction * pushForce;
+                        var power = distFraction * StaticValues.selfPushForce;
 
                         Vector3 forceDirection = (attackerPos- self.position).normalized;
 
