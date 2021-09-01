@@ -4,24 +4,17 @@ using UnityEngine;
 
 namespace HenryMod.SkillStates
 {
-    public class MarketGardener : BaseMeleeAttack
+    public class Equalizer : BaseMeleeAttack
     {
+        readonly float origDamage = Modules.StaticValues.swordDamageCoefficient;
+
         public override void OnEnter()
         {
             this.hitboxName = "Sword";
 
-            if (this.characterMotor.isGrounded)
-            {
-                this.damageCoefficient = Modules.StaticValues.swordDamageCoefficient;
-                this.pushForce = 300f;
-            } else
-            {
-                this.damageCoefficient = Modules.StaticValues.swordDamageCoefficient * 2f;
-                this.pushForce = 600f;
-            }
-
+            this.damageCoefficient = GetModifiedDamage();
+            this.pushForce = 300f;
             this.damageType = DamageType.Generic;
-
             this.procCoefficient = 1f;
             this.bonusForce = Vector3.zero;
             this.baseDuration = 1f;
@@ -41,6 +34,24 @@ namespace HenryMod.SkillStates
             this.impactSound = Modules.Assets.swordHitSoundEvent.index;
 
             base.OnEnter();
+        }
+
+        public float GetModifiedDamage()
+        {
+            float maxMultiplier = 3f;
+            if (this.healthComponent)
+            {
+                var healthLost = healthComponent.fullHealth - healthComponent.health;
+                var fraction = healthLost / healthComponent.fullHealth;
+                return origDamage + maxMultiplier * fraction;
+            }
+            return origDamage;
+        }
+
+        public override void Update()
+        {
+            base.Update();
+            this.damageCoefficient = GetModifiedDamage();
         }
 
         protected override void PlayAttackAnimation()
@@ -64,7 +75,7 @@ namespace HenryMod.SkillStates
             if (index == 0) index = 1;
             else index = 0;
 
-            this.outer.SetNextState(new SlashCombo
+            this.outer.SetNextState(new Equalizer
             {
                 swingIndex = index
             });

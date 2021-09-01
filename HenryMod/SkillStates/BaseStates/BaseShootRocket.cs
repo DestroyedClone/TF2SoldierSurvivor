@@ -21,7 +21,7 @@ namespace HenryMod.SkillStates
         public override void OnEnter()
         {
             base.OnEnter();
-            this.duration = ThrowBomb.baseDuration / this.attackSpeedStat;
+            this.duration = BaseShootRocket.baseDuration / this.attackSpeedStat;
             this.fireTime = 0.35f * this.duration;
             base.characterBody.SetAimTimer(2f);
             this.animator = base.GetModelAnimator();
@@ -48,13 +48,13 @@ namespace HenryMod.SkillStates
                     ProjectileManager.instance.FireProjectile(projectilePrefab, 
                         aimRay.origin, 
                         Util.QuaternionSafeLookRotation(aimRay.direction), 
-                        base.gameObject, 
-                        ThrowBomb.damageCoefficient * this.damageStat, 
+                        base.gameObject,
+                        BaseShootRocket.damageCoefficient * this.damageStat, 
                         4000f, 
                         base.RollCrit(), 
                         DamageColorIndex.Default, 
-                        null, 
-                        ThrowBomb.throwForce);
+                        null,
+                        BaseShootRocket.throwForce);
                 }
             }
         }

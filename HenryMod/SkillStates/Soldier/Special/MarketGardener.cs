@@ -4,17 +4,24 @@ using UnityEngine;
 
 namespace HenryMod.SkillStates
 {
-    public class HalfZatoichi : BaseMeleeAttack, IOnKilledOtherServerReceiver
+    public class MarketGardener : BaseMeleeAttack
     {
-        readonly float origDamage = Modules.StaticValues.swordDamageCoefficient;
-
         public override void OnEnter()
         {
             this.hitboxName = "Sword";
 
-            this.damageCoefficient = origDamage;
-            this.pushForce = 300f;
+            if (this.characterMotor.isGrounded)
+            {
+                this.damageCoefficient = Modules.StaticValues.swordDamageCoefficient;
+                this.pushForce = 300f;
+            } else
+            {
+                this.damageCoefficient = Modules.StaticValues.swordDamageCoefficient * 2f;
+                this.pushForce = 600f;
+            }
+
             this.damageType = DamageType.Generic;
+
             this.procCoefficient = 1f;
             this.bonusForce = Vector3.zero;
             this.baseDuration = 1f;
@@ -34,19 +41,6 @@ namespace HenryMod.SkillStates
             this.impactSound = Modules.Assets.swordHitSoundEvent.index;
 
             base.OnEnter();
-        }
-
-        public void OnKilledOtherServer(DamageReport damageReport)
-        {
-            if (damageReport.attacker = base.characterBody.gameObject)
-            {
-                base.healthComponent.Heal(damageReport.victimIsBoss ? 0.5f : 0.01f, default);
-            }
-        }
-
-        public override void Update()
-        {
-            base.Update();
         }
 
         protected override void PlayAttackAnimation()
@@ -70,7 +64,7 @@ namespace HenryMod.SkillStates
             if (index == 0) index = 1;
             else index = 0;
 
-            this.outer.SetNextState(new SlashCombo
+            this.outer.SetNextState(new MarketGardener
             {
                 swingIndex = index
             });

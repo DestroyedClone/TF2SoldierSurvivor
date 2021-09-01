@@ -93,19 +93,19 @@ namespace HenryMod.Modules.Survivors
         {
             Modules.Skills.CreateSkillFamilies(bodyPrefab);
 
-            string prefix = HenryPlugin.developerPrefix;
+            string devPrefix = HenryPlugin.developerPrefix;
+            string bodyPrefix = "_SOLDIER_BODY_";
+            string prefix = devPrefix + bodyPrefix;
 
             #region Primary
-            Modules.Skills.AddPrimarySkill(bodyPrefab, Modules.Skills.CreatePrimarySkillDef(new EntityStates.SerializableEntityStateType(typeof(SkillStates.SlashCombo)), "Weapon", prefix + "_SAXTONHALE_BODY_PUNCH_SLASH_NAME", prefix + "_HENRY_BODY_PUNCH_SLASH_DESCRIPTION", Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("texPrimaryIcon"), true));
-
             SkillDef stockRocketSkillDef = Modules.Skills.CreateSkillDef(new SkillDefInfo
             {
-                skillName = prefix + "_SOLDIER_BODY_SECONDARY_SUPERJUMP_NAME",
-                skillNameToken = prefix + "_SOLDIER_BODY_SECONDARY_SUPERJUMP_NAME",
-                skillDescriptionToken = prefix + "_SOLDIER_BODY_SECONDARY_SUPERJUMP_DESCRIPTION",
-                skillIcon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("texSecondaryIcon"),
-                activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.Shoot)),
-                activationStateMachineName = "Slide",
+                skillName = prefix + "PRIMARY_STOCK_NAME",
+                skillNameToken = prefix + "PRIMARY_STOCK_DESCRIPTION",
+                skillDescriptionToken = prefix + "PRIMARY_STOCK_DESCRIPTION",
+                skillIcon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("texPrimaryIcon"),
+                activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.ShootStockRocket)),
+                activationStateMachineName = "Weapon",
                 baseMaxStock = 1,
                 baseRechargeInterval = 1f,
                 beginSkillCooldownOnSkillEnd = false,
@@ -120,98 +120,34 @@ namespace HenryMod.Modules.Survivors
                 rechargeStock = 1,
                 requiredStock = 1,
                 stockToConsume = 1,
-                keywordTokens = new string[] { "KEYWORD_AGILE" }
+                keywordTokens = new string[] { "KEYWORD_AGILE", prefix + "KEYWORD_SELFDMG" }
             });
 
-            Modules.Skills.AddSecondarySkills(bodyPrefab, shootSkillDef);
+
+
+            foreach (var skillDef in new SkillDef[] { stockRocketSkillDef })
+            {
+                Modules.Skills.AddPrimarySkill(bodyPrefab, skillDef);
+            }
 
 
 
             #endregion
 
             #region Secondary
-            SkillDef shootSkillDef = Modules.Skills.CreateSkillDef(new SkillDefInfo
-            {
-                skillName = prefix + "_SOLDIER_BODY_SECONDARY_SUPERJUMP_NAME",
-                skillNameToken = prefix + "_SOLDIER_BODY_SECONDARY_SUPERJUMP_NAME",
-                skillDescriptionToken = prefix + "_SOLDIER_BODY_SECONDARY_SUPERJUMP_DESCRIPTION",
-                skillIcon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("texSecondaryIcon"),
-                activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.Shoot)),
-                activationStateMachineName = "Slide",
-                baseMaxStock = 1,
-                baseRechargeInterval = 1f,
-                beginSkillCooldownOnSkillEnd = false,
-                canceledFromSprinting = false,
-                forceSprintDuringState = false,
-                fullRestockOnAssign = true,
-                interruptPriority = EntityStates.InterruptPriority.Skill,
-                resetCooldownTimerOnUse = false,
-                isCombatSkill = true,
-                mustKeyPress = false,
-                cancelSprintingOnActivation = false,
-                rechargeStock = 1,
-                requiredStock = 1,
-                stockToConsume = 1,
-                keywordTokens = new string[] { "KEYWORD_AGILE" }
-            });
 
-            Modules.Skills.AddSecondarySkills(bodyPrefab, shootSkillDef);
+            //Modules.Skills.AddSecondarySkills(bodyPrefab, shootSkillDef);
             #endregion
 
             #region Utility
-            SkillDef rollSkillDef = Modules.Skills.CreateSkillDef(new SkillDefInfo
-            {
-                skillName = prefix + "_HENRY_BODY_UTILITY_CROUCH_NAME",
-                skillNameToken = prefix + "_HENRY_BODY_UTILITY_CROUCH_NAME",
-                skillDescriptionToken = prefix + "_HENRY_BODY_UTILITY_CROUCH_DESCRIPTION",
-                skillIcon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("texUtilityIcon"),
-                activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.Roll)),
-                activationStateMachineName = "Body",
-                baseMaxStock = 1,
-                baseRechargeInterval = 4f,
-                beginSkillCooldownOnSkillEnd = false,
-                canceledFromSprinting = false,
-                forceSprintDuringState = true,
-                fullRestockOnAssign = true,
-                interruptPriority = EntityStates.InterruptPriority.PrioritySkill,
-                resetCooldownTimerOnUse = false,
-                isCombatSkill = false,
-                mustKeyPress = false,
-                cancelSprintingOnActivation = false,
-                rechargeStock = 1,
-                requiredStock = 1,
-                stockToConsume = 1
-            });
 
-            Modules.Skills.AddUtilitySkills(bodyPrefab, rollSkillDef);
+            //Modules.Skills.AddUtilitySkills(bodyPrefab, rollSkillDef);
             #endregion
 
             #region Special
-            SkillDef bombSkillDef = Modules.Skills.CreateSkillDef(new SkillDefInfo
-            {
-                skillName = prefix + "_HENRY_BODY_SPECIAL_CLASSIC_NAME",
-                skillNameToken = prefix + "_HENRY_BODY_SPECIAL_CLASSIC_NAME",
-                skillDescriptionToken = prefix + "_HENRY_BODY_SPECIAL_CLASSIC_DESCRIPTION",
-                skillIcon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("texSpecialIcon"),
-                activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.ThrowBomb)),
-                activationStateMachineName = "Slide",
-                baseMaxStock = 1,
-                baseRechargeInterval = 10f,
-                beginSkillCooldownOnSkillEnd = false,
-                canceledFromSprinting = false,
-                forceSprintDuringState = false,
-                fullRestockOnAssign = true,
-                interruptPriority = EntityStates.InterruptPriority.Skill,
-                resetCooldownTimerOnUse = false,
-                isCombatSkill = true,
-                mustKeyPress = false,
-                cancelSprintingOnActivation = true,
-                rechargeStock = 1,
-                requiredStock = 1,
-                stockToConsume = 1
-            });
+            
 
-            Modules.Skills.AddSpecialSkills(bodyPrefab, bombSkillDef);
+            //Modules.Skills.AddSpecialSkills(bodyPrefab, bombSkillDef);
             #endregion
         }
 

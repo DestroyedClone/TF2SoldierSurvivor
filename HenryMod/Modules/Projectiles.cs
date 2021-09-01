@@ -27,13 +27,15 @@ namespace HenryMod.Modules
             CreateFastRocket();
             CreateHealRocket();
 
-            CreateDamageBuffWard();
-            CreateDamageHealWard();
-            CreateDamageTankWard();
+            //CreateDamageBuffWard();
+            //CreateDamageHealWard();
+            //CreateDamageTankWard();
 
             foreach (var proj in new GameObject[] { stockRocketPrefab , fastRocketPrefab , healRocketPrefab , damageBuffWard, healBuffWard, tankBuffWard})
             {
-                AddProjectile(proj);
+                //AddProjectile(proj);
+                if (proj)
+                Modules.Prefabs.projectilePrefabs.Add(proj);
             }
         }
 
@@ -141,7 +143,6 @@ namespace HenryMod.Modules
             projectileImpactExplosion.childrenProjectilePrefab = null;
             projectileImpactExplosion.destroyOnEnemy = false;
             projectileImpactExplosion.destroyOnWorld = false;
-            projectileImpactExplosion.explosionSoundString = "";
             projectileImpactExplosion.falloffModel = RoR2.BlastAttack.FalloffModel.None;
             projectileImpactExplosion.fireChildren = false;
             projectileImpactExplosion.impactEffect = null;

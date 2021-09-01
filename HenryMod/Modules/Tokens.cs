@@ -10,14 +10,14 @@ namespace HenryMod.Modules
             #region Soldier
             var prefix = HenryPlugin.developerPrefix + "_SOLDIER_BODY_";
 
-            var desc = "Saxton Hale is a heavy hitting tank that can uses his superior biology to kill enemies (hippies).<color=#CCD3E0>" + Environment.NewLine + Environment.NewLine;
-            desc = desc + "< ! > (NOT IMPL) You can choose loadout depending on closely you want the game to feel like VSH: Standard and Classic." + Environment.NewLine + Environment.NewLine;
-            desc = desc + "< ! > Use superjump to quickly get to normally unreachable areas." + Environment.NewLine + Environment.NewLine;
-            desc = desc + "< ! > Perform a weighdown midair to quickly reach the ground after being airborne." + Environment.NewLine + Environment.NewLine;
-            desc = desc + "< ! > Use your rage in a tough spot to stun all enemies." + Environment.NewLine + Environment.NewLine;
+            var desc = "Soldier is a versatile combat class.<color=#CCD3E0>" + Environment.NewLine + Environment.NewLine;
+            desc = desc + "< ! > Soldiers generally want to be shooting down at their opponents to maximize the effect of their rockets splash damage." + Environment.NewLine + Environment.NewLine;
+            desc = desc + "< ! > Because of the splash damage from the rocket jump, Soldiers have to trade health for the height advantage." + Environment.NewLine + Environment.NewLine;
+            desc = desc + "< ! > His large health pool is second only to that of the Heavy, and his wide array of armaments and weaponry allows him to bring whatever weapon or equipment is best suited to the situation at hand." + Environment.NewLine + Environment.NewLine;
+            desc = desc + "< ! > Tough and well-armed, he is versatile, capable of both offense and defense, and a great starter class to get familiar with the game." + Environment.NewLine + Environment.NewLine;
 
             var outro = "..and so he left, flying further than the stars.";
-            var outroFailure = "..and so he vanished, in a whimper.";
+            var outroFailure = "..and so he vanished, in a whisper of silence.";
 
             LanguageAPI.Add(prefix + "NAME", "Soldier");
             LanguageAPI.Add(prefix + "DESCRIPTION", desc);
@@ -30,7 +30,7 @@ namespace HenryMod.Modules
             LanguageAPI.Add(prefix + "RED_SKIN_NAME", "Reliable Excavation Demolition");
             LanguageAPI.Add(prefix + "BLU_SKIN_NAME", "Builders League United");
             LanguageAPI.Add(prefix + "MASTERY_SKIN_NAME", "STAR_");
-            LanguageAPI.Add(prefix + "ROBO_SKIN_NAME", "Ring of Fired");
+            LanguageAPI.Add(prefix + "ROBO_SKIN_NAME", "GRY Team");
             #endregion
 
             #region Passive

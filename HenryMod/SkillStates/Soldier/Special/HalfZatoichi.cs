@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace HenryMod.SkillStates
 {
-    public class Equalizer : BaseMeleeAttack
+    public class HalfZatoichi : BaseMeleeAttack, IOnKilledOtherServerReceiver
     {
         readonly float origDamage = Modules.StaticValues.swordDamageCoefficient;
 
@@ -12,7 +12,7 @@ namespace HenryMod.SkillStates
         {
             this.hitboxName = "Sword";
 
-            this.damageCoefficient = GetModifiedDamage();
+            this.damageCoefficient = origDamage;
             this.pushForce = 300f;
             this.damageType = DamageType.Generic;
             this.procCoefficient = 1f;
@@ -36,22 +36,17 @@ namespace HenryMod.SkillStates
             base.OnEnter();
         }
 
-        public float GetModifiedDamage()
+        public void OnKilledOtherServer(DamageReport damageReport)
         {
-            float maxMultiplier = 3f;
-            if (this.healthComponent)
+            if (damageReport.attacker = base.characterBody.gameObject)
             {
-                var healthLost = healthComponent.fullHealth - healthComponent.health;
-                var fraction = healthLost / healthComponent.fullHealth;
-                return origDamage + maxMultiplier * fraction;
+                base.healthComponent.Heal(damageReport.victimIsBoss ? 0.5f : 0.01f, default);
             }
-            return origDamage;
         }
 
         public override void Update()
         {
             base.Update();
-            this.damageCoefficient = GetModifiedDamage();
         }
 
         protected override void PlayAttackAnimation()
@@ -75,7 +70,7 @@ namespace HenryMod.SkillStates
             if (index == 0) index = 1;
             else index = 0;
 
-            this.outer.SetNextState(new SlashCombo
+            this.outer.SetNextState(new HalfZatoichi
             {
                 swingIndex = index
             });
