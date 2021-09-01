@@ -9,7 +9,7 @@ namespace HenryMod.SkillStates
     {
         public static float baseDuration = 3.5f;
         public static float buffDuration = 8f;
-        public static GameObject defenseUpPrefab;
+        public static GameObject defenseUpPrefab = EntityStates.BeetleGuardMonster.DefenseUp.defenseUpPrefab;
         private Animator modelAnimator;
         private float duration;
         private bool hasCastBuff;
@@ -23,7 +23,7 @@ namespace HenryMod.SkillStates
             this.modelAnimator = base.GetModelAnimator();
             if (this.modelAnimator)
             {
-                base.PlayCrossfade("Body", "DefenseUp", "DefenseUp.playbackRate", this.duration, 0.2f);
+                base.PlayCrossfade("LeftArm", "ShootGun", "ShootGun.playbackRate", this.duration, 0.2f);
             }
         }
 
@@ -31,13 +31,14 @@ namespace HenryMod.SkillStates
         public override void FixedUpdate()
         {
             base.FixedUpdate();
-            if (this.modelAnimator && this.modelAnimator.GetFloat("DefenseUp.activate") > 0.5f && !this.hasCastBuff)
+            if (this.modelAnimator && this.modelAnimator.GetFloat("ShootGun.Fire") > 0.5f && !this.hasCastBuff)
             {
                 ScaleParticleSystemDuration component = UnityEngine.Object.Instantiate<GameObject>(defenseUpPrefab, base.transform.position, Quaternion.identity, base.transform).GetComponent<ScaleParticleSystemDuration>();
                 if (component)
                 {
                     component.newDuration = buffDuration;
                 }
+                Util.PlayAttackSpeedSound("Play_item_use_gainArmor", gameObject, 1/duration);
                 this.hasCastBuff = true;
                 if (NetworkServer.active)
                 {

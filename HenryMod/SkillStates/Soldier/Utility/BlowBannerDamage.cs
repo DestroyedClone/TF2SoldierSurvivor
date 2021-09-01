@@ -7,6 +7,10 @@ namespace HenryMod.SkillStates
 {
     public class BlowBannerDamage : BaseBlowBanner
     {
-
+        public override void OnEnter()
+        {
+            base.OnEnter();
+            buffDef = Modules.Buffs.soldierBannerCrit;
+        }
     }
 }

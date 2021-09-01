@@ -214,11 +214,11 @@ namespace HenryMod.Modules.Survivors
 
             SkillDef utilityskillDef = Modules.Skills.CreateSkillDef(new SkillDefInfo
             {
-                skillName = prefix + "SECONDARY_SHOTGUN_NAME",
-                skillNameToken = prefix + "SECONDARY_SHOTGUN_NAME",
-                skillDescriptionToken = prefix + "SECONDARY_SHOTGUN_DESCRIPTION",
-                skillIcon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("texSecondaryIcon"),
-                activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.FireShotgun)),
+                skillName = prefix + "UTILITY_BUFF_NAME",
+                skillNameToken = prefix + "UTILITY_BUFF_NAME",
+                skillDescriptionToken = prefix + "UTILITY_BUFF_DESCRIPTION",
+                skillIcon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("texUtilityIcon"),
+                activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.BlowBannerDamage)),
                 activationStateMachineName = "Weapon",
                 baseMaxStock = 6,
                 baseRechargeInterval = 1f,
