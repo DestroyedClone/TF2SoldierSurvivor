@@ -168,6 +168,7 @@ namespace HenryMod
         {
             if (sender)
             {
+                // Banners
                 if (sender.HasBuff(Modules.Buffs.soldierBannerCrit))
                 {
                     args.damageMultAdd += Modules.StaticValues.damageBuffDamageCoefficient;
@@ -181,6 +182,16 @@ namespace HenryMod
                 if (sender.HasBuff(Modules.Buffs.soldierBannerTank))
                 {
                     args.armorAdd += Modules.StaticValues.tankBuffArmorBoost;
+                }
+
+                // Specials
+                if (sender.skillLocator?.special?.skillDef == Soldier.pickSkillDef)
+                {
+                    var healthLost = sender.healthComponent.fullHealth - sender.healthComponent.health;
+                    var fraction = healthLost / sender.healthComponent.fullHealth;
+                    var newFraction = fraction / 1;
+
+                    args.moveSpeedMultAdd += newFraction * StaticValues.pickSpeedScaleCoefficient;
                 }
             }
         }

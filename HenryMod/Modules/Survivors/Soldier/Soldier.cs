@@ -90,6 +90,7 @@ namespace HenryMod.Modules.Survivors
         }
 
         public static SkillDef swordSkillDef;
+        public static SkillDef pickSkillDef;
 
         internal override void InitializeSkills()
         {
@@ -314,7 +315,7 @@ namespace HenryMod.Modules.Survivors
                 stockToConsume = 1,
                 keywordTokens = new string[] { "KEYWORD_AGILE" }
             });
-            SkillDef pickSkillDef = Modules.Skills.CreateSkillDef(new SkillDefInfo
+            pickSkillDef = Modules.Skills.CreateSkillDef(new SkillDefInfo
             {
                 skillName = prefix + "SPECIAL_PICK_NAME",
                 skillNameToken = prefix + "SPECIAL_PICK_NAME",

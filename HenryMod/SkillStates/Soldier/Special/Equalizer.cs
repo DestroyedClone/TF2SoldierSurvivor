@@ -38,12 +38,11 @@ namespace HenryMod.SkillStates
 
         public float GetModifiedDamage()
         {
-            float maxMultiplier = 3f;
             if (this.healthComponent)
             {
                 var healthLost = healthComponent.fullHealth - healthComponent.health;
                 var fraction = healthLost / healthComponent.fullHealth;
-                return origDamage + maxMultiplier * fraction;
+                return origDamage + Modules.StaticValues.pickDamageCoefficient * fraction;
             }
             return origDamage;
         }
