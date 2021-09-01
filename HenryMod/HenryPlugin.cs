@@ -86,7 +86,7 @@ namespace HenryMod
             On.RoR2.BlastAttack.Fire += BlastAttack_Fire;
         }
 
-        float pushForce = 750f;
+        float pushForce = 250f;
 
         private BlastAttack.Result BlastAttack_Fire(On.RoR2.BlastAttack.orig_Fire orig, BlastAttack self)
         {
@@ -105,7 +105,7 @@ namespace HenryMod
 
                         Vector3 forceDirection = (attackerPos- self.position).normalized;
 
-                        cm.rootMotion += forceDirection * power;
+                        cm.ApplyForce(forceDirection * power);
                     }
                 }
             }
