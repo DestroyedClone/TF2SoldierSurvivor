@@ -22,7 +22,6 @@ namespace HenryMod.Modules
 
         internal static void RegisterProjectiles()
         {
-            // only separating into separate methods for my sanity
             CreateStockRocket();
             CreateFastRocket();
             CreateHealRocket();
@@ -109,7 +108,9 @@ namespace HenryMod.Modules
 
         private static void CreateDamageBuffWard()
         {
-            damageBuffWard = PrefabAPI.InstantiateClone(Resources.Load<GameObject>("prefabs/networkedobjects/WarbannerWard"), "SoldierDamageBuffWard");
+            //damageBuffWard = PrefabAPI.InstantiateClone(Resources.Load<GameObject>("prefabs/networkedobjects/WarbannerWard"), "SoldierDamageBuffWard");
+            damageBuffWard = UnityEngine.Object.Instantiate<GameObject>(Resources.Load<GameObject>("Prefabs/NetworkedObjects/WarbannerWard"));
+            damageBuffWard.name = "SoldierDamageBuffWard";
             var buffWard = damageBuffWard.GetComponent<BuffWard>();
             buffWard.buffDef = Buffs.soldierBannerCrit;
             var timer = damageBuffWard.AddComponent<DestroyOnTimer>();
@@ -118,7 +119,9 @@ namespace HenryMod.Modules
 
         private static void CreateDamageHealWard()
         {
-            healBuffWard = CloneProjectilePrefab("WarbannerWard", "SoldierHealBuffWard");
+            //healBuffWard = CloneProjectilePrefab("WarbannerWard", "SoldierHealBuffWard");
+            healBuffWard = UnityEngine.Object.Instantiate<GameObject>(Resources.Load<GameObject>("Prefabs/NetworkedObjects/WarbannerWard"));
+            healBuffWard.name = "SoldierHealBuffWard";
             var buffWard = damageBuffWard.GetComponent<BuffWard>();
             buffWard.buffDef = Buffs.soldierBannerHeal;
             var timer = damageBuffWard.AddComponent<DestroyOnTimer>();
@@ -127,7 +130,9 @@ namespace HenryMod.Modules
 
         private static void CreateDamageTankWard()
         {
-            damageBuffWard = CloneProjectilePrefab("WarbannerWard", "SoldierTankBuffWard");
+            //damageBuffWard = CloneProjectilePrefab("WarbannerWard", "SoldierTankBuffWard");
+            tankBuffWard = UnityEngine.Object.Instantiate<GameObject>(Resources.Load<GameObject>("Prefabs/NetworkedObjects/WarbannerWard"));
+            tankBuffWard.name = "SoldierTankBuffWard";
             var buffWard = damageBuffWard.GetComponent<BuffWard>();
             buffWard.buffDef = Buffs.soldierBannerTank;
             var timer = damageBuffWard.AddComponent<DestroyOnTimer>();
