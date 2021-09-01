@@ -93,7 +93,7 @@ namespace HenryMod
             {
                 if (obj.attackerBody.GetBuffCount(Modules.Buffs.soldierBannerHeal) > 0)
                 {
-                    obj.attackerBody.healthComponent.HealFraction(StaticValues.healBuffRecoverCoefficient, default);
+                    obj.attackerBody.healthComponent.Heal(StaticValues.healBuffRecoverCoefficient * obj.damageDealt, default);
                 }
             }
         }
