@@ -38,7 +38,7 @@ namespace HenryMod.SkillStates.BaseStates
         public float duration;
         private bool hasFired;
         private float hitPauseTimer;
-        private OverlapAttack attack;
+        public OverlapAttack attack;
         protected bool inHitPause;
         private bool hasHopped;
         protected float stopwatch;

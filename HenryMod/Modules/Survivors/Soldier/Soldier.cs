@@ -266,7 +266,7 @@ namespace HenryMod.Modules.Survivors
             });
             SkillDef swordSkillDef = Modules.Skills.CreateSkillDef(new SkillDefInfo
             {
-                skillName = prefix + "SPECIAL_SWORD_NAME",
+                skillName = "SoldierSwordSkill",
                 skillNameToken = prefix + "SPECIAL_SWORD_NAME",
                 skillDescriptionToken = prefix + "SPECIAL_SWORD_DESCRIPTION",
                 skillIcon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("texPrimaryIcon"),

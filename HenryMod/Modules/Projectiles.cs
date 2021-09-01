@@ -48,13 +48,13 @@ namespace HenryMod.Modules
             stockRocketPrefab = CloneProjectilePrefab("PaladinRocket", "SoldierStockRocketProjectile");
 
             ProjectileImpactExplosion bombImpactExplosion = stockRocketPrefab.GetComponent<ProjectileImpactExplosion>();
-            //InitializeImpactExplosion(bombImpactExplosion);
+            InitializeImpactExplosion(bombImpactExplosion);
 
-            bombImpactExplosion.blastRadius = 16f;
+            bombImpactExplosion.blastRadius = 6f;
             bombImpactExplosion.destroyOnEnemy = true;
             bombImpactExplosion.destroyOnWorld = true;
             bombImpactExplosion.lifetime = 12f;
-            bombImpactExplosion.impactEffect = Modules.Assets.bombExplosionEffect;
+            //bombImpactExplosion.impactEffect = Modules.Assets.bombExplosionEffect;
             bombImpactExplosion.timerAfterImpact = false;
             bombImpactExplosion.lifetimeAfterImpact = 0.1f;
 
@@ -66,15 +66,16 @@ namespace HenryMod.Modules
             fastRocketPrefab = CloneProjectilePrefab("PaladinRocket", "SoldierFastRocketProjectile");
 
             ProjectileImpactExplosion impactExplosion = fastRocketPrefab.GetComponent<ProjectileImpactExplosion>();
+            InitializeImpactExplosion(impactExplosion);
             ProjectileImpactExplosionAirshot airshotImpactExplosion = stockRocketPrefab.AddComponent<ProjectileImpactExplosionAirshot>();
             InitializeAirshotImpactExplosion(airshotImpactExplosion, impactExplosion);
             UnityEngine.Object.Destroy(impactExplosion);
 
-            airshotImpactExplosion.blastRadius = 16f;
+            airshotImpactExplosion.blastRadius = 6f;
             airshotImpactExplosion.destroyOnEnemy = true;
             airshotImpactExplosion.destroyOnWorld = true;
             airshotImpactExplosion.lifetime = 12f;
-            airshotImpactExplosion.impactEffect = Modules.Assets.bombExplosionEffect;
+            //airshotImpactExplosion.impactEffect = Modules.Assets.bombExplosionEffect;
             airshotImpactExplosion.timerAfterImpact = false;
             airshotImpactExplosion.lifetimeAfterImpact = 0.1f;
 
@@ -88,13 +89,13 @@ namespace HenryMod.Modules
             healRocketPrefab = CloneProjectilePrefab("PaladinRocket", "SoldierHealRocketProjectile");
 
             ProjectileImpactExplosion bombImpactExplosion = healRocketPrefab.GetComponent<ProjectileImpactExplosion>();
-            //InitializeImpactExplosion(bombImpactExplosion);
+            InitializeImpactExplosion(bombImpactExplosion);
 
-            bombImpactExplosion.blastRadius = 16f;
+            bombImpactExplosion.blastRadius = 6f;
             bombImpactExplosion.destroyOnEnemy = true;
             bombImpactExplosion.destroyOnWorld = true;
             bombImpactExplosion.lifetime = 12f;
-            bombImpactExplosion.impactEffect = Modules.Assets.bombExplosionEffect;
+            //bombImpactExplosion.impactEffect = Modules.Assets.bombExplosionEffect;
             bombImpactExplosion.timerAfterImpact = false;
             bombImpactExplosion.lifetimeAfterImpact = 0.1f;
 
@@ -103,7 +104,7 @@ namespace HenryMod.Modules
 
             ProjectileHealOwnerOnDamageInflicted projectileHeal = healRocketPrefab.AddComponent<ProjectileHealOwnerOnDamageInflicted>();
             projectileHeal.projectileController = bombController;
-            projectileHeal.fractionOfDamage = 0.15f;
+            projectileHeal.fractionOfDamage = StaticValues.healRocketRecoverPercentage;
         }
 
         private static void CreateDamageBuffWard()
@@ -181,27 +182,6 @@ namespace HenryMod.Modules
             projectileImpactExplosionAirshot.stopwatchAfterImpact = projectileImpactExplosion.stopwatchAfterImpact;
             projectileImpactExplosionAirshot.transformSpace = projectileImpactExplosion.transformSpace;
             projectileImpactExplosionAirshot.useLocalSpaceForChildren = projectileImpactExplosion.useLocalSpaceForChildren;
-
-            /*projectileImpactExplosionAirshot.blastDamageCoefficient = 1f;
-            projectileImpactExplosionAirshot.blastProcCoefficient = 1f;
-            projectileImpactExplosionAirshot.blastRadius = 1f;
-            projectileImpactExplosionAirshot.bonusBlastForce = Vector3.zero;
-            projectileImpactExplosionAirshot.childrenCount = 0;
-            projectileImpactExplosionAirshot.childrenDamageCoefficient = 0f;
-            projectileImpactExplosionAirshot.childrenProjectilePrefab = null;
-            projectileImpactExplosionAirshot.destroyOnEnemy = false;
-            projectileImpactExplosionAirshot.destroyOnWorld = false;
-            projectileImpactExplosionAirshot.falloffModel = RoR2.BlastAttack.FalloffModel.None;
-            projectileImpactExplosionAirshot.fireChildren = false;
-            projectileImpactExplosionAirshot.impactEffect = null;
-            projectileImpactExplosionAirshot.lifetime = 0f;
-            projectileImpactExplosionAirshot.lifetimeAfterImpact = 0f;
-            projectileImpactExplosionAirshot.lifetimeExpiredSound = null;
-            projectileImpactExplosionAirshot.lifetimeRandomOffset = 0f;
-            projectileImpactExplosionAirshot.offsetForLifetimeExpiredSound = 0f;
-            projectileImpactExplosionAirshot.timerAfterImpact = false;
-
-            projectileImpactExplosionAirshot.GetComponent<ProjectileDamage>().damageType = DamageType.Generic;*/
         }
 
         private static GameObject CreateGhostPrefab(string ghostName)
