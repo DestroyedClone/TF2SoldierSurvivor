@@ -10,7 +10,7 @@ namespace HenryMod.Modules
              + "< ! > Roll has a lingering armor buff that helps to use it aggressively." + Environment.NewLine + Environment.NewLine
              + "< ! > Bomb can be used to wipe crowds with ease." + Environment.NewLine + Environment.NewLine;
 
-        internal const float selfPushForce = 100f;
+        internal const float selfPushForce = 10000f;
 
         // primary
         internal const float selfDamageCoefficient = 0.05f;

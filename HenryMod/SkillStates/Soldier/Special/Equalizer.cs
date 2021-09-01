@@ -6,7 +6,7 @@ namespace HenryMod.SkillStates
 {
     public class Equalizer : BaseMeleeAttack
     {
-        readonly float origDamage = Modules.StaticValues.swordDamageCoefficient;
+        readonly float origDamage = Modules.StaticValues.pickDamageCoefficient;
 
         public override void OnEnter()
         {

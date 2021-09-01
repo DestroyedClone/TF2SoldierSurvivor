@@ -1,23 +1,31 @@
 ﻿using HenryMod.SkillStates.BaseStates;
 using RoR2;
 using UnityEngine;
+using HenryMod.Modules.SurvivorComponents;
 
 namespace HenryMod.SkillStates
 {
     public class MarketGardener : BaseMeleeAttack
     {
+        public RocketJumpComponent rocketJumpComponent;
+
         public override void OnEnter()
         {
             this.hitboxName = "Sword";
 
-            if (this.characterMotor.isGrounded)
+            rocketJumpComponent = gameObject.GetComponent<RocketJumpComponent>();
+            if (rocketJumpComponent && rocketJumpComponent.isRocketJumping)
             {
-                this.damageCoefficient = Modules.StaticValues.swordDamageCoefficient;
-                this.pushForce = 300f;
-            } else
-            {
-                this.damageCoefficient = Modules.StaticValues.swordDamageCoefficient * 2f;
-                this.pushForce = 600f;
+                if (this.characterMotor)
+                {
+                    if (!this.characterMotor.isGrounded)
+                    {
+                        this.damageCoefficient = Modules.StaticValues.gardenDamageCoefficient;
+                    } else
+                    {
+                        this.damageCoefficient = Modules.StaticValues.gardenJumpDamageCoefficient;
+                    }
+                }
             }
 
             this.damageType = DamageType.Generic;

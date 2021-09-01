@@ -85,6 +85,16 @@ namespace HenryMod
             GlobalEventManager.onServerDamageDealt += GlobalEventManager_onServerDamageDealt;
             GlobalEventManager.onServerDamageDealt += ConchHealOnHit;
             On.RoR2.BlastAttack.Fire += BlastAttack_Fire;
+            CharacterBody.onBodyStartGlobal += CharacterBody_onBodyStartGlobal;
+        }
+
+        private void CharacterBody_onBodyStartGlobal(CharacterBody obj)
+        {
+            var comp = obj.GetComponent<Modules.SurvivorComponents.RocketJumpComponent>();
+            if (!comp)
+            {
+                comp = obj.gameObject.AddComponent<Modules.SurvivorComponents.RocketJumpComponent>();
+            }
         }
 
         private void ConchHealOnHit(DamageReport obj)
@@ -101,21 +111,32 @@ namespace HenryMod
         private BlastAttack.Result BlastAttack_Fire(On.RoR2.BlastAttack.orig_Fire orig, BlastAttack self)
         {
             // done because i cant intercept and have it collect the 
-            if (self.attacker)
+            if (DamageAPI.HasModdedDamageType(self, Modules.DamageTypes.soldierRocketDamageType))
             {
-                var cm = self.attacker.GetComponent<CharacterMotor>();
-                if (cm)
+                if (self.attacker)
                 {
-                    var attackerPos = self.attacker.gameObject.transform.position;
-                    var dist = Vector3.Distance(attackerPos, self.position);
-                    if (dist <= self.radius)
+                    var cm = self.attacker.GetComponent<CharacterMotor>();
+                    if (cm)
                     {
-                        var distFraction = 1 / (self.radius - dist / self.radius);
-                        var power = distFraction * StaticValues.selfPushForce;
+                        var attackerPos = self.attacker.gameObject.transform.position;
+                        var dist = Vector3.Distance(attackerPos, self.position);
+                        if (dist <= self.radius)
+                        {
+                            var distFraction = 1 / (self.radius - dist / self.radius);
+                            var power = distFraction * StaticValues.selfPushForce;
 
-                        Vector3 forceDirection = (attackerPos- self.position).normalized;
+                            Vector3 forceDirection = (attackerPos - self.position).normalized;
 
-                        cm.ApplyForce(forceDirection * power);
+                            cm.ApplyForce(forceDirection * power, true);
+
+                            var comp = cm.GetComponent<Modules.SurvivorComponents.RocketJumpComponent>();
+                            if (comp)
+                            {
+                                comp.isRocketJumping = true;
+                            }
+
+                            //cm.rootMotion += forceDirection * distFraction * 100f;
+                        }
                     }
                 }
             }
@@ -185,13 +206,12 @@ namespace HenryMod
                 }
 
                 // Specials
-                if (sender.skillLocator?.special?.skillDef == Soldier.pickSkillDef)
+                if (sender.skillLocator && sender.skillLocator.special && sender.skillLocator.special.skillDef == Soldier.pickSkillDef)
                 {
                     var healthLost = sender.healthComponent.fullHealth - sender.healthComponent.health;
                     var fraction = healthLost / sender.healthComponent.fullHealth;
-                    var newFraction = fraction / 1;
 
-                    args.moveSpeedMultAdd += newFraction * StaticValues.pickSpeedScaleCoefficient;
+                    args.moveSpeedMultAdd += fraction * StaticValues.pickSpeedScaleCoefficient;
                 }
             }
         }
