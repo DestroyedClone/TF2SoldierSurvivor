@@ -22,7 +22,7 @@ namespace HenryMod.SkillStates
         {
             base.OnEnter();
             this.duration = BaseShootRocket.baseDuration / this.attackSpeedStat;
-            this.fireTime = 0.35f * this.duration;
+            this.fireTime = 0.25f * this.duration;
             base.characterBody.SetAimTimer(2f);
             this.animator = base.GetModelAnimator();
 

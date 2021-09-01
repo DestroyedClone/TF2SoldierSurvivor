@@ -101,7 +101,7 @@ namespace HenryMod.Modules.Survivors
             SkillDef stockRocketSkillDef = Modules.Skills.CreateSkillDef(new SkillDefInfo
             {
                 skillName = prefix + "PRIMARY_STOCK_NAME",
-                skillNameToken = prefix + "PRIMARY_STOCK_DESCRIPTION",
+                skillNameToken = prefix + "PRIMARY_STOCK_NAME",
                 skillDescriptionToken = prefix + "PRIMARY_STOCK_DESCRIPTION",
                 skillIcon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("texPrimaryIcon"),
                 activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.ShootStockRocket)),
@@ -122,10 +122,57 @@ namespace HenryMod.Modules.Survivors
                 stockToConsume = 1,
                 keywordTokens = new string[] { "KEYWORD_AGILE", prefix + "KEYWORD_SELFDMG" }
             });
+            SkillDef fastRocketSkillDef = Modules.Skills.CreateSkillDef(new SkillDefInfo
+            {
+                skillName = prefix + "PRIMARY_FAST_NAME",
+                skillNameToken = prefix + "PRIMARY_FAST_NAME",
+                skillDescriptionToken = prefix + "PRIMARY_FAST_DESCRIPTION",
+                skillIcon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("texPrimaryIcon"),
+                activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.ShootFastRocket)),
+                activationStateMachineName = "Weapon",
+                baseMaxStock = 1,
+                baseRechargeInterval = 1f,
+                beginSkillCooldownOnSkillEnd = false,
+                canceledFromSprinting = false,
+                forceSprintDuringState = false,
+                fullRestockOnAssign = true,
+                interruptPriority = EntityStates.InterruptPriority.Skill,
+                resetCooldownTimerOnUse = false,
+                isCombatSkill = true,
+                mustKeyPress = false,
+                cancelSprintingOnActivation = false,
+                rechargeStock = 1,
+                requiredStock = 1,
+                stockToConsume = 1,
+                keywordTokens = new string[] { "KEYWORD_AGILE", prefix + "KEYWORD_SELFDMG" }
+            });
 
+            SkillDef healRocketSkillDef = Modules.Skills.CreateSkillDef(new SkillDefInfo
+            {
+                skillName = prefix + "PRIMARY_HEAL_NAME",
+                skillNameToken = prefix + "PRIMARY_HEAL_NAME",
+                skillDescriptionToken = prefix + "PRIMARY_HEAL_DESCRIPTION",
+                skillIcon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("texPrimaryIcon"),
+                activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.ShootHealRocket)),
+                activationStateMachineName = "Weapon",
+                baseMaxStock = 1,
+                baseRechargeInterval = 1f,
+                beginSkillCooldownOnSkillEnd = false,
+                canceledFromSprinting = false,
+                forceSprintDuringState = false,
+                fullRestockOnAssign = true,
+                interruptPriority = EntityStates.InterruptPriority.Skill,
+                resetCooldownTimerOnUse = false,
+                isCombatSkill = true,
+                mustKeyPress = false,
+                cancelSprintingOnActivation = false,
+                rechargeStock = 1,
+                requiredStock = 1,
+                stockToConsume = 1,
+                keywordTokens = new string[] { "KEYWORD_AGILE", prefix + "KEYWORD_SELFDMG" }
+            });
 
-
-            foreach (var skillDef in new SkillDef[] { stockRocketSkillDef })
+            foreach (var skillDef in new SkillDef[] { stockRocketSkillDef, fastRocketSkillDef, healRocketSkillDef })
             {
                 Modules.Skills.AddPrimarySkill(bodyPrefab, skillDef);
             }
@@ -138,7 +185,7 @@ namespace HenryMod.Modules.Survivors
             SkillDef shotgunSkillDef = Modules.Skills.CreateSkillDef(new SkillDefInfo
             {
                 skillName = prefix + "SECONDARY_SHOTGUN_NAME",
-                skillNameToken = prefix + "SECONDARY_SHOTGUN_DESCRIPTION",
+                skillNameToken = prefix + "SECONDARY_SHOTGUN_NAME",
                 skillDescriptionToken = prefix + "SECONDARY_SHOTGUN_DESCRIPTION",
                 skillIcon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("texSecondaryIcon"),
                 activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.FireShotgun)),
@@ -165,13 +212,62 @@ namespace HenryMod.Modules.Survivors
 
             #region Utility
 
-            //Modules.Skills.AddUtilitySkills(bodyPrefab, rollSkillDef);
+            SkillDef utilityskillDef = Modules.Skills.CreateSkillDef(new SkillDefInfo
+            {
+                skillName = prefix + "SECONDARY_SHOTGUN_NAME",
+                skillNameToken = prefix + "SECONDARY_SHOTGUN_NAME",
+                skillDescriptionToken = prefix + "SECONDARY_SHOTGUN_DESCRIPTION",
+                skillIcon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("texSecondaryIcon"),
+                activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.FireShotgun)),
+                activationStateMachineName = "Weapon",
+                baseMaxStock = 6,
+                baseRechargeInterval = 1f,
+                beginSkillCooldownOnSkillEnd = false,
+                canceledFromSprinting = false,
+                forceSprintDuringState = false,
+                fullRestockOnAssign = true,
+                interruptPriority = EntityStates.InterruptPriority.Skill,
+                resetCooldownTimerOnUse = false,
+                isCombatSkill = true,
+                mustKeyPress = false,
+                cancelSprintingOnActivation = false,
+                rechargeStock = 1,
+                requiredStock = 1,
+                stockToConsume = 1,
+                keywordTokens = new string[] { "KEYWORD_AGILE" }
+            });
+
+            Modules.Skills.AddUtilitySkills(bodyPrefab, new SkillDef[] { utilityskillDef });
             #endregion
 
             #region Special
 
+            SkillDef specialSkillDef = Modules.Skills.CreateSkillDef(new SkillDefInfo
+            {
+                skillName = prefix + "SECONDARY_SHOTGUN_NAME",
+                skillNameToken = prefix + "SECONDARY_SHOTGUN_NAME",
+                skillDescriptionToken = prefix + "SECONDARY_SHOTGUN_DESCRIPTION",
+                skillIcon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("texSecondaryIcon"),
+                activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.FireShotgun)),
+                activationStateMachineName = "Weapon",
+                baseMaxStock = 6,
+                baseRechargeInterval = 1f,
+                beginSkillCooldownOnSkillEnd = false,
+                canceledFromSprinting = false,
+                forceSprintDuringState = false,
+                fullRestockOnAssign = true,
+                interruptPriority = EntityStates.InterruptPriority.Skill,
+                resetCooldownTimerOnUse = false,
+                isCombatSkill = true,
+                mustKeyPress = false,
+                cancelSprintingOnActivation = false,
+                rechargeStock = 1,
+                requiredStock = 1,
+                stockToConsume = 1,
+                keywordTokens = new string[] { "KEYWORD_AGILE" }
+            });
 
-            //Modules.Skills.AddSpecialSkills(bodyPrefab, bombSkillDef);
+            Modules.Skills.AddSpecialSkills(bodyPrefab, new SkillDef[] { specialSkillDef });
             #endregion
         }
 

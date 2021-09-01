@@ -6,7 +6,7 @@ namespace HenryMod.SkillStates
 {
     public class FireShotgun : BaseSkillState
     {
-        public static float damageCoefficient = Modules.StaticValues.gunDamageCoefficient;
+        public static float damageCoefficient = Modules.StaticValues.shotgunDamageCoefficient;
         public static float procCoefficient = 1f;
         public static float baseDuration = 0.6f;
         public static float force = 800f;
@@ -63,20 +63,20 @@ namespace HenryMod.SkillStates
                         force = FireShotgun.force,
                         hitMask = LayerIndex.CommonMasks.bullet,
                         minSpread = 0f,
-                        maxSpread = 0f,
+                        maxSpread = 3f,
                         isCrit = base.RollCrit(),
                         owner = base.gameObject,
                         muzzleName = muzzleString,
                         smartCollision = false,
                         procChainMask = default(ProcChainMask),
                         procCoefficient = procCoefficient,
-                        radius = 0.75f,
+                        radius = 1f,
                         sniper = false,
                         stopperMask = LayerIndex.CommonMasks.bullet,
                         weapon = null,
                         tracerEffectPrefab = FireShotgun.tracerEffectPrefab,
-                        spreadPitchScale = 0f,
-                        spreadYawScale = 0f,
+                        spreadPitchScale = 1f,
+                        spreadYawScale = 1f,
                         queryTriggerInteraction = QueryTriggerInteraction.UseGlobal,
                         hitEffectPrefab = EntityStates.Commando.CommandoWeapon.FirePistol2.hitEffectPrefab,
                     }.Fire();

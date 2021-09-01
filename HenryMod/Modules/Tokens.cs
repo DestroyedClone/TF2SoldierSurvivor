@@ -61,7 +61,7 @@ namespace HenryMod.Modules
 
             #region Secondary
             LanguageAPI.Add(prefix + "SECONDARY_SHOTGUN_NAME", $"Shotgun");
-            LanguageAPI.Add(prefix + "SECONDARY_SHOTGUN_DESCRIPTION", $"Fire a blast of bullets for <style=cIsDamage>{StaticValues.shotgunBullets}x{StaticValues.shotgunDamageCoefficient}% damage</style>." +
+            LanguageAPI.Add(prefix + "SECONDARY_SHOTGUN_DESCRIPTION", $"Fire a blast of bullets for <style=cIsDamage>{StaticValues.shotgunBullets}x{100 * StaticValues.shotgunDamageCoefficient}% damage</style>." +
                 $" Critical hits have a 1m explosion radius.");
 
             LanguageAPI.Add(prefix + "SECONDARY_BISON_NAME", $"Righteous Bison");
