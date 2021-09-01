@@ -89,6 +89,8 @@ namespace HenryMod.Modules.Survivors
             Modules.Prefabs.SetupHitbox(model, hitboxTransform, "Sword");
         }
 
+        public static SkillDef swordSkillDef;
+
         internal override void InitializeSkills()
         {
             Modules.Skills.CreateSkillFamilies(bodyPrefab);
@@ -264,7 +266,7 @@ namespace HenryMod.Modules.Survivors
                 stockToConsume = 1,
                 keywordTokens = new string[] { "KEYWORD_AGILE" }
             });
-            SkillDef swordSkillDef = Modules.Skills.CreateSkillDef(new SkillDefInfo
+            swordSkillDef = Modules.Skills.CreateSkillDef(new SkillDefInfo
             {
                 skillName = "SoldierSwordSkill",
                 skillNameToken = prefix + "SPECIAL_SWORD_NAME",

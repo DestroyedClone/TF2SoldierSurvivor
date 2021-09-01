@@ -38,5 +38,9 @@ namespace HenryMod.Modules
 
         internal const float tankBuffArmorBoost = 60f;
 
+        // special
+        internal const float swordHealNormal = 0.05f;
+        internal const float swordHealBoss = 0.15f;
+        internal const float swordHealDuo = 1f;
     }
 }

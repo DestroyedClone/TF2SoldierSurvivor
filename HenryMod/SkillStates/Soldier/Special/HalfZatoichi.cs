@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace HenryMod.SkillStates
 {
-    public class HalfZatoichi : BaseMeleeAttack, IOnKilledOtherServerReceiver
+    public class HalfZatoichi : BaseMeleeAttack
     {
         readonly float origDamage = Modules.StaticValues.swordDamageCoefficient;
 
@@ -33,16 +33,17 @@ namespace HenryMod.SkillStates
 
             this.impactSound = Modules.Assets.swordHitSoundEvent.index;
 
-            this.attack.maximumOverlapTargets = 1;
+
+            //this.attack.maximumOverlapTargets = 1;
 
             base.OnEnter();
-        }
-
-        public void OnKilledOtherServer(DamageReport damageReport)
-        {
-            if (damageReport.attacker = base.characterBody.gameObject)
+            try
             {
-                base.healthComponent.Heal(damageReport.victimIsBoss ? 0.5f : 0.01f, default);
+                R2API.DamageAPI.AddModdedDamageType(attack, Modules.DamageTypes.zatoichiKillDamageType);
+            }
+            catch
+            {
+                Chat.AddMessage("Failed to add damage type");
             }
         }
 
@@ -59,23 +60,6 @@ namespace HenryMod.SkillStates
         protected override void PlaySwingEffect()
         {
             base.PlaySwingEffect();
-        }
-
-        protected override void OnHitEnemyAuthority()
-        {
-            base.OnHitEnemyAuthority();
-            if (this.attack.overlapList.Count > 0)
-            {
-                var enemy = this.attack.overlapList[0];
-                if (enemy.hurtBox && enemy.hurtBox.healthComponent && enemy.hurtBox.healthComponent)
-                {
-                    var skillLocator = enemy.hurtBox.healthComponent.GetComponent<SkillLocator>();
-                    if (skillLocator && skillLocator.utility && skillLocator.utility.skillName == "SoldierSwordSkill")
-                    {
-                        enemy.hurtBox.healthComponent.Suicide(gameObject);
-                    }
-                }
-            }
         }
 
         protected override void SetNextState()

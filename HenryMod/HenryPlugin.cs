@@ -7,6 +7,8 @@ using System.Security;
 using System.Security.Permissions;
 using static R2API.RecalculateStatsAPI;
 using R2API;
+using UnityEngine;
+using HenryMod.Modules;
 
 [module: UnverifiableCode]
 #pragma warning disable CS0618 // Type or member is obsolete
@@ -23,6 +25,7 @@ namespace HenryMod
         "PrefabAPI",
         "LanguageAPI",
         "SoundAPI",
+        "DamageAPI"
     })]
     [R2APISubmoduleDependency(nameof(LanguageAPI))]
 
@@ -42,6 +45,8 @@ namespace HenryMod
 
         public static HenryPlugin instance;
 
+        public static R2API.DamageAPI.ModdedDamageType zatoichiKillDamageType;
+
         private void Awake()
         {
             instance = this;
@@ -54,6 +59,7 @@ namespace HenryMod
             Modules.Projectiles.RegisterProjectiles(); // add and register custom projectiles
             Modules.Tokens.AddTokens(); // register name tokens
             Modules.ItemDisplays.PopulateDisplays(); // collect item display prefabs for use in our display rules
+            Modules.DamageTypes.SetupDamageTypes();
 
             // survivor initialization
             new Soldier().Initialize();
@@ -75,6 +81,77 @@ namespace HenryMod
         private void Hook()
         {
             GetStatCoefficients += HenryPlugin_GetStatCoefficients;
+            GlobalEventManager.onCharacterDeathGlobal += GlobalEventManager_onCharacterDeathGlobal;
+            GlobalEventManager.onServerDamageDealt += GlobalEventManager_onServerDamageDealt;
+            On.RoR2.BlastAttack.Fire += BlastAttack_Fire;
+        }
+
+        float pushForce = 750f;
+
+        private BlastAttack.Result BlastAttack_Fire(On.RoR2.BlastAttack.orig_Fire orig, BlastAttack self)
+        {
+            // done because i cant intercept and have it collect the 
+            if (self.attacker)
+            {
+                var cm = self.attacker.GetComponent<CharacterMotor>();
+                if (cm)
+                {
+                    var attackerPos = self.attacker.gameObject.transform.position;
+                    var dist = Vector3.Distance(attackerPos, self.position);
+                    if (dist <= self.radius)
+                    {
+                        var distFraction = 1 / (self.radius - dist / self.radius);
+                        var power = distFraction * pushForce;
+
+                        Vector3 forceDirection = (attackerPos- self.position).normalized;
+
+                        cm.rootMotion += forceDirection * power;
+                    }
+                }
+            }
+            return orig(self);
+        }
+
+        private Vector3 tracker = new Vector3(3.132f, 3.23f, 3.214f);
+
+        private void GlobalEventManager_onServerDamageDealt(DamageReport obj)
+        {
+            if (obj.damageInfo.HasModdedDamageType(Modules.DamageTypes.zatoichiKillDamageType))
+            {
+                var enemy = obj.victimBody;
+                if (enemy.healthComponent && !enemy.healthComponent.godMode)
+                {
+                    var skillLocator = enemy.healthComponent.GetComponent<SkillLocator>();
+                    if (skillLocator && skillLocator.special && skillLocator.special.skillDef == HenryMod.Modules.Survivors.Soldier.swordSkillDef)
+                    {
+                        //enemy.healthComponent.Suicide(gameObject);
+                        enemy.healthComponent.TakeDamage(new DamageInfo{
+                            attacker = gameObject,
+                            inflictor = gameObject,
+                            crit = true,
+                            damage = enemy.healthComponent.health*9,
+                            position = enemy.transform.position,
+                            force = new Vector3(3f, 3f, 3f),
+                        });
+                    }
+                }
+            }
+        }
+
+        private void GlobalEventManager_onCharacterDeathGlobal(DamageReport obj)
+        {
+            if (obj.damageInfo.HasModdedDamageType(Modules.DamageTypes.zatoichiKillDamageType))
+            {
+                var hc = obj.damageInfo.attacker.GetComponent<HealthComponent>();
+                if (obj.damageInfo.attacker && hc)
+                {
+                    if (obj.damageInfo.force == tracker)
+                    {
+                        hc.HealFraction(StaticValues.swordHealDuo, default);
+                    }
+                    hc.HealFraction(obj.victimIsBoss ? StaticValues.swordHealBoss : StaticValues.swordHealNormal, default);
+                }
+            }
         }
 
         private void HenryPlugin_GetStatCoefficients(CharacterBody sender, StatHookEventArgs args)
