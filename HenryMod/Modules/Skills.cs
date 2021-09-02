@@ -21,6 +21,12 @@ namespace HenryMod.Modules
 
             SkillLocator skillLocator = targetPrefab.GetComponent<SkillLocator>();
 
+            var passiveSkill = targetPrefab.AddComponent<GenericSkill>();
+            SkillFamily passiveFamily = ScriptableObject.CreateInstance<SkillFamily>();
+            (passiveFamily as ScriptableObject).name = targetPrefab.name + "PassiveFamily";
+            passiveFamily.variants = new SkillFamily.Variant[0];
+            passiveSkill._skillFamily = passiveFamily;
+
             skillLocator.primary = targetPrefab.AddComponent<GenericSkill>();
             SkillFamily primaryFamily = ScriptableObject.CreateInstance<SkillFamily>();
             (primaryFamily as ScriptableObject).name = targetPrefab.name + "PrimaryFamily";
@@ -45,6 +51,7 @@ namespace HenryMod.Modules
             specialFamily.variants = new SkillFamily.Variant[0];
             skillLocator.special._skillFamily = specialFamily;
 
+            skillFamilies.Add(passiveFamily);
             skillFamilies.Add(primaryFamily);
             skillFamilies.Add(secondaryFamily);
             skillFamilies.Add(utilityFamily);
@@ -52,6 +59,34 @@ namespace HenryMod.Modules
         }
 
         // this could all be a lot cleaner but at least it's simple and easy to work with
+        internal static void AddPassiveSkill(GameObject targetPrefab, SkillDef skillDef)
+        {
+            SkillLocator skillLocator = targetPrefab.GetComponent<SkillLocator>();
+
+            var genericSkills = targetPrefab.GetComponents<GenericSkill>();
+            GenericSkill genericSkill = null;
+            foreach (var gs in genericSkills)
+            {
+                if (gs)
+                {
+                    genericSkill = gs;
+                    break;
+                }
+            }
+            if (!genericSkill)
+            {
+                Debug.LogWarning("Passive skill family not found");
+                return;
+            }
+            SkillFamily skillFamily = genericSkill.skillFamily;
+
+            Array.Resize(ref skillFamily.variants, skillFamily.variants.Length + 1);
+            skillFamily.variants[skillFamily.variants.Length - 1] = new SkillFamily.Variant
+            {
+                skillDef = skillDef,
+                viewableNode = new ViewablesCatalog.Node(skillDef.skillNameToken, false, null)
+            };
+        }
         internal static void AddPrimarySkill(GameObject targetPrefab, SkillDef skillDef)
         {
             SkillLocator skillLocator = targetPrefab.GetComponent<SkillLocator>();

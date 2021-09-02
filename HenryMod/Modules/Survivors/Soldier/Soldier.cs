@@ -100,6 +100,34 @@ namespace HenryMod.Modules.Survivors
             string bodyPrefix = "_SOLDIER_BODY_";
             string prefix = devPrefix + bodyPrefix;
 
+            #region Passive
+            SkillDef gunboatSkillDef = Modules.Skills.CreateSkillDef(new SkillDefInfo
+            {
+                skillName = prefix + "PASSIVE_GUNBOATS_NAME",
+                skillNameToken = prefix + "PASSIVE_GUNBOATS_NAME",
+                skillDescriptionToken = prefix + "PASSIVE_GUNBOATS_DESCRIPTION",
+                skillIcon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("texSpecialIcon"),
+                activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.ShootStockRocket)),
+                activationStateMachineName = "Weapon",
+                baseMaxStock = 1,
+                baseRechargeInterval = 1f,
+                beginSkillCooldownOnSkillEnd = false,
+                canceledFromSprinting = false,
+                forceSprintDuringState = false,
+                fullRestockOnAssign = true,
+                interruptPriority = EntityStates.InterruptPriority.Skill,
+                resetCooldownTimerOnUse = false,
+                isCombatSkill = true,
+                mustKeyPress = false,
+                cancelSprintingOnActivation = false,
+                rechargeStock = 1,
+                requiredStock = 1,
+                stockToConsume = 1,
+                keywordTokens = new string[] { "KEYWORD_AGILE", prefix + "KEYWORD_SELFDMG" }
+            });
+            Modules.Skills.AddPassiveSkill(bodyPrefab, gunboatSkillDef);
+            #endregion
+
             #region Primary
             SkillDef stockRocketSkillDef = Modules.Skills.CreateSkillDef(new SkillDefInfo
             {
