@@ -197,7 +197,8 @@ namespace HenryMod.Modules
 
             public void Start()
             {
-                characterMotor = projectileImpactExplosion.projectileController.owner.GetComponent<CharacterMaster>().bodyInstanceObject.GetComponent<CharacterMotor>();
+                if (!characterMotor)
+                    characterMotor = projectileImpactExplosion.projectileController.owner.GetComponent<CharacterMotor>();
             }
 
             public void OnProjectileImpact(ProjectileImpactInfo projectileImpactInfo)
@@ -209,7 +210,6 @@ namespace HenryMod.Modules
                     var dist = Vector3.Distance(attackerPos, projectileImpactInfo.estimatedPointOfImpact);
                     if (dist <= blastRadius) //within blast radius
                     {
-                        Chat.AddMessage("In range!");
                         var distFractionA = (blastRadius - dist) / blastRadius;
                         var distFractionB = 1 / distFractionA;
                         var power = distFractionB * StaticValues.selfPushForce;
