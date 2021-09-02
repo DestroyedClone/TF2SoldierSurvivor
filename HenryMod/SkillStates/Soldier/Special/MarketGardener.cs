@@ -13,19 +13,11 @@ namespace HenryMod.SkillStates
         {
             this.hitboxName = "Sword";
 
+            this.damageCoefficient = Modules.StaticValues.gardenDamageCoefficient;
             rocketJumpComponent = gameObject.GetComponent<RocketJumpComponent>();
             if (rocketJumpComponent && rocketJumpComponent.isRocketJumping)
             {
-                if (this.characterMotor)
-                {
-                    if (!this.characterMotor.isGrounded)
-                    {
-                        this.damageCoefficient = Modules.StaticValues.gardenDamageCoefficient;
-                    } else
-                    {
-                        this.damageCoefficient = Modules.StaticValues.gardenJumpDamageCoefficient;
-                    }
-                }
+                this.damageCoefficient = Modules.StaticValues.gardenJumpDamageCoefficient;
             }
 
             this.damageType = DamageType.Generic;

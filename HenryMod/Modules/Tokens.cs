@@ -35,13 +35,14 @@ namespace HenryMod.Modules
 
             #region Passive
             LanguageAPI.Add(prefix + "PASSIVE_GUNBOATS_NAME", "Gunboats");
-            LanguageAPI.Add(prefix + "PASSIVE_GUNBOATS_DESCRIPTION", "+35% resistance to explosive damage, and +75% rocket jump resistance.");
+            LanguageAPI.Add(prefix + "PASSIVE_GUNBOATS_DESCRIPTION", $"<style=cIsUtility>+{100 * StaticValues.gunboatsRocketJumpResistance}% rocket jump resistance</style>.");
 
             LanguageAPI.Add(prefix + "PASSIVE_MANTREADS_NAME", "Mantreads");
-            LanguageAPI.Add(prefix + "PASSIVE_MANTREADS_DESCRIPTION", "+50% push force from rocket jumps, and become able to stomp enemies based on velocity. 75% reduction in knockback from enemy damage.");
+            LanguageAPI.Add(prefix + "PASSIVE_MANTREADS_DESCRIPTION", $"<style=cIsUtility>+{100 * StaticValues.mantreadsRocketJumpForceAdditive} push force from rocket jumps</style>" +
+                $" and <style=cIsUtility>{100 * StaticValues.mantreadsPushForceResistance}% reduction in knockback from enemy damage</style>.");
 
             LanguageAPI.Add(prefix + "PASSIVE_PARACHUTE_NAME", "B.A.S.E. Jumper");
-            LanguageAPI.Add(prefix + "PASSIVE_PARACHUTE_DESCRIPTION", "Become able to parachute midair. 25% rocket jump resistance.");
+            LanguageAPI.Add(prefix + "PASSIVE_PARACHUTE_DESCRIPTION", $"Become able to parachute midair. 25% rocket jump resistance.");
 
             #endregion
 

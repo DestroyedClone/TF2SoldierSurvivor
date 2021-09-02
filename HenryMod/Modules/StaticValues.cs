@@ -7,6 +7,12 @@ namespace HenryMod.Modules
         internal const float selfPushForce = 900f;
         internal const float airshotDamageMultiplier = 2f;
 
+        // passive
+        internal const float gunboatsRocketJumpResistance = 0.75f;
+
+        internal const float mantreadsRocketJumpForceAdditive = 0.5f;
+        internal const float mantreadsPushForceResistance = 0.75f;
+
         // primary
         internal const float selfDamageCoefficient = 0.05f;
 

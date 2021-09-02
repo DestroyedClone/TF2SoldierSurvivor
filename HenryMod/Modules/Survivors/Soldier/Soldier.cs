@@ -107,7 +107,7 @@ namespace HenryMod.Modules.Survivors
                 skillNameToken = prefix + "PASSIVE_GUNBOATS_NAME",
                 skillDescriptionToken = prefix + "PASSIVE_GUNBOATS_DESCRIPTION",
                 skillIcon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("texSpecialIcon"),
-                activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.ShootStockRocket)),
+                activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.Gunboats)),
                 activationStateMachineName = "Weapon",
                 baseMaxStock = 1,
                 baseRechargeInterval = 1f,
@@ -125,7 +125,31 @@ namespace HenryMod.Modules.Survivors
                 stockToConsume = 1,
                 keywordTokens = new string[] { }
             });
-            Modules.Skills.AddPassiveSkill(bodyPrefab, gunboatSkillDef);
+            SkillDef mantreadSkillDef = Modules.Skills.CreateSkillDef(new SkillDefInfo
+            {
+                skillName = prefix + "PASSIVE_MANTREADS_NAME",
+                skillNameToken = prefix + "PASSIVE_MANTREADS_NAME",
+                skillDescriptionToken = prefix + "PASSIVE_MANTREADS_DESCRIPTION",
+                skillIcon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("texSpecialIcon"),
+                activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.Mantreads)),
+                activationStateMachineName = "Weapon",
+                baseMaxStock = 1,
+                baseRechargeInterval = 1f,
+                beginSkillCooldownOnSkillEnd = false,
+                canceledFromSprinting = false,
+                forceSprintDuringState = false,
+                fullRestockOnAssign = true,
+                interruptPriority = EntityStates.InterruptPriority.Skill,
+                resetCooldownTimerOnUse = false,
+                isCombatSkill = true,
+                mustKeyPress = false,
+                cancelSprintingOnActivation = false,
+                rechargeStock = 1,
+                requiredStock = 1,
+                stockToConsume = 1,
+                keywordTokens = new string[] { }
+            });
+            Modules.Skills.AddPassiveSkills(bodyPrefab, new SkillDef[] { gunboatSkillDef, mantreadSkillDef });
             #endregion
 
             #region Primary

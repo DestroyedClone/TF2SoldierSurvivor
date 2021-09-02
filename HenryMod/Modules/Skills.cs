@@ -59,6 +59,59 @@ namespace HenryMod.Modules
         }
 
         // this could all be a lot cleaner but at least it's simple and easy to work with
+
+        internal static bool HasSkillInCustomFamily(GameObject bodyPrefab, SkillDef skillDef)
+        {
+            var genericSkills = bodyPrefab.GetComponents<GenericSkill>();
+            foreach (var genericSkill in genericSkills)
+            {
+                if (genericSkill.skillDef == skillDef)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        internal static bool HasSkill(GameObject bodyPrefab, byte slot, SkillDef skillDef)
+        {
+            var skillLocator = bodyPrefab.GetComponent<SkillLocator>();
+            if (skillLocator)
+            {
+                switch (slot)
+                {
+                    case 0:
+                        if (skillLocator.primary && skillLocator.primary.skillDef == skillDef)
+                        {
+                            return true;
+                        }
+                        break;
+                    case 1:
+                        if (skillLocator.secondary && skillLocator.secondary.skillDef == skillDef)
+                        {
+                            return true;
+                        }
+                        break;
+                    case 2:
+                        if (skillLocator.utility && skillLocator.utility.skillDef == skillDef)
+                        {
+                            return true;
+                        }
+                        break;
+                    case 3:
+                        if (skillLocator.special && skillLocator.special.skillDef == skillDef)
+                        {
+                            return true;
+                        }
+                        break;
+                    default:
+                        Debug.LogError("Invalid Slot for HasSkill");
+                        break;
+                }
+            }
+            return false;
+        }
+
         internal static void AddPassiveSkill(GameObject targetPrefab, SkillDef skillDef)
         {
             SkillFamily skillFamily = null;

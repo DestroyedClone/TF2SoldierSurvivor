@@ -72,7 +72,7 @@ namespace HenryMod
             new Modules.ContentPacks().Initialize();
 
             RoR2.ContentManagement.ContentManager.onContentPacksAssigned += LateSetup;
-
+            
             Hook();
         }
 
@@ -85,15 +85,38 @@ namespace HenryMod
         private void Hook()
         {
             GetStatCoefficients += HenryPlugin_GetStatCoefficients;
+            // Passive
+            On.RoR2.HealthComponent.TakeDamageForce_DamageInfo_bool_bool += Mantreads_ReduceKnockbackDI;
+            On.RoR2.HealthComponent.TakeDamageForce_Vector3_bool_bool += Mantreads_ReduceKnockbackVector3;
+            // Primary
+
+            // Secondary
+
+            // Utility
+            GlobalEventManager.onServerDamageDealt += ConchHealOnHit;
+            // Special
             GlobalEventManager.onCharacterDeathGlobal += SwordHealOnKill;
             GlobalEventManager.onServerDamageDealt += SwordMurderSword;
-            GlobalEventManager.onServerDamageDealt += ConchHealOnHit;
+            // Other
             GlobalEventManager.onServerDamageDealt += AirshotDamageType;
             On.RoR2.CharacterMotor.Start += GiveRocketJumpComponent;
             On.RoR2.UI.LoadoutPanelController.Row.FromSkillSlot += Row_FromSkillSlot;
+            
             //IL.RoR2.UI.LoadoutPanelController.Row.FromSkillSlot += RenameMiscToPassive;
 
             LanguageAPI.Add("LOADOUT_SKILL_PASSIVE", "Passive");
+        }
+
+        private void Mantreads_ReduceKnockbackVector3(On.RoR2.HealthComponent.orig_TakeDamageForce_Vector3_bool_bool orig, HealthComponent self, Vector3 force, bool alwaysApply, bool disableAirControlUntilCollision)
+        {
+            var newMultiplier = 1f - StaticValues.mantreadsPushForceResistance;
+            if (self.GetComponent<SkillLocator>())
+            orig(self, force, alwaysApply, disableAirControlUntilCollision);
+        }
+
+        private void Mantreads_ReduceKnockbackDI(On.RoR2.HealthComponent.orig_TakeDamageForce_DamageInfo_bool_bool orig, HealthComponent self, DamageInfo damageInfo, bool alwaysApply, bool disableAirControlUntilCollision)
+        {
+            throw new NotImplementedException();
         }
 
         private void RenameMiscToPassive(ILContext il)
