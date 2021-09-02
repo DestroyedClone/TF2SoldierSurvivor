@@ -15,6 +15,7 @@ namespace HenryMod.Modules
         internal static GameObject stockRocketPrefab;
         internal static GameObject fastRocketPrefab;
         internal static GameObject healRocketPrefab;
+        internal static GameObject noDamageRocketPrefab;
 
         internal static GameObject damageBuffWard;
         internal static GameObject healBuffWard;
@@ -25,6 +26,7 @@ namespace HenryMod.Modules
             CreateStockRocket();
             CreateFastRocket();
             CreateHealRocket();
+            CreateNoDamageRocket();
 
             CreateDamageBuffWard();
             CreateDamageHealWard();
@@ -117,6 +119,30 @@ namespace HenryMod.Modules
 
             RocketJumpBlastComponent rocketJumpBlastComponent = stockRocketPrefab.AddComponent<RocketJumpBlastComponent>();
             rocketJumpBlastComponent.projectileImpactExplosion = bombImpactExplosion;
+        }
+        private static void CreateNoDamageRocket()
+        {
+            noDamageRocketPrefab = CloneProjectilePrefab("PaladinRocket", "SoldierNoDamageRocketProjectile");
+
+            ProjectileImpactExplosion bombImpactExplosion = stockRocketPrefab.GetComponent<ProjectileImpactExplosion>();
+            InitializeImpactExplosion(bombImpactExplosion);
+
+            bombImpactExplosion.blastRadius = 6f;
+            bombImpactExplosion.destroyOnEnemy = true;
+            bombImpactExplosion.destroyOnWorld = true;
+            bombImpactExplosion.lifetime = 12f;
+            //bombImpactExplosion.impactEffect = Modules.Assets.bombExplosionEffect;
+            bombImpactExplosion.timerAfterImpact = false;
+            bombImpactExplosion.lifetimeAfterImpact = 0.1f;
+
+            ProjectileDamage projectileDamage = stockRocketPrefab.GetComponent<ProjectileDamage>();
+
+            ProjectileController bombController = stockRocketPrefab.GetComponent<ProjectileController>();
+            bombController.startSound = "";
+
+            RocketJumpBlastComponent rocketJumpBlastComponent = stockRocketPrefab.AddComponent<RocketJumpBlastComponent>();
+            rocketJumpBlastComponent.projectileImpactExplosion = bombImpactExplosion;
+            rocketJumpBlastComponent.shouldDealDamage = false;
         }
 
         private static void CreateDamageBuffWard()

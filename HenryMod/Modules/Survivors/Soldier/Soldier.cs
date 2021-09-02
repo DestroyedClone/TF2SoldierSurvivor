@@ -202,7 +202,31 @@ namespace HenryMod.Modules.Survivors
                 stockToConsume = 1,
                 keywordTokens = new string[] { "KEYWORD_AGILE", prefix + "KEYWORD_SELFDMG" }
             });
-            Skills.AddPrimarySkills(bodyPrefab, new SkillDef[] { stockRocketSkillDef, fastRocketSkillDef, healRocketSkillDef });
+            SkillDef noDamageRocketSkillDef = Modules.Skills.CreateSkillDef(new SkillDefInfo
+            {
+                skillName = prefix + "PRIMARY_NODAMAGE_NAME",
+                skillNameToken = prefix + "PRIMARY_NODAMAGE_NAME",
+                skillDescriptionToken = prefix + "PRIMARY_NODAMAGE_DESCRIPTION",
+                skillIcon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("texSpecialIcon"),
+                activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.ShootNoDamageRocket)),
+                activationStateMachineName = "Weapon",
+                baseMaxStock = 1,
+                baseRechargeInterval = 1f,
+                beginSkillCooldownOnSkillEnd = false,
+                canceledFromSprinting = false,
+                forceSprintDuringState = false,
+                fullRestockOnAssign = true,
+                interruptPriority = EntityStates.InterruptPriority.Skill,
+                resetCooldownTimerOnUse = false,
+                isCombatSkill = false,
+                mustKeyPress = false,
+                cancelSprintingOnActivation = false,
+                rechargeStock = 1,
+                requiredStock = 1,
+                stockToConsume = 1,
+                keywordTokens = new string[] { "KEYWORD_AGILE", prefix + "KEYWORD_SELFDMG" }
+            });
+            Skills.AddPrimarySkills(bodyPrefab, new SkillDef[] { stockRocketSkillDef, fastRocketSkillDef, healRocketSkillDef, noDamageRocketSkillDef });
 
             #endregion
 

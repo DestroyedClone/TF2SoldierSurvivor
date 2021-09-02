@@ -59,6 +59,11 @@ namespace HenryMod.Modules
             LanguageAPI.Add(prefix + "PRIMARY_HEAL_NAME", "Black Box");
             LanguageAPI.Add(prefix + "PRIMARY_HEAL_DESCRIPTION", Helpers.agilePrefix + Helpers.selfDamagePrefix + 
                 $"Fire a rocket for <style=cIsDamage>{100 * StaticValues.healRocketDamageCoefficient}% damage</style> and heal for <style=cIsHealing>{100 * StaticValues.healRocketRecoverPercentage}% of the damage dealt</style>. {selfDamage}");
+
+            LanguageAPI.Add(prefix + "PRIMARY_NODAMAGE_NAME", "Rocket Jumper");
+            LanguageAPI.Add(prefix + "PRIMARY_NODAMAGE_DESCRIPTION", Helpers.agilePrefix +
+                $"Fire a rocket for <style=cIsDamage>0% damage</style>.");
+
             #endregion
 
             #region Secondary
