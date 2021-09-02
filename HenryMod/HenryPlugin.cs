@@ -84,10 +84,18 @@ namespace HenryMod
             GlobalEventManager.onCharacterDeathGlobal += SwordHealOnKill;
             GlobalEventManager.onServerDamageDealt += SwordMurderSword;
             GlobalEventManager.onServerDamageDealt += ConchHealOnHit;
+            GlobalEventManager.onServerDamageDealt += AirshotDamageType;
             On.RoR2.BlastAttack.Fire += RocketJump;
             On.RoR2.CharacterMotor.Start += GiveRocketJumpComponent;
         }
 
+        private void AirshotDamageType(DamageReport obj)
+        {
+            if (DamageAPI.HasModdedDamageType(obj.damageInfo, Modules.DamageTypes.airshotDamageType))
+            {
+                obj.damageInfo.damage *= StaticValues.airshotDamageMultiplier;
+            }
+        }
 
         private void GiveRocketJumpComponent(On.RoR2.CharacterMotor.orig_Start orig, CharacterMotor self)
         {

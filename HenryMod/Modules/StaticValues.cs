@@ -5,6 +5,7 @@ namespace HenryMod.Modules
     internal static class StaticValues
     {
         internal const float selfPushForce = 1000f;
+        internal const float airshotDamageMultiplier = 2f;
 
         // primary
         internal const float selfDamageCoefficient = 0.05f;

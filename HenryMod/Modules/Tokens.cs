@@ -127,8 +127,8 @@ namespace HenryMod.Modules
 
             #region Keywords
 
-            LanguageAPI.Add(prefix + "KEYWORD_AIRSHOT", "Deals increased damage to airborne targets.");
-            LanguageAPI.Add(prefix + "KEYWORD_SELFDMG", "Deals damage to self.");
+            LanguageAPI.Add(prefix + "KEYWORD_AIRSHOT", $"Deals +{100 * StaticValues.airshotDamageMultiplier}% damage to airborne targets.");
+            LanguageAPI.Add(prefix + "KEYWORD_SELFDMG", $"Deals damage to self.");
             #endregion
 
             #endregion
