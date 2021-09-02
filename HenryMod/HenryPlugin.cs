@@ -10,6 +10,10 @@ using R2API;
 using UnityEngine;
 using HenryMod.Modules;
 
+using Mono.Cecil.Cil;
+using MonoMod.Cil;
+using System;
+
 [module: UnverifiableCode]
 #pragma warning disable CS0618 // Type or member is obsolete
 [assembly: SecurityPermission(SecurityAction.RequestMinimum, SkipVerification = true)]
@@ -85,8 +89,95 @@ namespace HenryMod
             GlobalEventManager.onServerDamageDealt += SwordMurderSword;
             GlobalEventManager.onServerDamageDealt += ConchHealOnHit;
             GlobalEventManager.onServerDamageDealt += AirshotDamageType;
-            On.RoR2.BlastAttack.Fire += RocketJump;
             On.RoR2.CharacterMotor.Start += GiveRocketJumpComponent;
+            On.RoR2.UI.LoadoutPanelController.Row.FromSkillSlot += Row_FromSkillSlot;
+            //IL.RoR2.UI.LoadoutPanelController.Row.FromSkillSlot += RenameMiscToPassive;
+
+            LanguageAPI.Add("LOADOUT_SKILL_PASSIVE", "Passive");
+        }
+
+        private void RenameMiscToPassive(ILContext il)
+        {
+            var c = new ILCursor(il);
+            c.GotoNext(
+                x => x.MatchLdstr("LOADOUT_SKILL_MISC"),
+                x => x.MatchStloc(2)
+                );
+            c.Remove();
+            c.Emit(OpCodes.Ldfld);
+            c.EmitDelegate<Func<BodyIndex, string>>((bi) =>
+            {
+                var bodyPrefab = BodyCatalog.GetBodyPrefabBodyComponent(bi);
+                if (bodyPrefab)
+                {
+                    int bars = 1;
+                    if (bars > 0)
+                    {
+                        return "other";
+                    }
+                }
+                return "";
+            });
+        }
+
+        private object Row_FromSkillSlot(On.RoR2.UI.LoadoutPanelController.Row.orig_FromSkillSlot orig, RoR2.UI.LoadoutPanelController owner, BodyIndex bodyIndex, int skillSlotIndex, GenericSkill skillSlot)
+        {
+            RoR2.Skills.SkillFamily skillFamily = skillSlot.skillFamily;
+            SkillLocator component = BodyCatalog.GetBodyPrefabBodyComponent(bodyIndex).GetComponent<SkillLocator>();
+            bool addWIPIcons = false;
+            string titleToken;
+            switch (component.FindSkillSlot(skillSlot))
+            {
+                case SkillSlot.None:
+                    var bodyPrefab = BodyCatalog.GetBodyPrefabBodyComponent(bodyIndex);
+                    if ((skillSlot.skillFamily as ScriptableObject).name == bodyPrefab.name + "PassiveFamily")
+                    {
+                        titleToken = "LOADOUT_SKILL_PASSIVE";
+                        addWIPIcons = false;
+                        break;
+                    }
+                    titleToken = "LOADOUT_SKILL_MISC";
+                    addWIPIcons = false;
+                    break;
+                case SkillSlot.Primary:
+                    titleToken = "LOADOUT_SKILL_PRIMARY";
+                    addWIPIcons = false;
+                    break;
+                case SkillSlot.Secondary:
+                    titleToken = "LOADOUT_SKILL_SECONDARY";
+                    break;
+                case SkillSlot.Utility:
+                    titleToken = "LOADOUT_SKILL_UTILITY";
+                    break;
+                case SkillSlot.Special:
+                    titleToken = "LOADOUT_SKILL_SPECIAL";
+                    break;
+                default:
+                    throw new System.ArgumentOutOfRangeException();
+            }
+            RoR2.UI.LoadoutPanelController.Row row = new RoR2.UI.LoadoutPanelController.Row(owner, bodyIndex, titleToken);
+            for (int i = 0; i < skillFamily.variants.Length; i++)
+            {
+                ref RoR2.Skills.SkillFamily.Variant ptr = ref skillFamily.variants[i];
+                uint skillVariantIndexToAssign = (uint)i;
+                RoR2.UI.LoadoutPanelController.Row row2 = row;
+                Sprite icon = ptr.skillDef.icon;
+                string skillNameToken = ptr.skillDef.skillNameToken;
+                string skillDescriptionToken = ptr.skillDef.skillDescriptionToken;
+                Color tooltipColor = row.primaryColor;
+                UnityEngine.Events.UnityAction callback = delegate ()
+                {
+                    Loadout loadout = new Loadout();
+                    row.userProfile.CopyLoadout(loadout);
+                    loadout.bodyLoadoutManager.SetSkillVariant(bodyIndex, skillSlotIndex, skillVariantIndexToAssign);
+                    row.userProfile.SetLoadout(loadout);
+                };
+                UnlockableDef unlockableDef = ptr.unlockableDef;
+                row2.AddButton(owner, icon, skillNameToken, skillDescriptionToken, tooltipColor, callback, ((unlockableDef != null) ? unlockableDef.cachedName : null) ?? "", ptr.viewableNode, false);
+            }
+            row.findCurrentChoice = ((Loadout loadout) => (int)loadout.bodyLoadoutManager.GetSkillVariant(bodyIndex, skillSlotIndex));
+            row.FinishSetup(addWIPIcons);
+            return row;
         }
 
         private void AirshotDamageType(DamageReport obj)
@@ -109,50 +200,6 @@ namespace HenryMod
                 }
                 comp.characterMotor = self;
             }
-        }
-        private BlastAttack.Result RocketJump(On.RoR2.BlastAttack.orig_Fire orig, BlastAttack self)
-        {
-            // done because i cant intercept and have it collect the 
-            if (DamageAPI.HasModdedDamageType(self, Modules.DamageTypes.soldierRocketDamageType))
-            {
-                if (self.attacker)
-                {
-                    var cm = self.attacker.GetComponent<CharacterMotor>();
-                    if (cm)
-                    {
-                        var attackerPos = cm.body.footPosition;
-                        var dist = Vector3.Distance(attackerPos, self.position);
-                        if (dist <= self.radius)
-                        {
-                            Chat.AddMessage("In range!");
-                            var distFraction = 1 / (self.radius - dist / self.radius);
-                            var power = distFraction * StaticValues.selfPushForce;
-
-                            Vector3 forceDirection = (attackerPos - self.position).normalized;
-
-                            var hc = self.attacker.GetComponent<HealthComponent>();
-                            hc.TakeDamage(new DamageInfo
-                            {
-                                attacker = self.attacker,
-                                damage = StaticValues.selfDamageCoefficient * hc.body.damage,
-                                position = self.attacker.transform.position,
-
-                            });
-
-                            //cm.ApplyForce(forceDirection * power, true);
-
-                            var comp = cm.GetComponent<Modules.SurvivorComponents.RocketJumpComponent>();
-                            if (comp)
-                            {
-                                comp.isRocketJumping = true;
-                            }
-                            cm.rootMotion += forceDirection * distFraction;
-                            //cm.rootMotion += forceDirection * distFraction * 100f;
-                        }
-                    }
-                }
-            }
-            return orig(self);
         }
 
         #region utility

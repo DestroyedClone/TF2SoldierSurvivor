@@ -123,7 +123,7 @@ namespace HenryMod.Modules.Survivors
                 rechargeStock = 1,
                 requiredStock = 1,
                 stockToConsume = 1,
-                keywordTokens = new string[] { "KEYWORD_AGILE", prefix + "KEYWORD_SELFDMG" }
+                keywordTokens = new string[] { }
             });
             Modules.Skills.AddPassiveSkill(bodyPrefab, gunboatSkillDef);
             #endregion
@@ -202,11 +202,7 @@ namespace HenryMod.Modules.Survivors
                 stockToConsume = 1,
                 keywordTokens = new string[] { "KEYWORD_AGILE", prefix + "KEYWORD_SELFDMG" }
             });
-
-            foreach (var skillDef in new SkillDef[] { stockRocketSkillDef, fastRocketSkillDef, healRocketSkillDef })
-            {
-                Modules.Skills.AddPrimarySkill(bodyPrefab, skillDef);
-            }
+            Skills.AddPrimarySkills(bodyPrefab, new SkillDef[] { stockRocketSkillDef, fastRocketSkillDef, healRocketSkillDef });
 
             #endregion
 

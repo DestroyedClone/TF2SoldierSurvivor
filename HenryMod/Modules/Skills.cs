@@ -61,24 +61,19 @@ namespace HenryMod.Modules
         // this could all be a lot cleaner but at least it's simple and easy to work with
         internal static void AddPassiveSkill(GameObject targetPrefab, SkillDef skillDef)
         {
-            SkillLocator skillLocator = targetPrefab.GetComponent<SkillLocator>();
-
-            var genericSkills = targetPrefab.GetComponents<GenericSkill>();
-            GenericSkill genericSkill = null;
-            foreach (var gs in genericSkills)
+            SkillFamily skillFamily = null;
+            foreach (var sf in skillFamilies)
             {
-                if (gs)
+                if ((sf as ScriptableObject).name == targetPrefab.name + "PassiveFamily")
                 {
-                    genericSkill = gs;
-                    break;
+                    skillFamily = sf;
                 }
             }
-            if (!genericSkill)
+            if (!skillFamily)
             {
                 Debug.LogWarning("Passive skill family not found");
                 return;
             }
-            SkillFamily skillFamily = genericSkill.skillFamily;
 
             Array.Resize(ref skillFamily.variants, skillFamily.variants.Length + 1);
             skillFamily.variants[skillFamily.variants.Length - 1] = new SkillFamily.Variant
@@ -87,6 +82,15 @@ namespace HenryMod.Modules
                 viewableNode = new ViewablesCatalog.Node(skillDef.skillNameToken, false, null)
             };
         }
+
+        internal static void AddPassiveSkills(GameObject targetPrefab, params SkillDef[] skillDefs)
+        {
+            foreach (SkillDef i in skillDefs)
+            {
+                AddPassiveSkill(targetPrefab, i);
+            }
+        }
+
         internal static void AddPrimarySkill(GameObject targetPrefab, SkillDef skillDef)
         {
             SkillLocator skillLocator = targetPrefab.GetComponent<SkillLocator>();
@@ -99,6 +103,14 @@ namespace HenryMod.Modules
                 skillDef = skillDef,
                 viewableNode = new ViewablesCatalog.Node(skillDef.skillNameToken, false, null)
             };
+        }
+
+        internal static void AddPrimarySkills(GameObject targetPrefab, params SkillDef[] skillDefs)
+        {
+            foreach (SkillDef i in skillDefs)
+            {
+                AddPrimarySkill(targetPrefab, i);
+            }
         }
 
         internal static void AddSecondarySkill(GameObject targetPrefab, SkillDef skillDef)

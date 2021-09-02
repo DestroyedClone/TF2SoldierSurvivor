@@ -64,6 +64,9 @@ namespace HenryMod.Modules
 
             ProjectileController bombController = stockRocketPrefab.GetComponent<ProjectileController>();
             bombController.startSound = "";
+
+            RocketJumpBlastComponent rocketJumpBlastComponent = stockRocketPrefab.AddComponent<RocketJumpBlastComponent>();
+            rocketJumpBlastComponent.projectileImpactExplosion = bombImpactExplosion;
         }
         private static void CreateFastRocket()
         {
@@ -84,7 +87,6 @@ namespace HenryMod.Modules
             bombController.startSound = "";
 
             var moddedDamageTypeComponent = stockRocketPrefab.AddComponent<DamageAPI.ModdedDamageTypeHolderComponent>();
-            moddedDamageTypeComponent.Add(Modules.DamageTypes.soldierRocketDamageType);
             moddedDamageTypeComponent.Add(Modules.DamageTypes.airshotDamageType);
 
         }
@@ -109,9 +111,6 @@ namespace HenryMod.Modules
             ProjectileHealOwnerOnDamageInflicted projectileHeal = healRocketPrefab.AddComponent<ProjectileHealOwnerOnDamageInflicted>();
             projectileHeal.projectileController = bombController;
             projectileHeal.fractionOfDamage = StaticValues.healRocketRecoverPercentage;
-
-            var moddedDamageTypeComponent = stockRocketPrefab.AddComponent<DamageAPI.ModdedDamageTypeHolderComponent>();
-            moddedDamageTypeComponent.Add(Modules.DamageTypes.soldierRocketDamageType);
         }
 
         private static void CreateDamageBuffWard()
@@ -159,9 +158,9 @@ namespace HenryMod.Modules
             projectileImpactExplosion.childrenProjectilePrefab = null;
             projectileImpactExplosion.destroyOnEnemy = false;
             projectileImpactExplosion.destroyOnWorld = false;
-            projectileImpactExplosion.falloffModel = RoR2.BlastAttack.FalloffModel.None;
+            projectileImpactExplosion.falloffModel = RoR2.BlastAttack.FalloffModel.Linear;
             projectileImpactExplosion.fireChildren = false;
-            projectileImpactExplosion.impactEffect = null;
+            //projectileImpactExplosion.impactEffect = null;
             projectileImpactExplosion.lifetime = 0f;
             projectileImpactExplosion.lifetimeAfterImpact = 0f;
             projectileImpactExplosion.lifetimeExpiredSound = null;
@@ -191,6 +190,53 @@ namespace HenryMod.Modules
         #endregion
 
         #region classes
+        public class RocketJumpBlastComponent : MonoBehaviour, IProjectileImpactBehavior
+        {
+            public CharacterMotor characterMotor;
+            public ProjectileImpactExplosion projectileImpactExplosion;
+
+            public void Start()
+            {
+                characterMotor = projectileImpactExplosion.projectileController.owner.GetComponent<CharacterMaster>().bodyInstanceObject.GetComponent<CharacterMotor>();
+            }
+
+            public void OnProjectileImpact(ProjectileImpactInfo projectileImpactInfo)
+            {
+                if (characterMotor)
+                {
+                    var blastRadius = projectileImpactExplosion.blastRadius;
+                    var attackerPos = characterMotor.body.footPosition;
+                    var dist = Vector3.Distance(attackerPos, projectileImpactInfo.estimatedPointOfImpact);
+                    if (dist <= blastRadius) //within blast radius
+                    {
+                        Chat.AddMessage("In range!");
+                        var distFractionA = (blastRadius - dist) / blastRadius;
+                        var distFractionB = 1 / distFractionA;
+                        var power = distFractionB * StaticValues.selfPushForce;
+
+                        Vector3 forceDirection = (attackerPos - projectileImpactInfo.estimatedPointOfImpact).normalized;
+
+                        var hc = characterMotor.GetComponent<HealthComponent>();
+                        hc.TakeDamage(new DamageInfo
+                        {
+                            attacker = characterMotor.gameObject,
+                            damage = StaticValues.selfDamageCoefficient * hc.body.damage * distFractionA,
+                            position = characterMotor.body.corePosition,
+                        });
+
+                        characterMotor.ApplyForce(forceDirection * power, true);
+
+                        var comp = characterMotor.GetComponent<Modules.SurvivorComponents.RocketJumpComponent>();
+                        if (comp)
+                        {
+                            comp.isRocketJumping = true;
+                        }
+                        //cm.rootMotion += forceDirection * distFraction;
+                        //cm.rootMotion += forceDirection * distFraction * 100f;
+                    }
+                }
+            }
+        }
         #endregion
     }
 }
