@@ -9,11 +9,13 @@ namespace HenryMod.Modules
     {
         internal static DamageAPI.ModdedDamageType zatoichiKillDamageType;
         internal static DamageAPI.ModdedDamageType soldierRocketDamageType;
+        internal static DamageAPI.ModdedDamageType airshotDamageType;
 
         internal static void SetupDamageTypes()
         {
             zatoichiKillDamageType = R2API.DamageAPI.ReserveDamageType();
             soldierRocketDamageType = DamageAPI.ReserveDamageType();
+            airshotDamageType = DamageAPI.ReserveDamageType();
         }
     }
 }

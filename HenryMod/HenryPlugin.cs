@@ -81,34 +81,27 @@ namespace HenryMod
         private void Hook()
         {
             GetStatCoefficients += HenryPlugin_GetStatCoefficients;
-            GlobalEventManager.onCharacterDeathGlobal += GlobalEventManager_onCharacterDeathGlobal;
-            GlobalEventManager.onServerDamageDealt += GlobalEventManager_onServerDamageDealt;
+            GlobalEventManager.onCharacterDeathGlobal += SwordHealOnKill;
+            GlobalEventManager.onServerDamageDealt += SwordMurderSword;
             GlobalEventManager.onServerDamageDealt += ConchHealOnHit;
-            On.RoR2.BlastAttack.Fire += BlastAttack_Fire;
-            CharacterBody.onBodyStartGlobal += CharacterBody_onBodyStartGlobal;
+            On.RoR2.BlastAttack.Fire += RocketJump;
+            On.RoR2.CharacterMotor.Start += GiveRocketJumpComponent;
         }
 
-        private void CharacterBody_onBodyStartGlobal(CharacterBody obj)
-        {
-            var comp = obj.GetComponent<Modules.SurvivorComponents.RocketJumpComponent>();
-            if (!comp)
-            {
-                comp = obj.gameObject.AddComponent<Modules.SurvivorComponents.RocketJumpComponent>();
-            }
-        }
 
-        private void ConchHealOnHit(DamageReport obj)
+        private void GiveRocketJumpComponent(On.RoR2.CharacterMotor.orig_Start orig, CharacterMotor self)
         {
-            if (obj.attackerBody && obj.attackerBody.healthComponent)
+            if (self)
             {
-                if (obj.attackerBody.GetBuffCount(Modules.Buffs.soldierBannerHeal) > 0)
+                var comp = self.GetComponent<Modules.SurvivorComponents.RocketJumpComponent>();
+                if (!comp)
                 {
-                    obj.attackerBody.healthComponent.Heal(StaticValues.healBuffRecoverCoefficient * obj.damageDealt, default);
+                    comp = self.gameObject.AddComponent<Modules.SurvivorComponents.RocketJumpComponent>();
                 }
+                comp.characterMotor = self;
             }
         }
-
-        private BlastAttack.Result BlastAttack_Fire(On.RoR2.BlastAttack.orig_Fire orig, BlastAttack self)
+        private BlastAttack.Result RocketJump(On.RoR2.BlastAttack.orig_Fire orig, BlastAttack self)
         {
             // done because i cant intercept and have it collect the 
             if (DamageAPI.HasModdedDamageType(self, Modules.DamageTypes.soldierRocketDamageType))
@@ -127,6 +120,15 @@ namespace HenryMod
 
                             Vector3 forceDirection = (attackerPos - self.position).normalized;
 
+                            var hc = self.attacker.GetComponent<HealthComponent>();
+                            hc.TakeDamage(new DamageInfo
+                            {
+                                attacker = self.attacker,
+                                damage = StaticValues.selfDamageCoefficient * hc.body.damage,
+                                position = self.attacker.transform.position,
+
+                            });
+
                             cm.ApplyForce(forceDirection * power, true);
 
                             var comp = cm.GetComponent<Modules.SurvivorComponents.RocketJumpComponent>();
@@ -143,9 +145,23 @@ namespace HenryMod
             return orig(self);
         }
 
+        #region utility
+        private void ConchHealOnHit(DamageReport obj)
+        {
+            if (obj.attackerBody && obj.attackerBody.healthComponent)
+            {
+                if (obj.attackerBody.GetBuffCount(Modules.Buffs.soldierBannerHeal) > 0)
+                {
+                    obj.attackerBody.healthComponent.Heal(StaticValues.healBuffRecoverCoefficient * obj.damageDealt, default);
+                }
+            }
+        }
+        #endregion
+
         private Vector3 tracker = new Vector3(3.132f, 3.23f, 3.214f);
 
-        private void GlobalEventManager_onServerDamageDealt(DamageReport obj)
+        #region specials
+        private void SwordMurderSword(DamageReport obj)
         {
             if (obj.damageInfo.HasModdedDamageType(Modules.DamageTypes.zatoichiKillDamageType))
             {
@@ -169,7 +185,7 @@ namespace HenryMod
             }
         }
 
-        private void GlobalEventManager_onCharacterDeathGlobal(DamageReport obj)
+        private void SwordHealOnKill(DamageReport obj)
         {
             if (obj.damageInfo.HasModdedDamageType(Modules.DamageTypes.zatoichiKillDamageType))
             {
@@ -184,6 +200,7 @@ namespace HenryMod
                 }
             }
         }
+        #endregion
 
         private void HenryPlugin_GetStatCoefficients(CharacterBody sender, StatHookEventArgs args)
         {

@@ -7,7 +7,7 @@ namespace HenryMod.SkillStates
 {
     public class BaseBlowBanner : BaseSkillState
     {
-        public static float baseDuration = 3.5f;
+        public static float baseDuration = 1.5f;
         public static float buffDuration = 8f;
         public static GameObject defenseUpPrefab = EntityStates.BeetleGuardMonster.DefenseUp.defenseUpPrefab;
         private Animator modelAnimator;

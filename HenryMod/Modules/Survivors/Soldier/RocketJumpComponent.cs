@@ -11,8 +11,13 @@ namespace HenryMod.Modules.SurvivorComponents
         public bool isRocketJumping = false;
         public CharacterMotor characterMotor;
 
-        private void Awake()
+        private void Start()
         {
+            if (!characterMotor)
+            {
+                characterMotor = gameObject.GetComponent<CharacterMotor>();
+            }
+
             characterMotor.onHitGround += characterMotor_onHitGround;
         }
 

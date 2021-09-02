@@ -58,6 +58,10 @@ namespace HenryMod.Modules
             bombImpactExplosion.timerAfterImpact = false;
             bombImpactExplosion.lifetimeAfterImpact = 0.1f;
 
+            ProjectileDamage projectileDamage = stockRocketPrefab.GetComponent<ProjectileDamage>();
+            var moddedDamageTypeComponent = stockRocketPrefab.AddComponent<DamageAPI.ModdedDamageTypeHolderComponent>();
+            moddedDamageTypeComponent.Add(Modules.DamageTypes.soldierRocketDamageType);
+
             ProjectileController bombController = stockRocketPrefab.GetComponent<ProjectileController>();
             bombController.startSound = "";
         }
@@ -67,21 +71,21 @@ namespace HenryMod.Modules
 
             ProjectileImpactExplosion impactExplosion = fastRocketPrefab.GetComponent<ProjectileImpactExplosion>();
             InitializeImpactExplosion(impactExplosion);
-            ProjectileImpactExplosionAirshot airshotImpactExplosion = stockRocketPrefab.AddComponent<ProjectileImpactExplosionAirshot>();
-            InitializeAirshotImpactExplosion(airshotImpactExplosion, impactExplosion);
-            UnityEngine.Object.Destroy(impactExplosion);
 
-            airshotImpactExplosion.blastRadius = 6f;
-            airshotImpactExplosion.destroyOnEnemy = true;
-            airshotImpactExplosion.destroyOnWorld = true;
-            airshotImpactExplosion.lifetime = 12f;
-            //airshotImpactExplosion.impactEffect = Modules.Assets.bombExplosionEffect;
-            airshotImpactExplosion.timerAfterImpact = false;
-            airshotImpactExplosion.lifetimeAfterImpact = 0.1f;
+            impactExplosion.blastRadius = 6f;
+            impactExplosion.destroyOnEnemy = true;
+            impactExplosion.destroyOnWorld = true;
+            impactExplosion.lifetime = 12f;
+            //impactExplosion.impactEffect = Modules.Assets.bombExplosionEffect;
+            impactExplosion.timerAfterImpact = false;
+            impactExplosion.lifetimeAfterImpact = 0.1f;
 
             ProjectileController bombController = fastRocketPrefab.GetComponent<ProjectileController>();
             bombController.startSound = "";
 
+            var moddedDamageTypeComponent = stockRocketPrefab.AddComponent<DamageAPI.ModdedDamageTypeHolderComponent>();
+            moddedDamageTypeComponent.Add(Modules.DamageTypes.soldierRocketDamageType);
+            moddedDamageTypeComponent.Add(Modules.DamageTypes.airshotDamageType);
 
         }
         private static void CreateHealRocket()
@@ -105,6 +109,9 @@ namespace HenryMod.Modules
             ProjectileHealOwnerOnDamageInflicted projectileHeal = healRocketPrefab.AddComponent<ProjectileHealOwnerOnDamageInflicted>();
             projectileHeal.projectileController = bombController;
             projectileHeal.fractionOfDamage = StaticValues.healRocketRecoverPercentage;
+
+            var moddedDamageTypeComponent = stockRocketPrefab.AddComponent<DamageAPI.ModdedDamageTypeHolderComponent>();
+            moddedDamageTypeComponent.Add(Modules.DamageTypes.soldierRocketDamageType);
         }
 
         private static void CreateDamageBuffWard()
@@ -165,25 +172,6 @@ namespace HenryMod.Modules
             projectileImpactExplosion.GetComponent<ProjectileDamage>().damageType = DamageType.Generic;
         }
 
-        private static void InitializeAirshotImpactExplosion(ProjectileImpactExplosionAirshot projectileImpactExplosionAirshot, ProjectileImpactExplosion projectileImpactExplosion)
-        {
-            projectileImpactExplosionAirshot.alive = projectileImpactExplosion.alive;
-            projectileImpactExplosionAirshot.blastAttackerFiltering = projectileImpactExplosion.blastAttackerFiltering;
-            projectileImpactExplosionAirshot.explosionEffect = projectileImpactExplosion.explosionEffect;
-            projectileImpactExplosionAirshot.hasImpact = projectileImpactExplosion.hasImpact;
-            projectileImpactExplosionAirshot.hasPlayedLifetimeExpiredSound = projectileImpactExplosion.hasPlayedLifetimeExpiredSound;
-            projectileImpactExplosionAirshot.impactNormal = projectileImpactExplosion.impactNormal;
-            projectileImpactExplosionAirshot.maxAngleOffset = projectileImpactExplosion.maxAngleOffset;
-            projectileImpactExplosionAirshot.minAngleOffset = projectileImpactExplosion.minAngleOffset;
-            projectileImpactExplosionAirshot.projectileController = projectileImpactExplosion.projectileController;
-            projectileImpactExplosionAirshot.projectileDamage = projectileImpactExplosion.projectileDamage;
-            projectileImpactExplosionAirshot.projectileHealthComponent = projectileImpactExplosion.projectileHealthComponent;
-            projectileImpactExplosionAirshot.stopwatch = projectileImpactExplosion.stopwatch;
-            projectileImpactExplosionAirshot.stopwatchAfterImpact = projectileImpactExplosion.stopwatchAfterImpact;
-            projectileImpactExplosionAirshot.transformSpace = projectileImpactExplosion.transformSpace;
-            projectileImpactExplosionAirshot.useLocalSpaceForChildren = projectileImpactExplosion.useLocalSpaceForChildren;
-        }
-
         private static GameObject CreateGhostPrefab(string ghostName)
         {
             GameObject ghostPrefab = Modules.Assets.mainAssetBundle.LoadAsset<GameObject>(ghostName);
@@ -203,77 +191,6 @@ namespace HenryMod.Modules
         #endregion
 
         #region classes
-        [RequireComponent(typeof(ProjectileController))]
-        private class ProjectileImpactExplosionAirshot : ProjectileImpactExplosion
-        {
-            public new void OnProjectileImpact(ProjectileImpactInfo impactInfo)
-            {
-                if (!this.alive)
-                {
-                    return;
-                }
-                Collider collider = impactInfo.collider;
-                this.impactNormal = impactInfo.estimatedImpactNormal;
-                if (collider)
-                {
-                    DamageInfo damageInfo = new DamageInfo();
-                    if (this.projectileDamage)
-                    {
-
-                        var comp = collider.GetComponent<HurtBox>();
-                        if (comp && comp?.healthComponent?.body?.characterMotor && !comp.healthComponent.body.characterMotor.isGrounded)
-                        {
-                            damageInfo.damage = this.projectileDamage.damage * 2f;
-                            damageInfo.crit = true;
-                        } else
-                        {
-                            damageInfo.damage = this.projectileDamage.damage;
-                            damageInfo.crit = this.projectileDamage.crit;
-                        }
-
-                        damageInfo.attacker = (this.projectileController.owner ? this.projectileController.owner.gameObject : null);
-                        damageInfo.inflictor = base.gameObject;
-                        damageInfo.position = impactInfo.estimatedPointOfImpact;
-                        damageInfo.force = this.projectileDamage.force * base.transform.forward;
-                        damageInfo.procChainMask = this.projectileController.procChainMask;
-                        damageInfo.procCoefficient = this.projectileController.procCoefficient;
-                    }
-                    else
-                    {
-                        Debug.Log("No projectile damage component!");
-                    }
-                    HurtBox component = collider.GetComponent<HurtBox>();
-                    if (component)
-                    {
-                        if (this.destroyOnEnemy)
-                        {
-                            HealthComponent healthComponent = component.healthComponent;
-                            if (healthComponent)
-                            {
-                                if (healthComponent.gameObject == this.projectileController.owner)
-                                {
-                                    return;
-                                }
-                                if (this.projectileHealthComponent && healthComponent == this.projectileHealthComponent)
-                                {
-                                    return;
-                                }
-                                this.alive = false;
-                            }
-                        }
-                    }
-                    else if (this.destroyOnWorld)
-                    {
-                        this.alive = false;
-                    }
-                    this.hasImpact = true;
-                    if (NetworkServer.active)
-                    {
-                        GlobalEventManager.instance.OnHitAll(damageInfo, collider.gameObject);
-                    }
-                }
-            }
-        }
         #endregion
     }
 }
