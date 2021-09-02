@@ -119,10 +119,11 @@ namespace HenryMod
                     var cm = self.attacker.GetComponent<CharacterMotor>();
                     if (cm)
                     {
-                        var attackerPos = self.attacker.gameObject.transform.position;
+                        var attackerPos = cm.body.footPosition;
                         var dist = Vector3.Distance(attackerPos, self.position);
                         if (dist <= self.radius)
                         {
+                            Chat.AddMessage("In range!");
                             var distFraction = 1 / (self.radius - dist / self.radius);
                             var power = distFraction * StaticValues.selfPushForce;
 
@@ -137,14 +138,14 @@ namespace HenryMod
 
                             });
 
-                            cm.ApplyForce(forceDirection * power, true);
+                            //cm.ApplyForce(forceDirection * power, true);
 
                             var comp = cm.GetComponent<Modules.SurvivorComponents.RocketJumpComponent>();
                             if (comp)
                             {
                                 comp.isRocketJumping = true;
                             }
-
+                            cm.rootMotion += forceDirection * distFraction;
                             //cm.rootMotion += forceDirection * distFraction * 100f;
                         }
                     }
