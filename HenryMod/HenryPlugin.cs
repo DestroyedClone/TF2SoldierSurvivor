@@ -99,6 +99,7 @@ namespace HenryMod
 
         private void GiveRocketJumpComponent(On.RoR2.CharacterMotor.orig_Start orig, CharacterMotor self)
         {
+            orig(self);
             if (self)
             {
                 var comp = self.GetComponent<Modules.SurvivorComponents.RocketJumpComponent>();
