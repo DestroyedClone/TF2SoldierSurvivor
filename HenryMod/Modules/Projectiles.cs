@@ -89,6 +89,9 @@ namespace HenryMod.Modules
             var moddedDamageTypeComponent = stockRocketPrefab.AddComponent<DamageAPI.ModdedDamageTypeHolderComponent>();
             moddedDamageTypeComponent.Add(Modules.DamageTypes.airshotDamageType);
 
+            RocketJumpBlastComponent rocketJumpBlastComponent = stockRocketPrefab.AddComponent<RocketJumpBlastComponent>();
+            rocketJumpBlastComponent.projectileImpactExplosion = impactExplosion;
+
         }
         private static void CreateHealRocket()
         {
@@ -111,6 +114,9 @@ namespace HenryMod.Modules
             ProjectileHealOwnerOnDamageInflicted projectileHeal = healRocketPrefab.AddComponent<ProjectileHealOwnerOnDamageInflicted>();
             projectileHeal.projectileController = bombController;
             projectileHeal.fractionOfDamage = StaticValues.healRocketRecoverPercentage;
+
+            RocketJumpBlastComponent rocketJumpBlastComponent = stockRocketPrefab.AddComponent<RocketJumpBlastComponent>();
+            rocketJumpBlastComponent.projectileImpactExplosion = bombImpactExplosion;
         }
 
         private static void CreateDamageBuffWard()
@@ -194,6 +200,7 @@ namespace HenryMod.Modules
         {
             public CharacterMotor characterMotor;
             public ProjectileImpactExplosion projectileImpactExplosion;
+            public bool shouldDealDamage = true;
 
             public void Start()
             {
@@ -216,13 +223,16 @@ namespace HenryMod.Modules
 
                         Vector3 forceDirection = (attackerPos - projectileImpactInfo.estimatedPointOfImpact).normalized;
 
-                        var hc = characterMotor.GetComponent<HealthComponent>();
-                        hc.TakeDamage(new DamageInfo
+                        if (shouldDealDamage)
                         {
-                            attacker = characterMotor.gameObject,
-                            damage = StaticValues.selfDamageCoefficient * hc.body.damage * distFractionA,
-                            position = characterMotor.body.corePosition,
-                        });
+                            var hc = characterMotor.GetComponent<HealthComponent>();
+                            hc.TakeDamage(new DamageInfo
+                            {
+                                attacker = characterMotor.gameObject,
+                                damage = StaticValues.selfDamageCoefficient * hc.body.damage * distFractionA,
+                                position = characterMotor.body.corePosition,
+                            });
+                        }
 
                         characterMotor.ApplyForce(forceDirection * power, true);
 
