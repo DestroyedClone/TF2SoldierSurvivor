@@ -11,7 +11,8 @@ namespace HenryMod.SkillStates
         public static float baseDuration = 0.6f;
         public static float force = 800f;
         public static float recoil = 3f;
-        public static float range = 256f;
+        public static float range = 128f;
+        public static uint bulletCount = 5U;
         public static GameObject tracerEffectPrefab = Resources.Load<GameObject>("Prefabs/Effects/Tracers/TracerGoldGat");
 
         private float duration;
@@ -52,7 +53,7 @@ namespace HenryMod.SkillStates
 
                     new BulletAttack
                     {
-                        bulletCount = 5,
+                        bulletCount = bulletCount,
                         aimVector = aimRay.direction,
                         origin = aimRay.origin,
                         damage = FireShotgun.damageCoefficient * this.damageStat,
@@ -62,14 +63,14 @@ namespace HenryMod.SkillStates
                         maxDistance = FireShotgun.range,
                         force = FireShotgun.force,
                         hitMask = LayerIndex.CommonMasks.bullet,
-                        minSpread = 0f,
-                        maxSpread = 3f,
+                        minSpread = 1f,
+                        maxSpread = 5f,
                         isCrit = base.RollCrit(),
                         owner = base.gameObject,
                         muzzleName = muzzleString,
                         smartCollision = false,
-                        procChainMask = default(ProcChainMask),
-                        procCoefficient = procCoefficient,
+                        procChainMask = default,
+                        procCoefficient = procCoefficient / bulletCount,
                         radius = 1f,
                         sniper = false,
                         stopperMask = LayerIndex.CommonMasks.bullet,
