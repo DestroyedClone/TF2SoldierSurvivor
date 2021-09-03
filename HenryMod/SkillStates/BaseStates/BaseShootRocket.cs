@@ -50,7 +50,7 @@ namespace HenryMod.SkillStates
                         Util.QuaternionSafeLookRotation(aimRay.direction), 
                         base.gameObject,
                         damageCoefficient * this.damageStat, 
-                        4000f, 
+                        2000f, 
                         base.RollCrit(), 
                         DamageColorIndex.Default, 
                         null,
