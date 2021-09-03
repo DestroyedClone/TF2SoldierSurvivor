@@ -9,7 +9,7 @@ namespace HenryMod.SkillStates
     {
         protected float damageCoefficient = 7f;
         public static float procCoefficient = 1f;
-        public static float baseDuration = 0.65f;
+        public static float baseDuration = 0.35f;
         public static float throwForce = 80f;
         protected GameObject projectilePrefab;
 
