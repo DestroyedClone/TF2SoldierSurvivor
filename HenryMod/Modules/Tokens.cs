@@ -96,11 +96,11 @@ namespace HenryMod.Modules
 
             LanguageAPI.Add(prefix + "SPECIAL_GARDEN_NAME", $"Market Gardener");
             LanguageAPI.Add(prefix + "SPECIAL_GARDEN_DESCRIPTION", $"Swing your shovel for <style=cIsDamage>{100 * StaticValues.gardenDamageCoefficient}% damage</style>." +
-                $" If you are <style=cIsUtility>airborne after rocket-jumping</style>, it deals <style=cIsDamage>{100 * StaticValues.gardenJumpDamageCoefficient}% damage</style>.");
+                $" If you are <style=cIsUtility>airborne after rocket-jumping</style>, it <style=cIsDamage>crits for {100 * StaticValues.gardenJumpDamageCoefficient}% damage</style>.");
 
             LanguageAPI.Add(prefix + "SPECIAL_GARDEN_SCEPTER_NAME", $"Australium Market Gardener");
             LanguageAPI.Add(prefix + "SPECIAL_GARDEN_SCEPTER_DESCRIPTION", $"Swing your shovel for <style=cIsDamage>{100 * StaticValues.gardenScepterDamageCoefficient}% damage</style>." +
-                $" If you are <style=cIsUtility>airborne after rocket-jumping</style>, it deals <style=cIsDamage>{100 * StaticValues.gardenScepterJumpDamageCoefficient}% damage</style>.");
+                $" If you are <style=cIsUtility>airborne after rocket-jumping</style>, it <style=cIsDamage>crits for {100 * StaticValues.gardenScepterJumpDamageCoefficient}% damage</style>.");
 
             LanguageAPI.Add(prefix + "SPECIAL_PICK_NAME", "Equalizer");
             LanguageAPI.Add(prefix + "SPECIAL_PICK_DESCRIPTION", $"Swing your pickaxe for <style=cIsDamage>{100 * StaticValues.pickDamageCoefficient}% damage</style>." +
