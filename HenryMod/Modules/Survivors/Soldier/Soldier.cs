@@ -374,6 +374,30 @@ namespace HenryMod.Modules.Survivors
 
             #region Special
 
+            SkillDef panSkillDef = Modules.Skills.CreateSkillDef(new SkillDefInfo
+            {
+                skillName = prefix + "SPECIAL_PAN_NAME",
+                skillNameToken = prefix + "SPECIAL_PAN_NAME",
+                skillDescriptionToken = prefix + "SPECIAL_PAN_DESCRIPTION",
+                skillIcon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("texPrimaryIcon"),
+                activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.FryingPan)),
+                activationStateMachineName = "Weapon",
+                baseMaxStock = 1,
+                baseRechargeInterval = 1f,
+                beginSkillCooldownOnSkillEnd = false,
+                canceledFromSprinting = false,
+                forceSprintDuringState = false,
+                fullRestockOnAssign = true,
+                interruptPriority = EntityStates.InterruptPriority.Skill,
+                resetCooldownTimerOnUse = false,
+                isCombatSkill = true,
+                mustKeyPress = false,
+                cancelSprintingOnActivation = false,
+                rechargeStock = 1,
+                requiredStock = 1,
+                stockToConsume = 1,
+                keywordTokens = new string[] { "KEYWORD_AGILE" }
+            });
             SkillDef gardenSkillDef = Modules.Skills.CreateSkillDef(new SkillDefInfo
             {
                 skillName = prefix + "SPECIAL_GARDEN_NAME",
@@ -447,7 +471,7 @@ namespace HenryMod.Modules.Survivors
                 keywordTokens = new string[] { "KEYWORD_AGILE" }
             });
 
-            Modules.Skills.AddSpecialSkills(bodyPrefab, new SkillDef[] { gardenSkillDef, swordSkillDef, pickSkillDef });
+            Modules.Skills.AddSpecialSkills(bodyPrefab, new SkillDef[] { gardenSkillDef, swordSkillDef, pickSkillDef, panSkillDef });
             #endregion
         }
 

@@ -93,6 +93,11 @@ namespace HenryMod.Modules
 
             #region Special
 
+            LanguageAPI.Add(prefix + "SPECIAL_PAN_NAME", $"Frying Pan");
+            LanguageAPI.Add(prefix + "SPECIAL_PAN_DESCRIPTION", $"Swing your pan for <style=cIsDamage>{100 * StaticValues.panDamageCoefficient}% damage</style>." +
+                $" Deals <style=cIsDamage>{100 * StaticValues.panCookDamageCoefficient}</style> to a burning target.");
+
+            
             LanguageAPI.Add(prefix + "SPECIAL_GARDEN_NAME", $"Market Gardener");
             LanguageAPI.Add(prefix + "SPECIAL_GARDEN_DESCRIPTION", $"Swing your shovel for <style=cIsDamage>{100 * StaticValues.gardenDamageCoefficient}% damage</style>." +
                 $" If you are <style=cIsUtility>airborne after rocket-jumping</style>, it <style=cIsDamage>crits for {100 * StaticValues.gardenJumpDamageCoefficient}% damage</style>.");

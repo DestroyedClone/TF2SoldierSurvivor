@@ -38,6 +38,12 @@ namespace HenryMod.Modules
         internal const float tankBuffArmorBoost = 60f;
 
         // special
+
+        internal const float panDamageCoefficient = 1f;
+        internal const float panCookDamageCoefficient = 1.1f;
+        internal const float panScepterDamageCoefficient = 5f;
+        internal const float panScepterCookDamageCoefficient = 5f;
+
         internal const float gardenDamageCoefficient = 1f;
         internal const float gardenJumpDamageCoefficient = 5f;
 
