@@ -69,6 +69,7 @@ namespace HenryMod.Modules
 
             RocketJumpBlastComponent rocketJumpBlastComponent = stockRocketPrefab.AddComponent<RocketJumpBlastComponent>();
             rocketJumpBlastComponent.projectileImpactExplosion = bombImpactExplosion;
+            rocketJumpBlastComponent.projectileController = bombImpactExplosion.projectileController;
         }
         private static void CreateFastRocket()
         {
@@ -93,6 +94,7 @@ namespace HenryMod.Modules
 
             RocketJumpBlastComponent rocketJumpBlastComponent = stockRocketPrefab.AddComponent<RocketJumpBlastComponent>();
             rocketJumpBlastComponent.projectileImpactExplosion = impactExplosion;
+            rocketJumpBlastComponent.projectileController = impactExplosion.projectileController;
 
         }
         private static void CreateHealRocket()
@@ -119,6 +121,7 @@ namespace HenryMod.Modules
 
             RocketJumpBlastComponent rocketJumpBlastComponent = stockRocketPrefab.AddComponent<RocketJumpBlastComponent>();
             rocketJumpBlastComponent.projectileImpactExplosion = bombImpactExplosion;
+            rocketJumpBlastComponent.projectileController = bombImpactExplosion.projectileController;
         }
         private static void CreateNoDamageRocket()
         {
@@ -142,6 +145,7 @@ namespace HenryMod.Modules
 
             RocketJumpBlastComponent rocketJumpBlastComponent = stockRocketPrefab.AddComponent<RocketJumpBlastComponent>();
             rocketJumpBlastComponent.projectileImpactExplosion = bombImpactExplosion;
+            rocketJumpBlastComponent.projectileController = bombImpactExplosion.projectileController;
             rocketJumpBlastComponent.shouldDealDamage = false;
         }
 
@@ -226,12 +230,13 @@ namespace HenryMod.Modules
         {
             public CharacterMotor characterMotor;
             public ProjectileImpactExplosion projectileImpactExplosion;
+            public ProjectileController projectileController;
             public bool shouldDealDamage = true;
 
             public void Start()
             {
                 if (!characterMotor)
-                    characterMotor = projectileImpactExplosion.projectileController.owner.GetComponent<CharacterMotor>();
+                    characterMotor = projectileController.owner.GetComponent<CharacterMotor>();
             }
 
             public void OnProjectileImpact(ProjectileImpactInfo projectileImpactInfo)
@@ -244,8 +249,7 @@ namespace HenryMod.Modules
                     if (dist <= blastRadius) //within blast radius
                     {
                         var distFractionA = (blastRadius - dist) / blastRadius;
-                        var distFractionB = 1 / distFractionA;
-                        var power = distFractionB * StaticValues.selfPushForce;
+                        var power = distFractionA * StaticValues.selfPushForce;
 
                         Vector3 forceDirection = (attackerPos - projectileImpactInfo.estimatedPointOfImpact).normalized;
 
