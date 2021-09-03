@@ -69,7 +69,6 @@ namespace HenryMod.Modules
 
             RocketJumpBlastComponent rocketJumpBlastComponent = stockRocketPrefab.AddComponent<RocketJumpBlastComponent>();
             rocketJumpBlastComponent.projectileImpactExplosion = bombImpactExplosion;
-            rocketJumpBlastComponent.projectileController = bombImpactExplosion.projectileController;
         }
         private static void CreateFastRocket()
         {
@@ -94,7 +93,6 @@ namespace HenryMod.Modules
 
             RocketJumpBlastComponent rocketJumpBlastComponent = stockRocketPrefab.AddComponent<RocketJumpBlastComponent>();
             rocketJumpBlastComponent.projectileImpactExplosion = impactExplosion;
-            rocketJumpBlastComponent.projectileController = impactExplosion.projectileController;
 
         }
         private static void CreateHealRocket()
@@ -121,7 +119,6 @@ namespace HenryMod.Modules
 
             RocketJumpBlastComponent rocketJumpBlastComponent = stockRocketPrefab.AddComponent<RocketJumpBlastComponent>();
             rocketJumpBlastComponent.projectileImpactExplosion = bombImpactExplosion;
-            rocketJumpBlastComponent.projectileController = bombImpactExplosion.projectileController;
         }
         private static void CreateNoDamageRocket()
         {
@@ -145,19 +142,16 @@ namespace HenryMod.Modules
 
             RocketJumpBlastComponent rocketJumpBlastComponent = stockRocketPrefab.AddComponent<RocketJumpBlastComponent>();
             rocketJumpBlastComponent.projectileImpactExplosion = bombImpactExplosion;
-            rocketJumpBlastComponent.projectileController = bombImpactExplosion.projectileController;
             rocketJumpBlastComponent.shouldDealDamage = false;
         }
 
         private static void CreateDamageBuffWard()
         {
             //damageBuffWard = PrefabAPI.InstantiateClone(Resources.Load<GameObject>("prefabs/networkedobjects/WarbannerWard"), "SoldierDamageBuffWard");
-            damageBuffWard = UnityEngine.Object.Instantiate<GameObject>(Resources.Load<GameObject>("Prefabs/NetworkedObjects/WarbannerWard"));
+            damageBuffWard = UnityEngine.Object.Instantiate<GameObject>(Resources.Load<GameObject>("Prefabs/NetworkedObjects/AffixHauntedWard"));
             damageBuffWard.name = "SoldierDamageBuffWard";
             var buffWard = damageBuffWard.GetComponent<BuffWard>();
             buffWard.buffDef = Buffs.soldierBannerCrit;
-            var timer = damageBuffWard.AddComponent<DestroyOnTimer>();
-            timer.duration = 8f;
         }
 
         private static void CreateDamageHealWard()
@@ -228,19 +222,12 @@ namespace HenryMod.Modules
         #region classes
         public class RocketJumpBlastComponent : MonoBehaviour, IProjectileImpactBehavior
         {
-            public CharacterMotor characterMotor;
             public ProjectileImpactExplosion projectileImpactExplosion;
-            public ProjectileController projectileController;
             public bool shouldDealDamage = true;
-
-            public void Start()
-            {
-                if (!characterMotor)
-                    characterMotor = projectileController.owner.GetComponent<CharacterMotor>();
-            }
 
             public void OnProjectileImpact(ProjectileImpactInfo projectileImpactInfo)
             {
+                var characterMotor = gameObject.GetComponent<ProjectileController>().owner.GetComponent<CharacterMotor>();
                 if (characterMotor)
                 {
                     var blastRadius = projectileImpactExplosion.blastRadius;

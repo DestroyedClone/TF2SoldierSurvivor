@@ -82,8 +82,8 @@ namespace HenryMod.Modules
             }
 
             #region Utility
-            LanguageAPI.Add(prefix + "UTILITY_BUFF_NAME", $"Buff Banner");
-            LanguageAPI.Add(prefix + "UTILITY_BUFF_DESCRIPTION", $"{utilityDesc("trumpet")} <style=cIsDamage>damage by {100 * StaticValues.damageBuffDamageCoefficient}%</style> in a 20m radius.");
+            LanguageAPI.Add(prefix + "UTILITY_DAMAGE_NAME", $"Buff Banner");
+            LanguageAPI.Add(prefix + "UTILITY_DAMAGE_DESCRIPTION", $"{utilityDesc("trumpet")} <style=cIsDamage>damage by {100 * StaticValues.damageBuffDamageCoefficient}%</style> in a 20m radius.");
 
             LanguageAPI.Add(prefix + "UTILITY_HEAL_NAME", $"Concheror");
             LanguageAPI.Add(prefix + "UTILITY_HEAL_DESCRIPTION", $"{utilityDesc("seashell")} <style=cIsUtility>movement speed by {100 * StaticValues.healBuffSpeedCoefficient}%</style> and <style=cIsHealing>provide {100 * StaticValues.healBuffRecoverCoefficient}% healing on hit</style>.");

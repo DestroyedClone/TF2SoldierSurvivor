@@ -8,20 +8,26 @@ namespace HenryMod.SkillStates
     public class BaseBlowBanner : BaseSkillState
     {
         public static float baseDuration = 1.5f;
-        public static float buffDuration = 8f;
-        public static GameObject defenseUpPrefab = EntityStates.BeetleGuardMonster.DefenseUp.defenseUpPrefab;
         private Animator modelAnimator;
         private float duration;
         private bool hasCastBuff;
         public float stopwatch = 0;
-
-        public BuffDef buffDef;
+        public Modules.SurvivorComponents.BaseBannerComponent bannerComponent;
 
         public override void OnEnter()
         {
             base.OnEnter();
             this.duration = baseDuration / this.attackSpeedStat;
             this.modelAnimator = base.GetModelAnimator();
+            bannerComponent = gameObject.GetComponent<Modules.SurvivorComponents.BaseBannerComponent>();
+            if (bannerComponent && bannerComponent.bannerCharge < 1)
+            {
+                characterBody.skillLocator.utility.AddOneStock();
+                Chat.AddMessage($"Banner Charge: {100 * bannerComponent.bannerCharge}");
+                this.outer.SetNextStateToMain();
+                return;
+            }
+
             if (this.modelAnimator)
             {
                 base.PlayCrossfade("LeftArm", "ShootGun", "ShootGun.playbackRate", this.duration, 0.2f);
@@ -34,20 +40,19 @@ namespace HenryMod.SkillStates
             base.FixedUpdate();
             if (this.modelAnimator && stopwatch > 0.5f && !this.hasCastBuff)
             {
-                ScaleParticleSystemDuration component = UnityEngine.Object.Instantiate<GameObject>(defenseUpPrefab, base.transform.position, Quaternion.identity, base.transform).GetComponent<ScaleParticleSystemDuration>();
-                if (component)
-                {
-                    component.newDuration = buffDuration;
-                }
                 Util.PlayAttackSpeedSound("Play_item_use_gainArmor", gameObject, 1/duration);
                 this.hasCastBuff = true;
+            }
+            if (base.fixedAge >= this.duration && base.isAuthority && !base.inputBank.skill3.down)
+            {
+                //Replicating the "banner wont activate until you let go"
                 if (NetworkServer.active)
                 {
-                    base.characterBody.AddTimedBuff(buffDef, buffDuration);
+                    if (gameObject.GetComponent<Modules.SurvivorComponents.BaseBannerComponent>())
+                    {
+                        gameObject.GetComponent<Modules.SurvivorComponents.BaseBannerComponent>().Blow();
+                    }
                 }
-            }
-            if (base.fixedAge >= this.duration && base.isAuthority)
-            {
                 this.outer.SetNextStateToMain();
                 return;
             }
