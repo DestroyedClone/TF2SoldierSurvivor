@@ -39,7 +39,7 @@ namespace HenryMod.Modules.SurvivorComponents
             }
             if (characterBody)
             {
-                damageRequired = characterBody.damage * StaticValues.stockRocketDamageCoefficient * 10;
+                damageRequired = characterBody.damage * StaticValues.stockRocketDamageCoefficient * 20;
             }
             GlobalEventManager.onServerDamageDealt += AddBannerCharge;
         }
