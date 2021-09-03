@@ -99,7 +99,7 @@ namespace HenryMod.Modules
             var moddedDamageTypeComponent = stockRocketPrefab.AddComponent<DamageAPI.ModdedDamageTypeHolderComponent>();
             moddedDamageTypeComponent.Add(Modules.DamageTypes.airshotDamageType);
 
-            RocketJumpBlastComponent rocketJumpBlastComponent = stockRocketPrefab.AddComponent<RocketJumpBlastComponent>();
+            RocketJumpBlastComponent rocketJumpBlastComponent = fastRocketPrefab.AddComponent<RocketJumpBlastComponent>();
             rocketJumpBlastComponent.projectileImpactExplosion = impactExplosion;
 
         }
@@ -125,7 +125,7 @@ namespace HenryMod.Modules
             projectileHeal.projectileController = bombController;
             projectileHeal.fractionOfDamage = StaticValues.healRocketRecoverPercentage;
 
-            RocketJumpBlastComponent rocketJumpBlastComponent = stockRocketPrefab.AddComponent<RocketJumpBlastComponent>();
+            RocketJumpBlastComponent rocketJumpBlastComponent = healRocketPrefab.AddComponent<RocketJumpBlastComponent>();
             rocketJumpBlastComponent.projectileImpactExplosion = bombImpactExplosion;
         }
         private static void CreateNoDamageRocket()
@@ -148,7 +148,7 @@ namespace HenryMod.Modules
             ProjectileController bombController = stockRocketPrefab.GetComponent<ProjectileController>();
             bombController.startSound = "";
 
-            RocketJumpBlastComponent rocketJumpBlastComponent = stockRocketPrefab.AddComponent<RocketJumpBlastComponent>();
+            RocketJumpBlastComponent rocketJumpBlastComponent = noDamageRocketPrefab.AddComponent<RocketJumpBlastComponent>();
             rocketJumpBlastComponent.projectileImpactExplosion = bombImpactExplosion;
             rocketJumpBlastComponent.shouldDealDamage = false;
         }
