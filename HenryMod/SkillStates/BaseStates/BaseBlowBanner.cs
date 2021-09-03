@@ -23,7 +23,6 @@ namespace HenryMod.SkillStates
             if (bannerComponent && bannerComponent.bannerCharge < 1)
             {
                 characterBody.skillLocator.utility.AddOneStock();
-                Chat.AddMessage($"Banner Charge: {100 * bannerComponent.bannerCharge}");
                 this.outer.SetNextStateToMain();
                 return;
             }
