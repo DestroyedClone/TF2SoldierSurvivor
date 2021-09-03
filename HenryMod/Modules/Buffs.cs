@@ -21,7 +21,7 @@ namespace HenryMod.Modules
             soldierBannerCrit = AddNewBuff("Buff Banner", Resources.Load<Sprite>("Textures/BuffIcons/texBuffGenericShield"), Color.yellow, false, false);
             soldierBannerHeal = AddNewBuff("Concheror", Resources.Load<Sprite>("Textures/BuffIcons/texBuffGenericShield"), Color.green, false, false);
             soldierBannerTank = AddNewBuff("Battalion's Backup", Resources.Load<Sprite>("Textures/BuffIcons/texBuffGenericShield"), Color.blue, false, false);
-            bannerChargeStack = AddNewBuff("Banner Charge", Resources.Load<Sprite>("Textures/BuffIcons/texBuffGenericShield"), Color.white, true, false);
+            bannerChargeStack = AddNewBuff("Banner Charge", Resources.Load<Sprite>("Textures/BuffIcons/texBuffGenericShield"), Color.black, true, false);
         }
 
         // simple helper method
