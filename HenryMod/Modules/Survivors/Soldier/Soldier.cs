@@ -299,6 +299,31 @@ namespace HenryMod.Modules.Survivors
                 activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.FireShotgun)),
                 activationStateMachineName = "Weapon",
                 baseMaxStock = 6,
+                baseRechargeInterval = 2.5f,
+                beginSkillCooldownOnSkillEnd = true,
+                canceledFromSprinting = false,
+                forceSprintDuringState = false,
+                fullRestockOnAssign = true,
+                interruptPriority = EntityStates.InterruptPriority.Skill,
+                resetCooldownTimerOnUse = false,
+                isCombatSkill = true,
+                mustKeyPress = false,
+                cancelSprintingOnActivation = false,
+                rechargeStock = 1,
+                requiredStock = 1,
+                stockToConsume = 1,
+                keywordTokens = new string[] { "KEYWORD_AGILE" }
+            });
+
+            SkillDef bisonSkillDef = Modules.Skills.CreateSkillDef(new SkillDefInfo
+            {
+                skillName = prefix + "SECONDARY_BISON_NAME",
+                skillNameToken = prefix + "SECONDARY_BISON_NAME",
+                skillDescriptionToken = prefix + "SECONDARY_BISON_DESCRIPTION",
+                skillIcon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("texSecondaryIcon"),
+                activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.FireShotgun)),
+                activationStateMachineName = "Weapon",
+                baseMaxStock = 4,
                 baseRechargeInterval = 1f,
                 beginSkillCooldownOnSkillEnd = false,
                 canceledFromSprinting = false,
@@ -315,7 +340,7 @@ namespace HenryMod.Modules.Survivors
                 keywordTokens = new string[] { "KEYWORD_AGILE" }
             });
 
-            Modules.Skills.AddSecondarySkills(bodyPrefab, new SkillDef[] { shotgunSkillDef });
+            Modules.Skills.AddSecondarySkills(bodyPrefab, new SkillDef[] { shotgunSkillDef, bisonSkillDef });
             #endregion
 
             #region Utility
