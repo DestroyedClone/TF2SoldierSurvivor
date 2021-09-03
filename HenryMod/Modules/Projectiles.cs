@@ -217,7 +217,7 @@ namespace HenryMod.Modules
                 if (characterMotor)
                 {
                     var blastRadius = projectileImpactExplosion.blastRadius;
-                    var attackerPos = characterMotor.body.footPosition;
+                    var attackerPos = characterMotor.body.corePosition;
                     var dist = Vector3.Distance(attackerPos, projectileImpactInfo.estimatedPointOfImpact);
                     if (dist <= blastRadius) //within blast radius
                     {
