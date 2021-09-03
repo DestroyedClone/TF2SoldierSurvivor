@@ -98,7 +98,7 @@ namespace HenryMod
             GlobalEventManager.onCharacterDeathGlobal += SwordHealOnKill;
             GlobalEventManager.onServerDamageDealt += SwordMurderSword;
             // Other
-            GlobalEventManager.onServerDamageDealt += AirshotDamageType;
+            On.RoR2.HealthComponent.TakeDamage += AirshotDamageIncrease;
             On.RoR2.CharacterMotor.Start += GiveRocketJumpComponent;
             On.RoR2.UI.LoadoutPanelController.Row.FromSkillSlot += Row_FromSkillSlot;
             
@@ -107,18 +107,34 @@ namespace HenryMod
             LanguageAPI.Add("LOADOUT_SKILL_PASSIVE", "Passive");
         }
 
+        private void AirshotDamageIncrease(On.RoR2.HealthComponent.orig_TakeDamage orig, HealthComponent self, DamageInfo damageInfo)
+        {
+            if (DamageAPI.HasModdedDamageType(damageInfo, Modules.DamageTypes.airshotDamageType))
+            {
+                damageInfo.damage *= StaticValues.airshotDamageMultiplier;
+            }
+            orig(self, damageInfo);
+        }
+
+        #region passive
         private void Mantreads_ReduceKnockbackVector3(On.RoR2.HealthComponent.orig_TakeDamageForce_Vector3_bool_bool orig, HealthComponent self, Vector3 force, bool alwaysApply, bool disableAirControlUntilCollision)
         {
-            var newMultiplier = 1f - StaticValues.mantreadsPushForceResistance;
-            if (self.GetComponent<SkillLocator>())
+            if (Skills.HasSkillInCustomFamily(self.gameObject, Soldier.mantreadSkillDef))
+            {
+                force *= StaticValues.mantreadsPushForceResistance;
+            }
             orig(self, force, alwaysApply, disableAirControlUntilCollision);
         }
 
         private void Mantreads_ReduceKnockbackDI(On.RoR2.HealthComponent.orig_TakeDamageForce_DamageInfo_bool_bool orig, HealthComponent self, DamageInfo damageInfo, bool alwaysApply, bool disableAirControlUntilCollision)
         {
-            throw new NotImplementedException();
+            if (Skills.HasSkillInCustomFamily(self.gameObject, Soldier.mantreadSkillDef))
+            {
+                damageInfo.force *= 1f - StaticValues.mantreadsPushForceResistance;
+            }
+            orig(self, damageInfo, alwaysApply, disableAirControlUntilCollision);
         }
-
+        #endregion
         private void RenameMiscToPassive(ILContext il)
         {
             var c = new ILCursor(il);
@@ -203,13 +219,6 @@ namespace HenryMod
             return row;
         }
 
-        private void AirshotDamageType(DamageReport obj)
-        {
-            if (DamageAPI.HasModdedDamageType(obj.damageInfo, Modules.DamageTypes.airshotDamageType))
-            {
-                obj.damageInfo.damage *= StaticValues.airshotDamageMultiplier;
-            }
-        }
 
         private void GiveRocketJumpComponent(On.RoR2.CharacterMotor.orig_Start orig, CharacterMotor self)
         {
@@ -312,5 +321,6 @@ namespace HenryMod
                 }
             }
         }
+
     }
 }

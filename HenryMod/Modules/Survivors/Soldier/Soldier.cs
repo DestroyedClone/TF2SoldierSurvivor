@@ -89,6 +89,10 @@ namespace HenryMod.Modules.Survivors
             Modules.Prefabs.SetupHitbox(model, hitboxTransform, "Sword");
         }
 
+        public static SkillDef gunboatSkillDef;
+        public static SkillDef mantreadSkillDef;
+        public static SkillDef parachuteSkillDef;
+
         public static SkillDef swordSkillDef;
         public static SkillDef pickSkillDef;
 
@@ -101,7 +105,7 @@ namespace HenryMod.Modules.Survivors
             string prefix = devPrefix + bodyPrefix;
 
             #region Passive
-            SkillDef gunboatSkillDef = Modules.Skills.CreateSkillDef(new SkillDefInfo
+            gunboatSkillDef = Modules.Skills.CreateSkillDef(new SkillDefInfo
             {
                 skillName = prefix + "PASSIVE_GUNBOATS_NAME",
                 skillNameToken = prefix + "PASSIVE_GUNBOATS_NAME",
@@ -125,7 +129,7 @@ namespace HenryMod.Modules.Survivors
                 stockToConsume = 1,
                 keywordTokens = new string[] { }
             });
-            SkillDef mantreadSkillDef = Modules.Skills.CreateSkillDef(new SkillDefInfo
+            mantreadSkillDef = Modules.Skills.CreateSkillDef(new SkillDefInfo
             {
                 skillName = prefix + "PASSIVE_MANTREADS_NAME",
                 skillNameToken = prefix + "PASSIVE_MANTREADS_NAME",
@@ -149,7 +153,31 @@ namespace HenryMod.Modules.Survivors
                 stockToConsume = 1,
                 keywordTokens = new string[] { }
             });
-            Modules.Skills.AddPassiveSkills(bodyPrefab, new SkillDef[] { gunboatSkillDef, mantreadSkillDef });
+            parachuteSkillDef = Modules.Skills.CreateSkillDef(new SkillDefInfo
+            {
+                skillName = prefix + "PASSIVE_PARACHUTE_NAME",
+                skillNameToken = prefix + "PASSIVE_PARACHUTE_NAME",
+                skillDescriptionToken = prefix + "PASSIVE_PARACHUTE_DESCRIPTION",
+                skillIcon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("texSpecialIcon"),
+                activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.Mantreads)),
+                activationStateMachineName = "Weapon",
+                baseMaxStock = 1,
+                baseRechargeInterval = 1f,
+                beginSkillCooldownOnSkillEnd = false,
+                canceledFromSprinting = false,
+                forceSprintDuringState = false,
+                fullRestockOnAssign = true,
+                interruptPriority = EntityStates.InterruptPriority.Skill,
+                resetCooldownTimerOnUse = false,
+                isCombatSkill = true,
+                mustKeyPress = false,
+                cancelSprintingOnActivation = false,
+                rechargeStock = 1,
+                requiredStock = 1,
+                stockToConsume = 1,
+                keywordTokens = new string[] { }
+            });
+            Modules.Skills.AddPassiveSkills(bodyPrefab, new SkillDef[] { gunboatSkillDef, mantreadSkillDef, parachuteSkillDef });
             #endregion
 
             #region Primary

@@ -17,6 +17,7 @@ namespace HenryMod.SkillStates.BaseStates
         protected float damageCoefficient = 3.5f;
         protected float procCoefficient = 1f;
         protected float pushForce = 300f;
+        protected int critOverride = -1;
         protected Vector3 bonusForce = Vector3.zero;
         protected float baseDuration = 1f;
         protected float attackStartTime = 0.2f;
@@ -78,7 +79,7 @@ namespace HenryMod.SkillStates.BaseStates
             this.attack.forceVector = this.bonusForce;
             this.attack.pushAwayForce = this.pushForce;
             this.attack.hitBoxGroup = hitBoxGroup;
-            this.attack.isCrit = base.RollCrit();
+            this.attack.isCrit = critOverride == -1 ? base.RollCrit() : critOverride == 1;
             this.attack.impactSound = this.impactSound;
         }
 
