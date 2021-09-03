@@ -18,6 +18,7 @@ namespace HenryMod.SkillStates
             if (rocketJumpComponent && rocketJumpComponent.isRocketJumping)
             {
                 this.damageCoefficient = Modules.StaticValues.gardenJumpDamageCoefficient;
+                critOverride = 1;
             }
 
             this.damageType = DamageType.Generic;

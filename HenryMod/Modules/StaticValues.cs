@@ -39,7 +39,7 @@ namespace HenryMod.Modules
 
         // special
         internal const float gardenDamageCoefficient = 1f;
-        internal const float gardenJumpDamageCoefficient = 15f;
+        internal const float gardenJumpDamageCoefficient = 5f;
 
         internal const float gardenScepterDamageCoefficient = 1f;
         internal const float gardenScepterJumpDamageCoefficient = 25f;
