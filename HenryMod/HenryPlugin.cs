@@ -58,13 +58,13 @@ namespace HenryMod
 
             // load assets and read config
             Modules.Assets.Initialize();
+            Modules.DamageTypes.SetupDamageTypes();
             Modules.Config.ReadConfig();
             Modules.States.RegisterStates(); // register states for networking
             Modules.Buffs.RegisterBuffs(); // add and register custom buffs/debuffs
             Modules.Projectiles.RegisterProjectiles(); // add and register custom projectiles
             Modules.Tokens.AddTokens(); // register name tokens
             Modules.ItemDisplays.PopulateDisplays(); // collect item display prefabs for use in our display rules
-            Modules.DamageTypes.SetupDamageTypes();
 
             // survivor initialization
             new Soldier().Initialize();
