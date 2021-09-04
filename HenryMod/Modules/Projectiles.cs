@@ -217,7 +217,7 @@ namespace HenryMod.Modules
                 if (characterMotor)
                 {
                     var blastRadius = projectileImpactExplosion.blastRadius;
-                    var attackerPos = characterMotor.body.corePosition;
+                    var attackerPos = characterMotor.body.footPosition;
                     var dist = Vector3.Distance(attackerPos, projectileImpactInfo.estimatedPointOfImpact);
                     if (dist <= blastRadius) //within blast radius
                     {
@@ -244,8 +244,6 @@ namespace HenryMod.Modules
                         {
                             comp.isRocketJumping = true;
                         }
-                        //cm.rootMotion += forceDirection * distFraction;
-                        //cm.rootMotion += forceDirection * distFraction * 100f;
                     }
                 }
             }

@@ -14,7 +14,7 @@ namespace HenryMod.Modules
         internal const float mantreadsPushForceResistance = 0.75f;
 
         // primary
-        internal const float selfDamageCoefficient = 0.05f;
+        internal const float selfDamageCoefficient = 0.1f;
 
         internal const float stockRocketDamageCoefficient = 2f;
 
