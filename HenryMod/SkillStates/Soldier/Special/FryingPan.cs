@@ -6,7 +6,6 @@ namespace HenryMod.SkillStates
 {
     public class FryingPan : BaseMeleeAttack
     {
-        public static string panSound = EntityStates.Bell.SpawnState.spawnSoundString;
 
         public override void OnEnter()
         {
@@ -26,7 +25,7 @@ namespace HenryMod.SkillStates
             this.hitHopVelocity = 0f;
 
             this.swingSoundString = "HenrySwordSwing";
-            this.hitSoundString = panSound;
+            this.hitSoundString = "playPanSound";
             this.muzzleString = swingIndex % 2 == 0 ? "SwingLeft" : "SwingRight";
             this.swingEffectPrefab = Modules.Assets.swordSwingEffect;
             this.hitEffectPrefab = Modules.Assets.swordHitImpactEffect;

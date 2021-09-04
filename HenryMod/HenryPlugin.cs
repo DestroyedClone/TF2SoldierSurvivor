@@ -18,6 +18,7 @@ using System;
 #pragma warning disable CS0618 // Type or member is obsolete
 [assembly: SecurityPermission(SecurityAction.RequestMinimum, SkipVerification = true)]
 #pragma warning restore CS0618 // Type or member is obsolete
+[assembly: HG.Reflection.SearchableAttribute.OptIn]
 
 namespace HenryMod
 {
@@ -74,6 +75,7 @@ namespace HenryMod
             RoR2.ContentManagement.ContentManager.onContentPacksAssigned += LateSetup;
             
             Hook();
+            R2API.Utils.CommandHelper.AddToConsoleWhenReady();
         }
 
         private void LateSetup(HG.ReadOnlyArray<RoR2.ContentManagement.ReadOnlyContentPack> obj)
@@ -101,10 +103,28 @@ namespace HenryMod
             On.RoR2.HealthComponent.TakeDamage += AirshotDamageIncrease;
             On.RoR2.CharacterMotor.Start += GiveRocketJumpComponent;
             On.RoR2.UI.LoadoutPanelController.Row.FromSkillSlot += Row_FromSkillSlot;
-            
+
             //IL.RoR2.UI.LoadoutPanelController.Row.FromSkillSlot += RenameMiscToPassive;
+            On.RoR2.Util.PlaySound_string_GameObject += Util_PlaySound_string_GameObject;
+            On.RoR2.CharacterBody.Start += CharacterBody_Start;
 
             LanguageAPI.Add("LOADOUT_SKILL_PASSIVE", "Passive");
+        }
+
+        private void CharacterBody_Start(On.RoR2.CharacterBody.orig_Start orig, CharacterBody self)
+        {
+            var c = self.gameObject.AddComponent<SfxLocatorLocator>();
+            c.sfxLocator = self.sfxLocator;
+        }
+
+        private uint Util_PlaySound_string_GameObject(On.RoR2.Util.orig_PlaySound_string_GameObject orig, string soundString, GameObject gameObject)
+        {
+            if (soundString == "playPanSound")
+            {
+                Util.PlayAttackSpeedSound("Play_elite_antiHeal_spawn", gameObject, 8f);
+                soundString = "";
+            }
+            return orig(soundString, gameObject);
         }
 
         private void AirshotDamageIncrease(On.RoR2.HealthComponent.orig_TakeDamage orig, HealthComponent self, DamageInfo damageInfo)
@@ -322,5 +342,9 @@ namespace HenryMod
             }
         }
 
+        public class SfxLocatorLocator : MonoBehaviour
+        {
+            public SfxLocator sfxLocator;
+        }
     }
 }
