@@ -114,7 +114,7 @@ namespace HenryMod.Modules.SurvivorComponents
                     buffWardInstance = Instantiate(buffWardPrefab);
                     buffWardInstance.GetComponent<TeamFilter>().teamIndex = characterBody.teamComponent.teamIndex;
                     buffWardInstance.GetComponent<BuffWard>().Networkradius = 8f + characterBody.radius;
-                    buffWardInstance.GetComponent<BuffWard>().buffDef = buffDef;
+                    buffWardInstance.GetComponent<BuffWard>().buffDef = Modules.Buffs.soldierBannerHeal;
                     buffWardInstance.GetComponent<NetworkedBodyAttachment>().AttachToGameObjectAndSpawn(characterBody.gameObject);
                     stopwatch = 0f;
                     return;
