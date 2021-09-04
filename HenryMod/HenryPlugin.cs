@@ -106,15 +106,8 @@ namespace HenryMod
 
             //IL.RoR2.UI.LoadoutPanelController.Row.FromSkillSlot += RenameMiscToPassive;
             On.RoR2.Util.PlaySound_string_GameObject += Util_PlaySound_string_GameObject;
-            On.RoR2.CharacterBody.Start += CharacterBody_Start;
 
             LanguageAPI.Add("LOADOUT_SKILL_PASSIVE", "Passive");
-        }
-
-        private void CharacterBody_Start(On.RoR2.CharacterBody.orig_Start orig, CharacterBody self)
-        {
-            var c = self.gameObject.AddComponent<SfxLocatorLocator>();
-            c.sfxLocator = self.sfxLocator;
         }
 
         private uint Util_PlaySound_string_GameObject(On.RoR2.Util.orig_PlaySound_string_GameObject orig, string soundString, GameObject gameObject)
@@ -285,9 +278,10 @@ namespace HenryMod
                             attacker = gameObject,
                             inflictor = gameObject,
                             crit = true,
-                            damage = enemy.healthComponent.health*9,
+                            damage = enemy.healthComponent.health*3,
                             position = enemy.transform.position,
-                            force = new Vector3(3f, 3f, 3f),
+                            force = tracker,
+                            damageType = DamageType.BypassOneShotProtection
                         });
                     }
                 }
@@ -340,11 +334,6 @@ namespace HenryMod
                     args.moveSpeedMultAdd += fraction * StaticValues.pickSpeedScaleCoefficient;
                 }
             }
-        }
-
-        public class SfxLocatorLocator : MonoBehaviour
-        {
-            public SfxLocator sfxLocator;
         }
     }
 }
