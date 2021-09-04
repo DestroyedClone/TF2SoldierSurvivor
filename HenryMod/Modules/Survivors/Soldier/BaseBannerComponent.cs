@@ -25,23 +25,37 @@ namespace HenryMod.Modules.SurvivorComponents
 
         public virtual void Start()
         {
+            GetAssociatedBuffDef();
+            if (characterBody)
+            {
+                UpdateDamageRequirement();
+            }
+            GlobalEventManager.onServerDamageDealt += AddBannerCharge;
+            GlobalEventManager.onCharacterLevelUp += IncreaseDamageRequirementOnLevelUp;
+        }
+
+        public void GetAssociatedBuffDef()
+        {
             if (skillLocator && skillLocator.utility)
             {
                 var skillDef = skillLocator.utility.skillDef;
                 if (skillDef == Survivors.Soldier.damageBannerSkillDef)
                 {
                     buffDef = Buffs.soldierBannerCrit;
-                } else if (skillDef == Survivors.Soldier.healBannerSkillDef)
+                }
+                else if (skillDef == Survivors.Soldier.healBannerSkillDef)
                 {
                     buffDef = Buffs.soldierBannerHeal;
                 }
-                //buffWardPrefab = Resources.Load<GameObject>("Prefabs/NetworkedObjects/AffixHauntedWard");
             }
-            if (characterBody)
+        }
+
+        private void IncreaseDamageRequirementOnLevelUp(CharacterBody obj)
+        {
+            if (obj == characterBody)
             {
-                damageRequired = characterBody.damage * StaticValues.stockRocketDamageCoefficient * 20;
+                UpdateDamageRequirement();
             }
-            GlobalEventManager.onServerDamageDealt += AddBannerCharge;
         }
 
         public void Blow()
@@ -72,8 +86,13 @@ namespace HenryMod.Modules.SurvivorComponents
             {
                 isBlown = false;
                 damageStored = 0;
-                Chat.AddMessage("Banner ended");
             }
+        }
+
+        private void UpdateDamageRequirement()
+        {
+            if (characterBody)
+                damageRequired = characterBody.damage * StaticValues.stockRocketDamageCoefficient * 20;
         }
 
         private void FixedUpdate()
@@ -82,6 +101,12 @@ namespace HenryMod.Modules.SurvivorComponents
             {
                 return;
             }
+            if (damageRequired == 0)
+            {
+                UpdateDamageRequirement();
+            }
+            if (!buffDef)
+                GetAssociatedBuffDef();
             if (buffWardInstance != isBlown)
             {
                 if (isBlown)
@@ -106,6 +131,7 @@ namespace HenryMod.Modules.SurvivorComponents
                 UnityEngine.Object.Destroy(buffWardInstance);
             }
             GlobalEventManager.onServerDamageDealt -= AddBannerCharge;
+            GlobalEventManager.onCharacterLevelUp -= IncreaseDamageRequirementOnLevelUp;
         }
     }
 }
