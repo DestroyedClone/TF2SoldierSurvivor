@@ -207,18 +207,17 @@ namespace HenryMod.Modules
 
                         Vector3 forceDirection = (attackerPos - projectileImpactInfo.estimatedPointOfImpact).normalized;
 
-                        if (shouldDealDamage)
+                        var hc = characterMotor.GetComponent<HealthComponent>();
+                        hc.TakeDamage(new DamageInfo
                         {
-                            var hc = characterMotor.GetComponent<HealthComponent>();
-                            hc.TakeDamage(new DamageInfo
-                            {
-                                attacker = characterMotor.gameObject,
-                                damage = StaticValues.selfDamageCoefficient * hc.body.damage * distFractionA,
-                                position = characterMotor.body.corePosition,
-                            });
-                        }
+                            attacker = characterMotor.gameObject,
+                            damage = shouldDealDamage ? StaticValues.selfDamageCoefficient * hc.body.damage * distFractionA : 0f,
+                            position = characterMotor.body.corePosition,
+                            force = forceDirection * power
+                        });
 
-                        characterMotor.ApplyForce(forceDirection * power, true);
+
+                        //characterMotor.ApplyForce(forceDirection * power, true);
 
                         var comp = characterMotor.GetComponent<Modules.SurvivorComponents.RocketJumpComponent>();
                         if (comp)
