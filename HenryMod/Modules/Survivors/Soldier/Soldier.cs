@@ -70,7 +70,6 @@ namespace HenryMod.Modules.Survivors
             base.InitializeCharacter();
             var bannercom = bodyPrefab.AddComponent<Modules.SurvivorComponents.BaseBannerComponent>();
             bannercom.characterBody = bodyPrefab.GetComponent<CharacterBody>();
-            bannercom.skillLocator = bannercom.characterBody.skillLocator;
         }
 
         internal override void InitializeUnlockables()

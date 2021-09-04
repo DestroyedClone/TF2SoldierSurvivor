@@ -21,7 +21,6 @@ namespace HenryMod.Modules.SurvivorComponents
         public bool isBlown = false;
 
         public CharacterBody characterBody;
-        public SkillLocator skillLocator;
 
         public virtual void Start()
         {
@@ -36,9 +35,9 @@ namespace HenryMod.Modules.SurvivorComponents
 
         public void GetAssociatedBuffDef()
         {
-            if (skillLocator && skillLocator.utility)
+            if (characterBody && characterBody.skillLocator && characterBody.skillLocator.utility)
             {
-                var skillDef = skillLocator.utility.skillDef;
+                var skillDef = characterBody.skillLocator.utility.skillDef;
                 if (skillDef == Survivors.Soldier.damageBannerSkillDef)
                 {
                     buffDef = Buffs.soldierBannerCrit;
@@ -114,7 +113,7 @@ namespace HenryMod.Modules.SurvivorComponents
                     buffWardInstance = Instantiate(buffWardPrefab);
                     buffWardInstance.GetComponent<TeamFilter>().teamIndex = characterBody.teamComponent.teamIndex;
                     buffWardInstance.GetComponent<BuffWard>().Networkradius = 8f + characterBody.radius;
-                    buffWardInstance.GetComponent<BuffWard>().buffDef = Modules.Buffs.soldierBannerHeal;
+                    buffWardInstance.GetComponent<BuffWard>().buffDef = buffDef;
                     buffWardInstance.GetComponent<NetworkedBodyAttachment>().AttachToGameObjectAndSpawn(characterBody.gameObject);
                     stopwatch = 0f;
                     return;
