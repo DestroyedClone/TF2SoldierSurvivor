@@ -19,6 +19,7 @@ namespace HenryMod.Modules.SurvivorComponents
         public float damageStored = 0f;
         public float duration = 10f;
         public bool isBlown = false;
+        public float buffCountLostPerSecond = 0f;
 
         public CharacterBody characterBody;
 
@@ -78,7 +79,14 @@ namespace HenryMod.Modules.SurvivorComponents
         {
             // Display
             bannerCharge = Mathf.Min(1f, damageStored / damageRequired);
-            characterBody.SetBuffCount(Buffs.bannerChargeStack.buffIndex, (int)(bannerCharge*100));
+            if (isBlown)
+            {
+                var safeFloat = Mathf.Min(1f, stopwatch);
+                characterBody.SetBuffCount(Buffs.bannerChargeStack.buffIndex, (int)(duration / safeFloat * 100));
+            } else
+            {
+                characterBody.SetBuffCount(Buffs.bannerChargeStack.buffIndex, (int)(bannerCharge * 100));
+            }
 
             stopwatch += Time.deltaTime;
             if (isBlown && stopwatch >= duration)
@@ -91,7 +99,10 @@ namespace HenryMod.Modules.SurvivorComponents
         private void UpdateDamageRequirement()
         {
             if (characterBody)
+            {
                 damageRequired = characterBody.damage * StaticValues.stockRocketDamageCoefficient * 20;
+                buffCountLostPerSecond = damageRequired / duration;
+            }
         }
 
         private void FixedUpdate()
