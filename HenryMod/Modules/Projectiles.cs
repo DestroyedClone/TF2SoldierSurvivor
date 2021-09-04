@@ -59,14 +59,7 @@ namespace HenryMod.Modules
 
             ProjectileImpactExplosion bombImpactExplosion = stockRocketPrefab.GetComponent<ProjectileImpactExplosion>();
             InitializeImpactExplosion(bombImpactExplosion);
-
-            bombImpactExplosion.blastRadius = 6f;
-            bombImpactExplosion.destroyOnEnemy = true;
-            bombImpactExplosion.destroyOnWorld = true;
-            bombImpactExplosion.lifetime = 12f;
-            //bombImpactExplosion.impactEffect = Modules.Assets.bombExplosionEffect;
-            bombImpactExplosion.timerAfterImpact = false;
-            bombImpactExplosion.lifetimeAfterImpact = 0.1f;
+            InitializeRocketDefaults(bombImpactExplosion);
 
             ProjectileDamage projectileDamage = stockRocketPrefab.GetComponent<ProjectileDamage>();
             var moddedDamageTypeComponent = stockRocketPrefab.AddComponent<DamageAPI.ModdedDamageTypeHolderComponent>();
@@ -84,16 +77,9 @@ namespace HenryMod.Modules
 
             ProjectileImpactExplosion impactExplosion = fastRocketPrefab.GetComponent<ProjectileImpactExplosion>();
             InitializeImpactExplosion(impactExplosion);
+            InitializeRocketDefaults(impactExplosion);
 
-            impactExplosion.blastRadius = 6f;
-            impactExplosion.destroyOnEnemy = true;
-            impactExplosion.destroyOnWorld = true;
-            impactExplosion.lifetime = 12f;
-            //impactExplosion.impactEffect = Modules.Assets.bombExplosionEffect;
-            impactExplosion.timerAfterImpact = false;
-            impactExplosion.lifetimeAfterImpact = 0.1f;
-
-            ProjectileController bombController = fastRocketPrefab.GetComponent<ProjectileController>();
+                        ProjectileController bombController = fastRocketPrefab.GetComponent<ProjectileController>();
             bombController.startSound = "";
 
             var moddedDamageTypeComponent = stockRocketPrefab.AddComponent<DamageAPI.ModdedDamageTypeHolderComponent>();
@@ -109,14 +95,7 @@ namespace HenryMod.Modules
 
             ProjectileImpactExplosion bombImpactExplosion = healRocketPrefab.GetComponent<ProjectileImpactExplosion>();
             InitializeImpactExplosion(bombImpactExplosion);
-
-            bombImpactExplosion.blastRadius = 6f;
-            bombImpactExplosion.destroyOnEnemy = true;
-            bombImpactExplosion.destroyOnWorld = true;
-            bombImpactExplosion.lifetime = 12f;
-            //bombImpactExplosion.impactEffect = Modules.Assets.bombExplosionEffect;
-            bombImpactExplosion.timerAfterImpact = false;
-            bombImpactExplosion.lifetimeAfterImpact = 0.1f;
+            InitializeRocketDefaults(bombImpactExplosion);
 
             ProjectileController bombController = healRocketPrefab.GetComponent<ProjectileController>();
             bombController.startSound = "";
@@ -134,16 +113,7 @@ namespace HenryMod.Modules
 
             ProjectileImpactExplosion bombImpactExplosion = stockRocketPrefab.GetComponent<ProjectileImpactExplosion>();
             InitializeImpactExplosion(bombImpactExplosion);
-
-            bombImpactExplosion.blastRadius = 6f;
-            bombImpactExplosion.destroyOnEnemy = true;
-            bombImpactExplosion.destroyOnWorld = true;
-            bombImpactExplosion.lifetime = 12f;
-            //bombImpactExplosion.impactEffect = Modules.Assets.bombExplosionEffect;
-            bombImpactExplosion.timerAfterImpact = false;
-            bombImpactExplosion.lifetimeAfterImpact = 0.1f;
-
-            ProjectileDamage projectileDamage = stockRocketPrefab.GetComponent<ProjectileDamage>();
+            InitializeRocketDefaults(bombImpactExplosion);
 
             ProjectileController bombController = stockRocketPrefab.GetComponent<ProjectileController>();
             bombController.startSound = "";
@@ -185,6 +155,17 @@ namespace HenryMod.Modules
             projectileImpactExplosion.timerAfterImpact = false;
 
             projectileImpactExplosion.GetComponent<ProjectileDamage>().damageType = DamageType.Generic;
+        }
+
+        private static void InitializeRocketDefaults(ProjectileImpactExplosion projectileImpactExplosion)
+        {
+            projectileImpactExplosion.blastRadius = 6f;
+            projectileImpactExplosion.destroyOnEnemy = true;
+            projectileImpactExplosion.destroyOnWorld = true;
+            projectileImpactExplosion.lifetime = 12f;
+            //projectileImpactExplosion.impactEffect = Modules.Assets.bombExplosionEffect;
+            projectileImpactExplosion.timerAfterImpact = false;
+            projectileImpactExplosion.lifetimeAfterImpact = 0.1f;
         }
 
         private static GameObject CreateGhostPrefab(string ghostName)
