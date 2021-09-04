@@ -20,7 +20,7 @@ namespace HenryMod.SkillStates
             this.duration = baseDuration / this.attackSpeedStat;
             this.modelAnimator = base.GetModelAnimator();
             bannerComponent = gameObject.GetComponent<Modules.SurvivorComponents.BaseBannerComponent>();
-            if (bannerComponent && bannerComponent.bannerCharge < 1)
+            if (bannerComponent && (bannerComponent.bannerCharge < 1 || bannerComponent.isBlown))
             {
                 characterBody.skillLocator.utility.AddOneStock();
                 this.outer.SetNextStateToMain();
