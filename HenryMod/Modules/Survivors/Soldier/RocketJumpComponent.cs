@@ -24,13 +24,18 @@ namespace HenryMod.Modules.SurvivorComponents
 
         private void FixedUpdate() //todo: Add Leniency? GlobalEventManager l.549
         {
+            if (characterMotor && characterMotor.isGrounded)
+            {
+                isRocketJumping = false;
+            }
+            /*
             if (characterMotor)
             {
                 if (Run.FixedTimeStamp.now - characterMotor.lastGroundedTime > 0.2f)
                 {
                     //isRocketJumping = false;
                 }
-            }
+            }*/
         }
 
         private void CharacterMotor_onHitGround(ref CharacterMotor.HitGroundInfo hitGroundInfo)
